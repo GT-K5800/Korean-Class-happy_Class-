@@ -170,7 +170,6 @@
             text-align: center;
             position: relative;
         }
-        /* [수정] 실사 느낌을 극대화하기 위해 크기를 대폭 키우고(8.5rem) 고급스러운 입체감 부여 */
         .quiz-visual {
             font-size: 8.5rem;
             background: linear-gradient(135deg, #ffffff, #f1f5f9);
@@ -399,11 +398,11 @@
 <body>
 
     <div class="container">
-        <!-- 오답 모달창 -->
+        <!-- 일반 알림/오답 모달창 -->
         <div id="custom-modal" class="modal-overlay">
             <div class="modal-content">
-                <div style="font-size: 3.5rem; margin-bottom: 10px;">🤔</div>
-                <div style="font-size: 1.3rem; font-weight: bold; color: #047857; margin-bottom: 20px;">다시 한번 생각해 볼까?</div>
+                <div style="font-size: 3.5rem; margin-bottom: 10px;" id="modal-icon">🤔</div>
+                <div style="font-size: 1.3rem; font-weight: bold; color: #047857; margin-bottom: 20px;" id="modal-msg">다시 한번 생각해 볼까?</div>
                 <button class="role-btn role-student" style="padding: 10px 25px; font-size: 1.1rem; margin: 0 auto; width: auto;" onclick="closeModal()">확인</button>
             </div>
         </div>
@@ -540,7 +539,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.17. 23:10:00</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.17. 23:16:40</div>
         </footer>
     </div>
 
@@ -678,7 +677,10 @@
                 hasWonCertificate = true;
                 enterMenu();
             } else {
-                alert("비밀번호가 틀렸습니다! (정답: 5415)");
+                // [수정] 비밀번호 오류 시 예쁜 팝업 모달창 호출
+                document.getElementById('modal-icon').innerText = "🔑";
+                document.getElementById('modal-msg').innerText = "비밀번호가 틀렸어요. 다시 입력해주세요!";
+                document.getElementById('custom-modal').style.display = 'flex';
             }
         }
 
@@ -922,6 +924,9 @@
                 if (attemptCount === 0) {
                     attemptCount = 1;
                     wrongList.push({ problem: qData.problemText, user: "선긋기 오답", correct: "올바른 짝 연결" });
+                    // 비밀번호 오류가 아닌 일반 오답 모달 문구 설정 복원
+                    document.getElementById('modal-icon').innerText = "🤔";
+                    document.getElementById('modal-msg').innerText = "다시 한번 생각해 볼까?";
                     document.getElementById('custom-modal').style.display = 'flex';
                 } else {
                     currentQuizIndex++;
@@ -981,6 +986,8 @@
                 if (attemptCount === 0) {
                     attemptCount = 1;
                     wrongList.push({ problem: problemText, user: userSentence.join(' '), correct: targetArr.join(' ') });
+                    document.getElementById('modal-icon').innerText = "🤔";
+                    document.getElementById('modal-msg').innerText = "다시 한번 생각해 볼까?";
                     document.getElementById('custom-modal').style.display = 'flex';
                     resetSentence();
                 } else {
@@ -999,6 +1006,8 @@
                 if (attemptCount === 0) {
                     attemptCount = 1;
                     wrongList.push({ problem: problemText, user: selected, correct: answer });
+                    document.getElementById('modal-icon').innerText = "🤔";
+                    document.getElementById('modal-msg').innerText = "다시 한번 생각해 볼까?";
                     document.getElementById('custom-modal').style.display = 'flex';
                 } else {
                     currentQuizIndex++;
@@ -1016,6 +1025,8 @@
                 if (attemptCount === 0) {
                     attemptCount = 1;
                     wrongList.push({ problem: problemText, user: "틀린 그림 선택", correct: "정답 그림(" + answerVisual + ")" });
+                    document.getElementById('modal-icon').innerText = "🤔";
+                    document.getElementById('modal-msg').innerText = "다시 한번 생각해 볼까?";
                     document.getElementById('custom-modal').style.display = 'flex';
                 } else {
                     currentQuizIndex++;
