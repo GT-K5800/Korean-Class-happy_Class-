@@ -385,7 +385,7 @@
                 <span id="quiz-progress" style="font-weight: bold; color: #4b5563; font-size: 1.1rem;"></span>
             </div>
             <div id="quiz-area"></div>
-            <button class="back-btn" onclick="showCard('screen-level-select')">단계 선택으로 가기</button>
+            <button class="back-btn" onclick="goToLevelSelect()">단계 선택으로 가기</button>
         </div>
 
         <!-- [화면 5] 활동 2 (준비중) -->
@@ -401,13 +401,13 @@
             <div class="result-box">
                 <div class="result-title">🎉 학습 결과 리포트 🎉</div>
                 <div id="result-content"></div>
-                <button class="role-btn role-student" style="margin-top: 15px; padding: 14px; font-size: 1.2rem;" onclick="showCard('screen-level-select')">단계 선택 화면으로 가기 🚀</button>
+                <button class="role-btn role-student" style="margin-top: 15px; padding: 14px; font-size: 1.2rem;" onclick="goToLevelSelect()">단계 선택 화면으로 가기 🚀</button>
             </div>
         </div>
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div id="fixed-clock" style="color: #059669;">최근 업데이트: 2026.09.17. 22:20:00</div>
+            <div id="fixed-clock" style="color: #059669;">최근 업데이트: 2026.09.17. 22:45:00</div>
         </footer>
     </div>
 
@@ -423,7 +423,6 @@
         let selectedModifier = null;
         let matchedPairsCount = 0;
 
-        // 학습 기록 및 해금 상태 관리 객체
         let studentRecords = {
             1: null,
             2: null,
@@ -434,7 +433,6 @@
             3: false
         };
 
-        // 문제 은행 데이터
         const bankStage1 = [
             { type: "blank", emoji: "🍎", sentence: "______ 사과가 열려요.", options: ["빨간", "차가운", "네모난", "작은"], answer: "빨간", desc: "사과의 색깔" },
             { type: "blank", emoji: "🍌", sentence: "______ 바나나를 먹어요.", options: ["노란", "무서운", "커다란", "뜨거운"], answer: "노란", desc: "바나나의 색깔" },
@@ -557,6 +555,12 @@
             } else {
                 showCard('screen-activity2');
             }
+        }
+
+        // [핵심 수정] 단계 선택 화면으로 돌아갈 때 UI 갱신 함수를 반드시 거치도록 함
+        function goToLevelSelect() {
+            updateLevelSelectUI();
+            showCard('screen-level-select');
         }
 
         function updateLevelSelectUI() {
@@ -785,7 +789,7 @@
                 studentRecords[currentLevel] = score;
             }
 
-            // 해금 조건 검사 확실하게 반영 (1단계 7점 이상 -> 2단계 해금 / 2단계 6점 이상 -> 3단계 해금)
+            // 해금 조건 검사 확실하게 반영
             if (currentLevel === 1 && score >= 7) {
                 levelUnlocked[2] = true;
             }
