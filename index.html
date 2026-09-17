@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>꾸며주는 말과 문장고리</title>
-    <!-- QR코드 생성 라이브러리 CDN 추가 -->
+    <!-- QR코드 생성 라이브러리 CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         body {
@@ -73,7 +73,6 @@
         .role-teacher { background-color: #64748b; color: white; }
         .role-teacher:hover { background-color: #475569; }
 
-        /* 인트로 QR코드 영역 스타일 */
         .qr-section {
             margin-top: 15px;
             display: flex;
@@ -84,9 +83,21 @@
             border-radius: 16px;
             border: 2px solid #e2e8f0;
         }
+        #qrcode {
+            cursor: pointer;
+            transition: 0.2s;
+            padding: 5px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #cbd5e1;
+        }
+        #qrcode:hover {
+            transform: scale(1.05);
+            border-color: #10b981;
+        }
         #qrcode img {
             margin: 0 auto;
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
         .name-input {
@@ -230,7 +241,6 @@
         }
         .option-btn:hover { border-color: #10b981; background: #f0fdf4; color: #047857; }
 
-        /* 그림 고르기 문제 전용 큼직한 버튼 스타일 */
         .match-visual-btn {
             font-size: 5.5rem !important;
             padding: 25px !important;
@@ -447,6 +457,16 @@
             </div>
         </div>
 
+        <!-- QR코드 확대 팝업 모달 -->
+        <div id="qr-modal" class="modal-overlay" onclick="closeQrModal()">
+            <div class="modal-content" style="background: white; padding: 30px; border-radius: 24px; text-align: center;" onclick="event.stopPropagation()">
+                <div style="font-size: 1.2rem; font-weight: bold; color: #047857; margin-bottom: 15px;">📱 휴대폰으로 스캔하세요!</div>
+                <div id="qrcode-large" style="display: inline-block; padding: 10px; background: white; border: 3px solid #10b981; border-radius: 12px;"></div>
+                <br>
+                <button class="back-btn" style="margin-top: 20px; width: 100%;" onclick="closeQrModal()">닫기</button>
+            </div>
+        </div>
+
         <!-- 상장 모달창 -->
         <div id="cert-modal" class="modal-overlay">
             <div class="modal-content" style="background: transparent; width: 92%; max-width: 520px; padding: 0; box-shadow: none;">
@@ -473,11 +493,10 @@
                 <button class="role-btn role-student" onclick="goToLogin('student')">🧑‍🎓 학생이에요</button>
                 <button class="role-btn role-teacher" onclick="goToLogin('teacher')">👩‍🏫 선생님 / 보호자에요</button>
                 
-                <!-- 입장 QR코드 박스 -->
                 <div class="qr-section">
                     <div style="font-size: 0.95rem; font-weight: bold; color: #047857; margin-bottom: 8px;">📱 스마트폰/태블릿 빠른 입장 QR코드</div>
-                    <div id="qrcode"></div>
-                    <div style="font-size: 0.8rem; color: #64748b; margin-top: 6px;">카메라로 비추면 바로 접속됩니다!</div>
+                    <div id="qrcode" onclick="openQrModal()" title="누르면 크게 보입니다!"></div>
+                    <div style="font-size: 0.8rem; color: #64748b; margin-top: 6px;">💡 QR코드를 누르면 크게 확대됩니다!</div>
                 </div>
             </div>
         </div>
@@ -586,26 +605,47 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.17. 23:35:00 (v.1.0.23)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.17. 23:50:00 (v.1.0.25)</div>
         </footer>
     </div>
 
     <script>
-        // 페이지 로드 시 인트로 화면 QR코드 생성
         window.addEventListener('DOMContentLoaded', () => {
             const qrContainer = document.getElementById("qrcode");
-            if (qrContainer) {
+            const qrLargeContainer = document.getElementById("qrcode-large");
+            if (qrContainer && qrLargeContainer) {
                 qrContainer.innerHTML = "";
+                qrLargeContainer.innerHTML = "";
+                
+                // 기본 소형 QR
                 new QRCode(qrContainer, {
                     text: window.location.href,
-                    width: 110,
-                    height: 110,
+                    width: 100,
+                    height: 100,
+                    colorDark : "#047857",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+
+                // 팝업용 대형 QR
+                new QRCode(qrLargeContainer, {
+                    text: window.location.href,
+                    width: 260,
+                    height: 260,
                     colorDark : "#047857",
                     colorLight : "#ffffff",
                     correctLevel : QRCode.CorrectLevel.H
                 });
             }
         });
+
+        function openQrModal() {
+            document.getElementById('qr-modal').style.display = 'flex';
+        }
+
+        function closeQrModal() {
+            document.getElementById('qr-modal').style.display = 'none';
+        }
 
         let studentName = "";
         let isTeacherMode = false;
@@ -623,6 +663,7 @@
         let studentRecords = { 1: null, 2: null, 3: null };
         let levelUnlocked = { 2: false, 3: false };
 
+        // [오답 보기가 서로 겹치지 않도록 철저히 정제된 마스터 문장 은행]
         const masterSentenceBank = [
             { visual: "🌷", sentence: "______ 꽃이 피어요.", options: ["예쁜", "차가운", "네모난", "무서운"], answer: "예쁜" },
             { visual: "🎤", sentence: "______ 노래를 불러요.", options: ["신나는", "무서운", "네모난", "작은"], answer: "신나는" },
@@ -655,7 +696,7 @@
             { visual: "⛰️", sentence: "______ 산이 보여요.", options: ["높은", "낮은", "네모난", "무서운"], answer: "높은" },
             { visual: "💧", sentence: "______ 물이 흘러요.", options: ["맑은", "탁한", "네모난", "무서운"], answer: "맑은" },
             { visual: "🍞", sentence: "______ 빵을 먹어요.", options: ["부드러운", "딱딱한", "네모난", "무서운"], answer: "부드러운" },
-            { visual: "🍪", sentence: "______ 과자를 먹어요.", options: ["맛있는", "맛없는", "네모난", "무서운"], answer: "맛있는" },
+            { visual: "🍪", sentence: "______ 과자를 먹어요.", options: ["맛있는", "바삭한", "네모난", "무서운"], answer: "맛있는" },
             { visual: "🔊", sentence: "______ 소리가 들려요.", options: ["시끄러운", "조용한", "네모난", "무서운"], answer: "시끄러운" },
             { visual: "👶", sentence: "______ 아기가 하품해요.", options: ["졸린", "배고픈", "네모난", "무서운"], answer: "졸린" },
             { visual: "⭐", sentence: "______ 별이 빛나요.", options: ["반짝이는", "어두운", "네모난", "무서운"], answer: "반짝이는" },
@@ -855,7 +896,7 @@
                     type: "blank", visual: item.visual, sentence: item.sentence, options: shuffleArray(item.options), answer: item.answer, problemText: item.sentence
                 }));
                 let drags = shuffleArray(dragBank).slice(0, 3).map(item => ({
-                    type: "drag", visual: item.visual, qText: item.qText, words: item.words, target: item.target, problemText: "[드래그] " + item.qText
+                    type: "drag", visual: item.visual, qText: item.qText, words: item.words, target: item.target, problemText: "[조각문장] " + item.qText
                 }));
                 activeQuizList = shuffleArray([...typings, ...drags]);
             }
