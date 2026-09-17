@@ -174,7 +174,7 @@
         }
         .option-btn:hover { border-color: #10b981; background: #f0fdf4; color: #047857; }
 
-        /* 타이핑 입력창 (3단계) */
+        /* 타이핑 입력창 */
         .typing-input {
             width: 80%;
             padding: 16px;
@@ -268,12 +268,17 @@
             margin-top: 15px;
         }
 
+        /* 하단 제작자 및 업데이트 정보 영역 */
         footer {
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-top: 20px;
-            font-size: 1.0rem;
+            font-size: 0.95rem;
             color: #4b5563;
             font-weight: bold;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 12px;
         }
     </style>
 </head>
@@ -303,14 +308,25 @@
             </div>
         </div>
 
-        <!-- [화면 1] 로그인 -->
+        <!-- [화면 0-1] 선생님 비밀번호 입력 화면 -->
+        <div id="screen-password" class="card">
+            <div class="role-select-box">
+                <div style="font-size: 3rem; margin-bottom: 10px;">🔒</div>
+                <p style="margin-bottom: 15px; color: #047857; font-weight: bold; font-size: 1.25rem;">선생님/보호자 비밀번호를 입력해주세요</p>
+                <input type="password" id="pw-input" class="name-input" placeholder="비밀번호 (4자리)">
+                <button class="role-btn role-teacher" onclick="checkPassword()">확인하기</button>
+                <button class="back-btn" onclick="showCard('screen-role')">돌아가기</button>
+            </div>
+        </div>
+
+        <!-- [화면 1] 학생 이름 입력 -->
         <div id="screen-login" class="card">
             <div class="role-select-box">
                 <div class="cheer-text">✨ 오늘도 열심히 공부해요! 화이팅! ✨</div>
                 <p style="margin-bottom: 18px; color: #374151; font-weight: bold; font-size: 1.2rem;">이름을 입력하고 시작해볼까요?</p>
                 <input type="text" id="student-name-input" class="name-input" placeholder="이름을 적어주세요 (예: 김이도)">
                 <button class="role-btn role-student" onclick="startApp()">공부 시작하기 🚀</button>
-                <button class="back-btn" onclick="location.reload()">처음으로</button>
+                <button class="back-btn" onclick="showCard('screen-role')">돌아가기</button>
             </div>
         </div>
 
@@ -332,7 +348,7 @@
             <button class="back-btn" onclick="location.reload()">처음 화면으로</button>
         </div>
 
-        <!-- [화면 3] 단계 선택 (해금 시스템 및 나의 기록 반영) -->
+        <!-- [화면 3] 단계 선택 -->
         <div id="screen-level-select" class="card">
             <div style="text-align: center; margin-bottom: 15px;">
                 <h2 style="color: #047857; font-size: 1.5rem; margin-bottom: 5px;">꾸며주는 말 마스터하기</h2>
@@ -341,21 +357,21 @@
 
             <!-- 나의 기록 표시 박스 -->
             <div class="record-box">
-                <div style="font-weight: bold; color: #047857; margin-bottom: 5px;">📊 나의 학습 기록</div>
+                <div style="font-weight: bold; color: #047857; margin-bottom: 5px;">📊 나의 학습 기록 저장소</div>
                 <div id="my-record-text">아직 도전한 기록이 없어요! 첫 번째 단계를 시작해보세요.</div>
             </div>
 
             <div class="level-grid">
                 <button class="level-card-btn" onclick="startQuiz(1)">
-                    <div><strong>1단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-weight: normal; margin-top: 3px;">색깔·모양·크기 다지기</div></div>
+                    <div><strong>1단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">색깔·모양·크기 다지기</div></div>
                     <span style="font-size: 1.3rem;">⭐ (바로시작)</span>
                 </button>
                 <button id="btn-lvl-2" class="level-card-btn" onclick="startQuiz(2)" disabled>
-                    <div><strong>2단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-weight: normal; margin-top: 3px;">느낌·감정 및 선긋기 (1단계 7점 이상 필요)</div></div>
+                    <div><strong>2단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">느낌·감정 및 선긋기 (1단계 7점 이상 필요)</div></div>
                     <span id="badge-lvl-2" style="font-size: 1.2rem;">🔒 잠김</span>
                 </button>
                 <button id="btn-lvl-3" class="level-card-btn" onclick="startQuiz(3)" disabled>
-                    <div><strong>3단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-weight: normal; margin-top: 3px;">빈칸 타이핑 문장 완성 (2단계 6점 이상 필요)</div></div>
+                    <div><strong>3단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">빈칸 타이핑 문장 완성 (2단계 6점 이상 필요)</div></div>
                     <span id="badge-lvl-3" style="font-size: 1.2rem;">🔒 잠김</span>
                 </button>
             </div>
@@ -390,22 +406,24 @@
         </div>
 
         <footer>
-            제작자: 묘량중앙초 교사 김경탁
+            <div>제작자: 묘량중앙초 교사 김경탁</div>
+            <div id="live-clock" style="color: #059669;">최근 업데이트: 계산 중...</div>
         </footer>
     </div>
 
     <script>
         let studentName = "";
+        let isTeacherMode = false; // 선생님 모드 여부
         let currentLevel = 1;
         let currentQuizIndex = 0;
         let score = 0;
         let wrongList = [];
         let attemptCount = 0;
-        let activeQuizList = []; // 랜덤 섞인 10문제 저장소
-        let selectedModifier = null; // 2단계 선긋기용
-        let matchedPairsCount = 0; // 선긋기 복수 정답 카운트
+        let activeQuizList = [];
+        let selectedModifier = null;
+        let matchedPairsCount = 0;
 
-        // 학생별 최고 기록 저장 객체
+        // 학습 기록 및 해금 상태 관리 객체
         let studentRecords = {
             1: null,
             2: null,
@@ -416,7 +434,26 @@
             3: false
         };
 
-        // 풀세트 문제 은행 (풍부하게 구축)
+        // 실시간 업데이트 시계 (연, 월, 일, 시, 분, 초)
+        function updateClock() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            const timeString = `최근 업데이트: ${year}.${month}.${day}. ${hours}:${minutes}:${seconds}`;
+            const clockEl = document.getElementById('live-clock');
+            if (clockEl) {
+                clockEl.innerText = timeString;
+            }
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // 문제 은행 데이터
         const bankStage1 = [
             { type: "blank", emoji: "🍎", sentence: "______ 사과가 열려요.", options: ["빨간", "차가운", "네모난", "작은"], answer: "빨간", desc: "사과의 색깔" },
             { type: "blank", emoji: "🍌", sentence: "______ 바나나를 먹어요.", options: ["노란", "무서운", "커다란", "뜨거운"], answer: "노란", desc: "바나나의 색깔" },
@@ -464,7 +501,6 @@
             { type: "blank", emoji: "🦖", sentence: "______ 공룡이 나타나요.", options: ["귀여운", "무서운", "푹신한", "따뜻한"], answer: "무서운", desc: "공룡의 느낌" }
         ];
 
-        // 3단계: 타이핑 빈칸 채우기 문제 은행
         const bankStage3 = [
             { emoji: "🐘", sentence: "______ 코끼리가 걸어요.", answer: "커다란", options: ["커다란", "맛있는", "웃긴", "재밌는"], desc: "코끼리의 크기" },
             { emoji: "🍎", sentence: "______ 사과가 맛있어요.", answer: "빨간", options: ["빨간", "차가운", "네모난", "짧은"], desc: "사과의 색깔" },
@@ -496,10 +532,25 @@
 
         function goToLogin(role) {
             if (role === 'teacher') {
-                studentName = "선생님/보호자";
+                document.getElementById('pw-input').value = "";
+                showCard('screen-password');
+            } else {
+                isTeacherMode = false;
+                showCard('screen-login');
+            }
+        }
+
+        function checkPassword() {
+            const pw = document.getElementById('pw-input').value;
+            if (pw === "5415") {
+                isTeacherMode = true;
+                studentName = "선생님";
+                // 선생님 모드에서는 모든 단계 해금 처리
+                levelUnlocked[2] = true;
+                levelUnlocked[3] = true;
                 enterMenu();
             } else {
-                showCard('screen-login');
+                alert("비밀번호가 틀렸습니다! (정답: 5415)");
             }
         }
 
@@ -510,11 +561,12 @@
                 return;
             }
             studentName = input.value.trim();
+            isTeacherMode = false;
             enterMenu();
         }
 
         function enterMenu() {
-            document.getElementById('welcome-msg').innerText = `어서와요 ${studentName} 학생! 반가워요!`;
+            document.getElementById('welcome-msg').innerText = `어서와요 ${studentName}님! 반가워요!`;
             showCard('screen-menu');
         }
 
@@ -528,11 +580,11 @@
         }
 
         function updateLevelSelectUI() {
-            // 기록 텍스트 업데이트
+            // 기록 텍스트 업데이트 (최고 기록 저장 반영)
             let recordHtml = "";
             for (let lvl = 1; lvl <= 3; lvl++) {
                 if (studentRecords[lvl] !== null) {
-                    recordHtml += `[${lvl}단계]: ${studentRecords[lvl]}점 / 10점<br>`;
+                    recordHtml += `[${lvl}단계 최고 기록]: ${studentRecords[lvl]}점 / 10점<br>`;
                 }
             }
             if (recordHtml === "") {
@@ -540,10 +592,10 @@
             }
             document.getElementById('my-record-text').innerHTML = recordHtml;
 
-            // 해금 상태 반영
+            // 해금 상태 반영 (선생님 모드이거나 조건 충족 시 열림)
             const btn2 = document.getElementById('btn-lvl-2');
             const badge2 = document.getElementById('badge-lvl-2');
-            if (levelUnlocked[2]) {
+            if (levelUnlocked[2] || isTeacherMode) {
                 btn2.removeAttribute('disabled');
                 badge2.innerText = "⭐ 열림";
             } else {
@@ -553,7 +605,7 @@
 
             const btn3 = document.getElementById('btn-lvl-3');
             const badge3 = document.getElementById('badge-lvl-3');
-            if (levelUnlocked[3]) {
+            if (levelUnlocked[3] || isTeacherMode) {
                 btn3.removeAttribute('disabled');
                 badge3.innerText = "⭐ 열림";
             } else {
@@ -568,7 +620,6 @@
             score = 0;
             wrongList = [];
             
-            // 단계별 문제 무작위 셔플 후 10문제 추출
             if (lvl === 1) activeQuizList = shuffleArray(bankStage1).slice(0, 10);
             else if (lvl === 2) activeQuizList = shuffleArray(bankStage2).slice(0, 10);
             else activeQuizList = shuffleArray(bankStage3).slice(0, 10);
@@ -620,7 +671,6 @@
                     </div>
                 `;
             } else if (qData.type === "line-match") {
-                // 선긋기 2개 동시 매칭 유형
                 quizArea.innerHTML = `
                     <div class="quiz-box">
                         <div style="font-size: 1.2rem; color: #374151; font-weight: bold; margin-bottom: 15px;">${qData.prompt}</div>
@@ -638,7 +688,6 @@
                     </div>
                 `;
             } else {
-                // 3단계 타이핑 빈칸 채우기 유형
                 let shuffledOpts = shuffleArray(qData.options);
                 quizArea.innerHTML = `
                     <div class="quiz-box">
@@ -654,7 +703,6 @@
             }
         }
 
-        // 선긋기 매칭 로직
         function selectMod(mod) {
             const el = document.getElementById('mod-' + mod);
             if (el.classList.contains('matched')) return;
@@ -676,7 +724,6 @@
             const correctSent = qData.pairs[selectedModifier];
 
             if (sent === correctSent) {
-                // 맞음 처리
                 document.getElementById('mod-' + selectedModifier).classList.remove('selected');
                 document.getElementById('mod-' + selectedModifier).classList.add('matched');
                 sentEl.classList.add('matched');
@@ -693,7 +740,6 @@
                     }, 600);
                 }
             } else {
-                // 틀림 처리
                 if (attemptCount === 0) {
                     attemptCount = 1;
                     wrongList.push({ problem: qData.desc, user: "선긋기 오답", correct: "올바른 짝 연결" });
@@ -754,9 +800,13 @@
 
         function showResult() {
             showCard('screen-result');
-            studentRecords[currentLevel] = score;
+            
+            // 기존 최고 기록과 비교하여 더 높은 점수로 저장 (누적 저장 반영)
+            if (studentRecords[currentLevel] === null || score > studentRecords[currentLevel]) {
+                studentRecords[currentLevel] = score;
+            }
 
-            // 해금 조건 검사
+            // 해금 조건 검사 및 반영
             if (currentLevel === 1 && score >= 7) {
                 levelUnlocked[2] = true;
             }
@@ -768,8 +818,10 @@
                 <div class="result-detail">
                     <strong>👤 학습자:</strong> ${studentName}<br>
                     <strong>🏆 도전 단계:</strong> ${currentLevel}단계<br>
-                    <strong>🌟 맞은 개수:</strong> ${score} / 10 개<br>
+                    <strong>🌟 이번 점수:</strong> ${score} / 10 점<br>
+                    <strong>📌 저장된 최고 점수:</strong> ${studentRecords[currentLevel]}점<br>
                     <strong>🎯 해금 상태:</strong> ${
+                        isTeacherMode ? "👑 선생님 프리패스 모드 (모든 단계 해금됨)" :
                         currentLevel === 1 ? (score >= 7 ? "✨ 2단계 해금 성공!" : "🔒 2단계 해금 실패 (7점 이상 필요)") :
                         currentLevel === 2 ? (score >= 6 ? "✨ 3단계 해금 성공!" : "🔒 3단계 해금 실패 (6점 이상 필요)") : "🎉 모든 단계 도전 완료!"
                     }
