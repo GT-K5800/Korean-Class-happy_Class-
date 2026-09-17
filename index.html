@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>꾸며주는 말과 문장고리</title>
+    <!-- QR코드 생성 라이브러리 CDN 추가 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         body {
             font-family: 'Malgun Gothic', 'Comic Sans MS', sans-serif;
@@ -49,19 +51,19 @@
 
         .role-select-box {
             text-align: center;
-            padding: 20px 0;
+            padding: 10px 0;
         }
         
         .role-btn {
             display: block;
             width: 100%;
-            padding: 20px;
-            font-size: 1.35rem;
+            padding: 18px;
+            font-size: 1.3rem;
             font-weight: bold;
             border: none;
             border-radius: 18px;
             cursor: pointer;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             transition: 0.2s;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
@@ -70,6 +72,22 @@
         .role-student:hover { background-color: #059669; }
         .role-teacher { background-color: #64748b; color: white; }
         .role-teacher:hover { background-color: #475569; }
+
+        /* 인트로 QR코드 영역 스타일 */
+        .qr-section {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 16px;
+            border: 2px solid #e2e8f0;
+        }
+        #qrcode img {
+            margin: 0 auto;
+            border-radius: 8px;
+        }
 
         .name-input {
             width: 85%;
@@ -212,6 +230,25 @@
         }
         .option-btn:hover { border-color: #10b981; background: #f0fdf4; color: #047857; }
 
+        /* 그림 고르기 문제 전용 큼직한 버튼 스타일 */
+        .match-visual-btn {
+            font-size: 5.5rem !important;
+            padding: 25px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 20px;
+            border: 3px solid #cbd5e1;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .match-visual-btn:hover {
+            border-color: #10b981;
+            background: #f0fdf4;
+            transform: scale(1.02);
+        }
+
         .typing-input {
             width: 80%;
             padding: 16px;
@@ -231,25 +268,28 @@
             flex-wrap: wrap;
         }
         .word-chip {
-            padding: 12px 18px;
+            padding: 14px 22px;
             background: #d1fae5;
             color: #065f46;
             border-radius: 20px;
             font-weight: bold;
             cursor: pointer;
             border: 2px dashed #10b981;
-            font-size: 1.15rem;
+            font-size: 1.2rem;
+            user-select: none;
         }
         .sentence-dropzone {
             border: 2px dashed #94a3b8;
-            padding: 18px;
+            padding: 20px;
             border-radius: 12px;
             text-align: center;
-            min-height: 30px;
-            font-size: 1.2rem;
-            color: #334155;
+            min-height: 35px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #047857;
             background: #ffffff;
             margin-bottom: 15px;
+            cursor: pointer;
         }
 
         .match-container {
@@ -426,12 +466,19 @@
             <div class="sub-title">3차시. 꾸며주는 말과 문장고리를 넣어 문장을 완성하기</div>
         </header>
 
-        <!-- [화면 0] 대상 선택 -->
+        <!-- [화면 0] 대상 선택 및 입장 QR코드 -->
         <div id="screen-role" class="card active">
             <div class="role-select-box">
-                <p style="font-size: 1.35rem; color: #047857; margin-bottom: 30px; font-weight: bold;">👋 반가워요! 누구인가요?</p>
+                <p style="font-size: 1.35rem; color: #047857; margin-bottom: 20px; font-weight: bold;">👋 반가워요! 누구인가요?</p>
                 <button class="role-btn role-student" onclick="goToLogin('student')">🧑‍🎓 학생이에요</button>
                 <button class="role-btn role-teacher" onclick="goToLogin('teacher')">👩‍🏫 선생님 / 보호자에요</button>
+                
+                <!-- 입장 QR코드 박스 -->
+                <div class="qr-section">
+                    <div style="font-size: 0.95rem; font-weight: bold; color: #047857; margin-bottom: 8px;">📱 스마트폰/태블릿 빠른 입장 QR코드</div>
+                    <div id="qrcode"></div>
+                    <div style="font-size: 0.8rem; color: #64748b; margin-top: 6px;">카메라로 비추면 바로 접속됩니다!</div>
+                </div>
             </div>
         </div>
 
@@ -539,11 +586,27 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.17. 23:25:12 (v.1.0.22)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.17. 23:35:00 (v.1.0.23)</div>
         </footer>
     </div>
 
     <script>
+        // 페이지 로드 시 인트로 화면 QR코드 생성
+        window.addEventListener('DOMContentLoaded', () => {
+            const qrContainer = document.getElementById("qrcode");
+            if (qrContainer) {
+                qrContainer.innerHTML = "";
+                new QRCode(qrContainer, {
+                    text: window.location.href,
+                    width: 110,
+                    height: 110,
+                    colorDark : "#047857",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            }
+        });
+
         let studentName = "";
         let isTeacherMode = false;
         let currentLevel = 1;
@@ -560,13 +623,9 @@
         let studentRecords = { 1: null, 2: null, 3: null };
         let levelUnlocked = { 2: false, 3: false };
 
-        // [수정/추가된 통합 문장 은행 (요청하신 번호 삭제 및 신규 예시 추가 반영)]
         const masterSentenceBank = [
             { visual: "🌷", sentence: "______ 꽃이 피어요.", options: ["예쁜", "차가운", "네모난", "무서운"], answer: "예쁜" },
             { visual: "🎤", sentence: "______ 노래를 불러요.", options: ["신나는", "무서운", "네모난", "작은"], answer: "신나는" },
-            { visual: "☁️", sentence: "______ 하늘을 봅니다.", options: ["파란", "차가운", "네모난", "무서운"], answer: "파란" },
-            // (삭제된 3번 항목 대체) 뾰족한 가시가 있어요
-            { visual: "🌵", sentence: "______ 가시가 있어요.", options: ["뾰족한", "동그란", "네모난", "무서운"], answer: "뾰족한" },
             { visual: "☀️", sentence: "______ 해가 비쳐요.", options: ["밝은", "까만", "세모난", "작은"], answer: "밝은" },
             { visual: "🐱", sentence: "______ 고양이가 잠자요.", options: ["귀여운", "뜨거운", "네모난", "무서운"], answer: "귀여운" },
             { visual: "🍜", sentence: "______ 라면을 먹어요.", options: ["매운", "차가운", "귀여운", "무서운"], answer: "매운" },
@@ -574,23 +633,18 @@
             { visual: "🖊️", sentence: "______ 볼펜으로 써요.", options: ["짧은", "커다란", "네모난", "무서운"], answer: "짧은" },
             { visual: "⏰", sentence: "______ 시계를 봐요.", options: ["동그란", "세모난", "길쭉한", "무서운"], answer: "동그란" },
             { visual: "📺", sentence: "______ TV를 봐요.", options: ["네모난", "동그란", "세모난", "무서운"], answer: "네모난" },
-            // (삭제된 11번 항목 대체) 하얀 구름이 떠다녀요.
-            { visual: "☁️", sentence: "______ 구름이 떠다녀요.", options: ["하얀", "까만", "네모난", "무서운"], answer: "하얀" },
             { visual: "🍰", sentence: "______ 케이크를 먹어요.", options: ["달콤한", "차가운", "네모난", "무서운"], answer: "달콤한" },
             { visual: "🪨", sentence: "______ 돌을 들어요.", options: ["무거운", "가벼운", "네모난", "무서운"], answer: "무거운" },
             { visual: "🦛", sentence: "______ 하마가 있어요.", options: ["뚱뚱한", "날씬한", "네모난", "무서운"], answer: "뚱뚱한" },
             { visual: "🍌", sentence: "______ 바나나를 먹어요.", options: ["노란", "빨간", "네모난", "무서운"], answer: "노란" },
             { visual: "🐈‍⬛", sentence: "______ 고양이가 누워요.", options: ["까만", "하얀", "네모난", "무서운"], answer: "까만" },
             { visual: "📄", sentence: "______ 종이에 그려요.", options: ["하얀", "까만", "네모난", "무서운"], answer: "하얀" },
-            // (삭제된 19번 항목 대체) 큰 기린이 보여요.
-            { visual: "🦒", sentence: "______ 기린이 보여요.", options: ["큰", "작은", "네모난", "무서운"], answer: "큰" },
+            { visual: "🚗", sentence: "______ 자동차를 타요.", options: ["멋진", "후진", "네모난", "무서운"], answer: "멋진" },
+            { visual: "🚙", sentence: "______ 자동차가 있어요.", options: ["낡은", "새로운", "네모난", "무서운"], answer: "낡은" },
             { visual: "🦖", sentence: "______ 공룡이 다가와요.", options: ["커다란", "작은", "네모난", "귀여운"], answer: "커다란" },
             { visual: "🚂", sentence: "______ 기차가 달려요.", options: ["기다란", "짧은", "네모난", "무서운"], answer: "기다란" },
             { visual: "🐆", sentence: "______ 치타가 달려요.", options: ["빠른", "느린", "네모난", "무서운"], answer: "빠른" },
-            // (삭제된 23, 24번 항목 대체 및 신규 추가) 작은 다람쥐가 달려요.
-            { visual: "🐿️", sentence: "______ 다람쥐가 달려요.", options: ["작은", "커다란", "네모난", "무서운"], answer: "작은" },
             { visual: "🏠", sentence: "______ 방이 되었어요.", options: ["깔끔한", "더러운", "네모난", "무서운"], answer: "깔끔한" },
-            { visual: "👐", sentence: "______ 손을 씻어요.", options: ["더러운", "깨끗한", "네모난", "무서운"], answer: "더러운" },
             { visual: "🔥", sentence: "______ 난로가 있어요.", options: ["따뜻한", "차가운", "네모난", "무서운"], answer: "따뜻한" },
             { visual: "📚", sentence: "______ 만화책을 읽어요.", options: ["재미있는", "지루한", "네모난", "무서운"], answer: "재미있는" },
             { visual: "🌲", sentence: "______ 나무가 있어요.", options: ["커다란", "작은", "네모난", "무서운"], answer: "커다란" },
@@ -609,7 +663,11 @@
             { visual: "🧊", sentence: "______ 얼음을 먹어요.", options: ["차가운", "뜨거운", "귀여운", "무서운"], answer: "차가운" },
             { visual: "🛏️", sentence: "______ 침대에 누워요.", options: ["차가운", "푹신한", "무서운", "따뜻한"], answer: "푹신한" },
             { visual: "💨", sentence: "______ 바람이 불어요.", options: ["뜨거운", "시원한", "귀여운", "푹신한"], answer: "시원한" },
-            { visual: "🐰", sentence: "______ 토끼가 뛰어요.", options: ["무서운", "귀여운", "뜨거운", "차가운"], answer: "귀여운" }
+            { visual: "🐰", sentence: "______ 토끼가 뛰어요.", options: ["무서운", "귀여운", "뜨거운", "차가운"], answer: "귀여운" },
+            { visual: "🌵", sentence: "______ 가시가 있어요.", options: ["뾰족한", "동그란", "네모난", "무서운"], answer: "뾰족한" },
+            { visual: "☁️", sentence: "______ 구름이 떠다녀요.", options: ["하얀", "까만", "네모난", "무서운"], answer: "하얀" },
+            { visual: "🦒", sentence: "______ 기린이 보여요.", options: ["큰", "작은", "네모난", "무서운"], answer: "큰" },
+            { visual: "🐿️", sentence: "______ 다람쥐가 달려요.", options: ["작은", "커다란", "네모난", "무서운"], answer: "작은" }
         ];
 
         const matchVisualBank = [
@@ -617,8 +675,8 @@
             { text: "커다란 코끼리가 걸어요.", visualOptions: ["🐜", "🐘", "🍌", "📦"], answer: "🐘" },
             { text: "빨간 사과가 열려요.", visualOptions: ["🍎", "🍌", "🥛", "⚽"], answer: "🍎" },
             { text: "신나는 노래를 불러요.", visualOptions: ["🎤", "🛏️", "🍲", "💨"], answer: "🎤" },
-            { text: "파란 하늘을 봅니다.", visualOptions: ["☁️", "🐜", "🧊", "⚽"], answer: "☁️" },
-            { text: "매운 라면을 먹어요.", visualOptions: ["🍜", "🍎", "🍌", "📦"], answer: "🍜" }
+            { text: "매운 라면을 먹어요.", visualOptions: ["🍜", "🍎", "🍌", "📦"], answer: "🍜" },
+            { text: "귀여운 토끼가 뛰어요.", visualOptions: ["🐰", "🐘", "🧊", "⚽"], answer: "🐰" }
         ];
 
         const lineMatchBank = [
@@ -843,10 +901,10 @@
                         <div style="font-size: 1.2rem; color: #374151; font-weight: bold; margin-bottom: 15px;">문장을 읽고 알맞은 그림을 고르세요!</div>
                         <div class="sentence-box" style="font-size: 1.4rem;">${qData.text}</div>
                         <div class="options-grid">
-                            <button class="option-btn" style="font-size: 3rem; padding: 20px;" onclick="checkVisualChoice('${shuffledVisuals[0]}', '${qData.answer}', '${qData.problemText}')">${shuffledVisuals[0]}</button>
-                            <button class="option-btn" style="font-size: 3rem; padding: 20px;" onclick="checkVisualChoice('${shuffledVisuals[1]}', '${qData.answer}', '${qData.problemText}')">${shuffledVisuals[1]}</button>
-                            <button class="option-btn" style="font-size: 3rem; padding: 20px;" onclick="checkVisualChoice('${shuffledVisuals[2]}', '${qData.answer}', '${qData.problemText}')">${shuffledVisuals[2]}</button>
-                            <button class="option-btn" style="font-size: 3rem; padding: 20px;" onclick="checkVisualChoice('${shuffledVisuals[3]}', '${qData.answer}', '${qData.problemText}')">${shuffledVisuals[3]}</button>
+                            <button class="option-btn match-visual-btn" onclick="checkVisualChoice('${shuffledVisuals[0]}', '${qData.answer}', '${qData.problemText}')">${shuffledVisuals[0]}</button>
+                            <button class="option-btn match-visual-btn" onclick="checkVisualChoice('${shuffledVisuals[1]}', '${qData.answer}', '${qData.problemText}')">${shuffledVisuals[1]}</button>
+                            <button class="option-btn match-visual-btn" onclick="checkVisualChoice('${shuffledVisuals[2]}', '${qData.answer}', '${qData.problemText}')">${shuffledVisuals[2]}</button>
+                            <button class="option-btn match-visual-btn" onclick="checkVisualChoice('${shuffledVisuals[3]}', '${qData.answer}', '${qData.problemText}')">${shuffledVisuals[3]}</button>
                         </div>
                     </div>
                 `;
@@ -876,9 +934,9 @@
                         <div class="quiz-visual">${qData.visual}</div>
                         <div style="font-size: 1.2rem; color: #374151; font-weight: bold; margin-bottom: 15px;">단어 조각을 순서대로 눌러 문장을 완성하세요!</div>
                         <div class="word-pool">
-                            ${shuffledWords.map(w => `<div class="word-chip" onclick="pickWord(this, '${w}')">${w}</div>`).join('')}
+                            ${shuffledWords.map(w => `<div class="word-chip" onclick="pickWord(this, '${w}')" ontouchend="pickWord(this, '${w}')">${w}</div>`).join('')}
                         </div>
-                        <div id="dropzone" class="sentence-dropzone" onclick="resetSentence()">
+                        <div id="dropzone" class="sentence-dropzone" onclick="resetSentence()" ontouchend="resetSentence()">
                             여기를 눌러 단어를 채워보세요 (클릭하면 초기화)
                         </div>
                         <button class="role-btn role-student" style="padding: 14px; font-size: 1.15rem; width: 60%; margin: 0 auto;" onclick="submitDragSentence('${qData.problemText}', JSON.stringify(qData.target))">정답 확인하기 ✔️</button>
