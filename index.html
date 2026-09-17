@@ -573,7 +573,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.17. 23:55:30 (v.1.0.26)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.18. 00:09:06 (v.1.0.27)</div>
         </footer>
     </div>
 
@@ -628,51 +628,50 @@
         let studentRecords = { 1: null, 2: null, 3: null };
         let levelUnlocked = { 2: false, 3: false };
 
+        // [최종 수정된 마스터 문장 은행 (보기 겹침 완전 해소)]
         const masterSentenceBank = [
-            { visual: "🌷", sentence: "______ 꽃이 피어요.", options: ["예쁜", "차가운", "네모난", "무서운"], answer: "예쁜" },
-            { visual: "🎤", sentence: "______ 노래를 불러요.", options: ["신나는", "무서운", "네모난", "작은"], answer: "신나는" },
-            { visual: "☀️", sentence: "______ 해가 비쳐요.", options: ["밝은", "까만", "세모난", "작은"], answer: "밝은" },
-            { visual: "🐱", sentence: "______ 고양이가 잠자요.", options: ["귀여운", "뜨거운", "네모난", "무서운"], answer: "귀여운" },
-            { visual: "🍜", sentence: "______ 라면을 먹어요.", options: ["매운", "차가운", "귀여운", "무서운"], answer: "매운" },
-            { visual: "✏️", sentence: "______ 연필로 써요.", options: ["긴", "둥근", "네모난", "무서운"], answer: "긴" },
-            { visual: "🖊️", sentence: "______ 볼펜으로 써요.", options: ["짧은", "커다란", "네모난", "무서운"], answer: "짧은" },
-            { visual: "⏰", sentence: "______ 시계를 봐요.", options: ["동그란", "세모난", "길쭉한", "무서운"], answer: "동그란" },
-            { visual: "📺", sentence: "______ TV를 봐요.", options: ["네모난", "동그란", "세모난", "무서운"], answer: "네모난" },
-            { visual: "🍰", sentence: "______ 케이크를 먹어요.", options: ["달콤한", "차가운", "네모난", "무서운"], answer: "달콤한" },
-            { visual: "🪨", sentence: "______ 돌을 들어요.", options: ["무거운", "가벼운", "네모난", "무서운"], answer: "무거운" },
-            { visual: "🦛", sentence: "______ 하마가 있어요.", options: ["뚱뚱한", "날씬한", "네모난", "무서운"], answer: "뚱뚱한" },
-            { visual: "🍌", sentence: "______ 바나나를 먹어요.", options: ["노란", "빨간", "네모난", "무서운"], answer: "노란" },
-            { visual: "🐈‍⬛", sentence: "______ 고양이가 누워요.", options: ["까만", "하얀", "네모난", "무서운"], answer: "까만" },
-            { visual: "📄", sentence: "______ 종이에 그려요.", options: ["하얀", "까만", "네모난", "무서운"], answer: "하얀" },
-            { visual: "🚗", sentence: "______ 자동차를 타요.", options: ["멋진", "후진", "네모난", "무서운"], answer: "멋진" },
-            { visual: "🚙", sentence: "______ 자동차가 있어요.", options: ["낡은", "새로운", "네모난", "무서운"], answer: "낡은" },
-            { visual: "🦖", sentence: "______ 공룡이 다가와요.", options: ["커다란", "작은", "네모난", "귀여운"], answer: "커다란" },
-            { visual: "🚂", sentence: "______ 기차가 달려요.", options: ["기다란", "짧은", "네모난", "무서운"], answer: "기다란" },
-            { visual: "🐆", sentence: "______ 치타가 달려요.", options: ["빠른", "느린", "네모난", "무서운"], answer: "빠른" },
-            { visual: "🏠", sentence: "______ 방이 되었어요.", options: ["깔끔한", "더러운", "네모난", "무서운"], answer: "깔끔한" },
-            { visual: "🔥", sentence: "______ 난로가 있어요.", options: ["따뜻한", "차가운", "네모난", "무서운"], answer: "따뜻한" },
-            { visual: "📚", sentence: "______ 만화책을 읽어요.", options: ["재미있는", "지루한", "네모난", "무서운"], answer: "재미있는" },
-            { visual: "🌲", sentence: "______ 나무가 있어요.", options: ["커다란", "작은", "네모난", "무서운"], answer: "커다란" },
-            { visual: "❄️", sentence: "______ 눈이 내려요.", options: ["하얀", "까만", "네모난", "무서운"], answer: "하얀" },
-            { visual: "🎵", sentence: "______ 노래를 불러요.", options: ["즐거운", "슬픈", "네모난", "무서운"], answer: "즐거운" },
-            { visual: "💃", sentence: "______ 춤을 춰요.", options: ["신나는", "지루한", "네모난", "무서운"], answer: "신나는" },
-            { visual: "🎨", sentence: "______ 그림을 그려요.", options: ["멋진", "이상한", "네모난", "무서운"], answer: "멋진" },
-            { visual: "⛰️", sentence: "______ 산이 보여요.", options: ["높은", "낮은", "네모난", "무서운"], answer: "높은" },
-            { visual: "💧", sentence: "______ 물이 흘러요.", options: ["맑은", "탁한", "네모난", "무서운"], answer: "맑은" },
-            { visual: "🍞", sentence: "______ 빵을 먹어요.", options: ["부드러운", "딱딱한", "네모난", "무서운"], answer: "부드러운" },
-            { visual: "🍪", sentence: "______ 과자를 먹어요.", options: ["맛있는", "바삭한", "네모난", "무서운"], answer: "맛있는" },
-            { visual: "🔊", sentence: "______ 소리가 들려요.", options: ["시끄러운", "조용한", "네모난", "무서운"], answer: "시끄러운" },
-            { visual: "👶", sentence: "______ 아기가 하품해요.", options: ["졸린", "배고픈", "네모난", "무서운"], answer: "졸린" },
-            { visual: "⭐", sentence: "______ 별이 빛나요.", options: ["반짝이는", "어두운", "네모난", "무서운"], answer: "반짝이는" },
-            { visual: "🍎", sentence: "______ 사과가 열려요.", options: ["빨간", "차가운", "네모난", "작은"], answer: "빨간" },
-            { visual: "🧊", sentence: "______ 얼음을 먹어요.", options: ["차가운", "뜨거운", "귀여운", "무서운"], answer: "차가운" },
-            { visual: "🛏️", sentence: "______ 침대에 누워요.", options: ["차가운", "푹신한", "무서운", "따뜻한"], answer: "푹신한" },
-            { visual: "💨", sentence: "______ 바람이 불어요.", options: ["뜨거운", "시원한", "귀여운", "푹신한"], answer: "시원한" },
-            { visual: "🐰", sentence: "______ 토끼가 뛰어요.", options: ["무서운", "귀여운", "뜨거운", "차가운"], answer: "귀여운" },
-            { visual: "🌵", sentence: "______ 가시가 있어요.", options: ["뾰족한", "동그란", "네모난", "무서운"], answer: "뾰족한" },
-            { visual: "☁️", sentence: "______ 구름이 떠다녀요.", options: ["하얀", "까만", "네모난", "무서운"], answer: "하얀" },
-            { visual: "🦒", sentence: "______ 기린이 보여요.", options: ["큰", "작은", "네모난", "무서운"], answer: "큰" },
-            { visual: "🐿️", sentence: "______ 다람쥐가 달려요.", options: ["작은", "커다란", "네모난", "무서운"], answer: "작은" }
+            { visual: "🌷", sentence: "______ 꽃이 피어요.", options: ["예쁜", "차가운", "동그란", "조용한"], answer: "예쁜" },
+            { visual: "🎤", sentence: "______ 노래를 불러요.", options: ["신나는", "지루한", "동그란", "딱딱한"], answer: "신나는" },
+            { visual: "☀️", sentence: "______ 해가 비쳐요.", options: ["밝은", "흐린", "세모난", "둥근"], answer: "밝은" },
+            { visual: "🐱", sentence: "______ 고양이가 잠자요.", options: ["귀여운", "딱딱한", "동그란", "차가운"], answer: "귀여운" },
+            { visual: "🍜", sentence: "______ 라면을 먹어요.", options: ["매운", "순한", "둥근", "길쭉한"], answer: "매운" },
+            { visual: "✏️", sentence: "______ 연필로 써요.", options: ["긴", "둥근", "세모난", "차가운"], answer: "긴" },
+            { visual: "🖊️", sentence: "______ 볼펜으로 써요.", options: ["짧은", "커다란", "세모난", "부드러운"], answer: "짧은" },
+            { visual: "⏰", sentence: "______ 시계를 봐요.", options: ["동그란", "세모난", "길쭉한", "차가운"], answer: "동그란" },
+            { visual: "📺", sentence: "______ TV를 봐요.", options: ["네모난", "동그란", "세모난", "부드러운"], answer: "네모난" },
+            { visual: "🍰", sentence: "______ 케이크를 먹어요.", options: ["달콤한", "짭조름한", "둥근", "딱딱한"], answer: "달콤한" },
+            { visual: "🪨", sentence: "______ 돌을 들어요.", options: ["무거운", "단단한", "둥근", "부드러운"], answer: "무거운" },
+            { visual: "🦛", sentence: "______ 하마가 있어요.", options: ["뚱뚱한", "커다란", "둥근", "부드러운"], answer: "뚱뚱한" },
+            { visual: "🍌", sentence: "______ 바나나를 먹어요.", options: ["노란", "빨간", "둥근", "부드러운"], answer: "노란" },
+            { visual: "🐈‍⬛", sentence: "______ 고양이가 누워요.", options: ["까만", "하얀", "둥근", "부드러운"], answer: "까만" },
+            { visual: "📄", sentence: "______ 종이에 그려요.", options: ["하얀", "노란", "맑은", "부드러운"], answer: "하얀" },
+            { visual: "🚗", sentence: "______ 자동차를 타요.", options: ["멋진", "낡은", "동그란", "차가운"], answer: "멋진" },
+            { visual: "🦖", sentence: "______ 공룡이 다가와요.", options: ["커다란", "거대한", "동그란", "부드러운"], answer: "커다란" },
+            { visual: "🚂", sentence: "______ 기차가 달려요.", options: ["기다란", "짧은", "동그란", "부드러운"], answer: "기다란" },
+            { visual: "🐆", sentence: "______ 치타가 달려요.", options: ["빠른", "느린", "동그란", "부드러운"], answer: "빠른" },
+            { visual: "🔥", sentence: "______ 난로가 있어요.", options: ["따뜻한", "미지근한", "동그란", "부드러운"], answer: "따뜻한" },
+            { visual: "📚", sentence: "______ 만화책을 읽어요.", options: ["재미있는", "지루한", "동그란", "부드러운"], answer: "재미있는" },
+            { visual: "🌲", sentence: "______ 나무가 있어요.", options: ["커다란", "아담한", "동그란", "부드러운"], answer: "커다란" },
+            { visual: "❄️", sentence: "______ 눈이 내려요.", options: ["하얀", "푸른", "맑은", "부드러운"], answer: "하얀" },
+            { visual: "🎵", sentence: "______ 노래를 불러요.", options: ["즐거운", "슬픈", "동그란", "부드러운"], answer: "즐거운" },
+            { visual: "💃", sentence: "______ 춤을 춰요.", options: ["신나는", "지루한", "동그란", "부드러운"], answer: "신나는" },
+            { visual: "🎨", sentence: "______ 그림을 그려요.", options: ["멋진", "이상한", "동그란", "부드러운"], answer: "멋진" },
+            { visual: "⛰️", sentence: "______ 산이 보여요.", options: ["높은", "낮은", "동그란", "부드러운"], answer: "높은" },
+            { visual: "💧", sentence: "______ 물이 흘러요.", options: ["맑은", "탁한", "동그란", "부드러운"], answer: "맑은" },
+            { visual: "🍞", sentence: "______ 빵을 먹어요.", options: ["맛있는", "밍밍한", "동그란", "부드러운"], answer: "맛있는" },
+            { visual: "🍪", sentence: "______ 과자를 먹어요.", options: ["바삭한", "눅눅한", "동그란", "부드러운"], answer: "바삭한" },
+            { visual: "🔊", sentence: "______ 소리가 들려요.", options: ["시끄러운", "아늑한", "세모난", "딱딱한"], answer: "시끄러운" },
+            { visual: "👶", sentence: "______ 아기가 하품해요.", options: ["졸린", "말똥한", "동그란", "부드러운"], answer: "졸린" },
+            { visual: "⭐", sentence: "______ 별이 빛나요.", options: ["반짝이는", "흐릿한", "동그란", "부드러운"], answer: "반짝이는" },
+            { visual: "🍎", sentence: "______ 사과가 열려요.", options: ["빨간", "초록빛", "동그란", "거대한"], answer: "빨간" },
+            { visual: "🧊", sentence: "______ 얼음을 먹어요.", options: ["차가운", "미지근한", "귀여운", "부드러운"], answer: "차가운" },
+            { visual: "🛏️", sentence: "______ 침대에 누워요.", options: ["푹신한", "딱딱한", "동그란", "부드러운"], answer: "푹신한" },
+            { visual: "💨", sentence: "______ 바람이 불어요.", options: ["시원한", "후텁지근한", "동그란", "부드러운"], answer: "시원한" },
+            { visual: "🐰", sentence: "______ 토끼가 뛰어요.", options: ["사나운", "날렵한", "뜨거운", "차가운"], answer: "귀여운" },
+            { visual: "🌵", sentence: "______ 가시가 있어요.", options: ["뾰족한", "둥근", "세모난", "부드러운"], answer: "뾰족한" },
+            { visual: "☁️", sentence: "______ 구름이 떠다녀요.", options: ["하얀", "먹구름의", "맑은", "부드러운"], answer: "하얀" },
+            { visual: "🦒", sentence: "______ 기린이 보여요.", options: ["큰", "아담한", "동그란", "부드러운"], answer: "큰" },
+            { visual: "🐿️", sentence: "______ 다람쥐가 달려요.", options: ["작은", "거대한", "동그란", "부드러운"], answer: "작은" }
         ];
 
         const matchVisualBank = [
@@ -848,7 +847,6 @@
                 }));
                 activeQuizList = shuffleArray([...lines, ...blinks]);
             } else {
-                // [수정] 3단계는 10문제 모두 직접 타이핑 빈칸 채우기 문제로만 구성
                 let typings = shuffleArray(masterSentenceBank).slice(0, 10).map(item => ({
                     type: "typing", visual: item.visual, sentence: item.sentence, options: shuffleArray(item.options), answer: item.answer, problemText: item.sentence
                 }));
