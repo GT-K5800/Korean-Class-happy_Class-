@@ -27,6 +27,7 @@
             display: flex;
             flex-direction: column;
             flex: 1;
+            position: relative;
         }
         header {
             text-align: center;
@@ -37,7 +38,6 @@
         h1 { color: #db2777; font-size: 1.6rem; margin-bottom: 5px; }
         .sub-title { color: #4b5563; font-weight: bold; font-size: 1.1rem; }
         
-        /* 공통 카드 스타일 */
         .card {
             display: none;
             flex-direction: column;
@@ -47,33 +47,28 @@
             display: flex;
         }
 
-        /* 대상 선택 화면 */
-        .role-select-box {
+        .role-select-box, .menu-center-box {
             text-align: center;
-            padding: 40px 0;
+            padding: 30px 0;
         }
-        .role-btn {
+        .role-btn, .menu-btn-custom {
             display: block;
             width: 100%;
-            padding: 20px;
-            font-size: 1.3rem;
+            padding: 18px;
+            font-size: 1.2rem;
             font-weight: bold;
             border: none;
             border-radius: 16px;
             cursor: pointer;
             margin-bottom: 15px;
             transition: 0.2s;
+            text-align: center;
         }
         .role-student { background-color: #f472b6; color: white; }
         .role-student:hover { background-color: #ec4899; }
         .role-teacher { background-color: #94a3b8; color: white; }
         .role-teacher:hover { background-color: #64748b; }
 
-        /* 로그인 영역 */
-        .login-box {
-            text-align: center;
-            padding: 30px 0;
-        }
         .name-input {
             width: 80%;
             padding: 15px;
@@ -91,15 +86,14 @@
             margin-bottom: 20px;
         }
 
-        /* 메인 메뉴(활동 선택) */
-        .menu-grid {
+        .level-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 15px;
-            margin: 20px 0;
+            margin: 15px 0;
         }
-        .menu-btn {
-            padding: 22px;
+        .level-card-btn {
+            padding: 20px;
             font-size: 1.2rem;
             font-weight: bold;
             border: 3px solid #fbcfe8;
@@ -108,63 +102,54 @@
             border-radius: 16px;
             cursor: pointer;
             transition: 0.2s;
-            text-align: center;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        .menu-btn:hover {
+        .level-card-btn:hover {
             background: #ffe4e6;
             border-color: #f472b6;
         }
 
-        /* 탭 메뉴 (수준별) */
-        .tab-container {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            font-size: 1rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            background-color: #f1f5f9;
-            color: #64748b;
-        }
-        .tab-btn.active {
-            background-color: #f472b6;
-            color: white;
-        }
-
-        /* 퀴즈 영역 */
+        /* 퀴즈 영역 디자인 */
         .quiz-box {
             background: #fffbfe;
             border: 2px solid #fce7f3;
-            padding: 20px;
+            padding: 25px;
             border-radius: 16px;
             margin-bottom: 15px;
             text-align: center;
         }
-        .question-text {
-            font-size: 1.2rem;
+        .quiz-img {
+            font-size: 4.5rem;
+            margin-bottom: 10px;
+        }
+        .sentence-box {
+            font-size: 1.4rem;
             font-weight: bold;
             color: #1f2937;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #f3e8ff;
         }
         .options-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 12px;
         }
         .option-btn {
-            padding: 15px;
+            padding: 16px;
             font-size: 1.1rem;
             border: 2px solid #e2e8f0;
             border-radius: 12px;
             background: white;
             cursor: pointer;
             font-weight: bold;
+            color: #334155;
+            transition: 0.1s;
         }
         .option-btn:hover { border-color: #f472b6; background: #fff1f2; }
 
@@ -177,13 +162,14 @@
             flex-wrap: wrap;
         }
         .word-chip {
-            padding: 10px 16px;
+            padding: 12px 18px;
             background: #fce7f3;
             color: #be185d;
             border-radius: 20px;
             font-weight: bold;
             cursor: pointer;
             border: 2px dashed #f472b6;
+            font-size: 1.1rem;
         }
         .sentence-dropzone {
             border: 2px dashed #cbd5e1;
@@ -191,10 +177,34 @@
             border-radius: 12px;
             text-align: center;
             min-height: 25px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #475569;
             background: #f8fafc;
             margin-bottom: 15px;
+        }
+
+        /* 팝업 모달창 */
+        .modal-overlay {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4);
+            border-radius: 24px;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        .modal-content {
+            background: white;
+            padding: 25px 35px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: popUp 0.2s ease-in-out;
+        }
+        @keyframes popUp {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         /* 결과지 스타일 */
@@ -231,69 +241,105 @@
 <body>
 
     <div class="container">
+        <!-- 팝업 메시지 모달 -->
+        <div id="custom-modal" class="modal-overlay">
+            <div class="modal-content">
+                <div style="font-size: 3rem; margin-bottom: 10px;">🤔</div>
+                <div id="modal-text" style="font-size: 1.2rem; font-weight: bold; color: #db2777; margin-bottom: 20px;">다시 한번 생각해 볼까?</div>
+                <button class="role-btn role-student" style="padding: 10px 25px; font-size: 1rem; margin: 0 auto; width: auto;" onclick="closeModal()">확인</button>
+            </div>
+        </div>
+
         <header>
             <h1>3. 겪은 일을 나타내요</h1>
             <div class="sub-title">3차시. 꾸며주는 말과 문장고리를 넣어 문장을 완성하기</div>
         </header>
 
-        <!-- [화면 0] 대상 선택 화면 -->
+        <!-- [화면 0] 대상 선택 -->
         <div id="screen-role" class="card active">
             <div class="role-select-box">
-                <p style="font-size: 1.2rem; color: #db2777; margin-bottom: 25px; font-weight: bold;">👋반가워요! 누구인가요?</p>
+                <p style="font-size: 1.2rem; color: #db2777; margin-bottom: 25px; font-weight: bold;">👋 반가워요! 누구인가요?</p>
                 <button class="role-btn role-student" onclick="goToLogin('student')">🧑‍🎓 학생이에요</button>
                 <button class="role-btn role-teacher" onclick="goToLogin('teacher')">👩‍🏫 선생님 / 보호자에요</button>
             </div>
         </div>
 
-        <!-- [화면 1] 학생 이름 입력 화면 -->
+        <!-- [화면 1] 로그인 -->
         <div id="screen-login" class="card">
-            <div class="login-box">
+            <div class="role-select-box">
                 <div class="cheer-text">✨ 오늘도 열심히 공부해요! 화이팅! ✨</div>
                 <p style="margin-bottom: 15px; color: #4b5563; font-weight: bold;">이름을 입력하고 시작해볼까요?</p>
                 <input type="text" id="student-name-input" class="name-input" placeholder="이름을 적어주세요 (예: 김이도)">
                 <button class="role-btn role-student" onclick="startApp()">공부 시작하기 🚀</button>
-                <button class="back-btn" onclick="location.reload()">처음으로 돌아가기</button>
+                <button class="back-btn" onclick="location.reload()">처음으로</button>
             </div>
         </div>
 
         <!-- [화면 2] 메인 메뉴 (활동 선택) -->
         <div id="screen-menu" class="card">
-            <div style="text-align: center; margin-bottom: 15px;">
+            <div style="text-align: center; margin-bottom: 20px;">
                 <span id="welcome-msg" style="font-size: 1.3rem; font-weight: bold; color: #db2777;"></span>
             </div>
-            <div class="menu-grid">
-                <button class="menu-btn" onclick="selectActivity(1)">🍎 활동 1: 꾸며주는 말로 문장 완성하기</button>
-                <button class="menu-btn" onclick="selectActivity(2)">🔗 활동 2: 문장고리로 문장 완성하기</button>
+            <div class="level-grid">
+                <button class="level-card-btn" onclick="selectActivity(1)">
+                    <span>🍎 활동 1: 꾸며주는 말로 문장 완성하기</span>
+                    <span style="font-size: 1.5rem;">👉</span>
+                </button>
+                <button class="level-card-btn" onclick="selectActivity(2)">
+                    <span>🔗 활동 2: 문장고리로 문장 완성하기</span>
+                    <span style="font-size: 1.5rem;">👉</span>
+                </button>
             </div>
             <button class="back-btn" onclick="location.reload()">처음 화면으로</button>
         </div>
 
-        <!-- [화면 3] 활동 1 (수준별 10문제) -->
-        <div id="screen-activity1" class="card">
-            <div class="tab-container">
-                <button id="lvl-btn-1" class="tab-btn active" onclick="setLevel(1)">1단계 (색·모양·크기)</button>
-                <button id="lvl-btn-2" class="tab-btn" onclick="setLevel(2)">2단계 (느낌·감정)</button>
-                <button id="lvl-btn-3" class="tab-btn" onclick="setLevel(3)">3단계 (문장 만들기)</button>
+        <!-- [화면 3] 활동1 - 단계 선택 화면 -->
+        <div id="screen-level-select" class="card">
+            <div style="text-align: center; margin-bottom: 15px;">
+                <h2 style="color: #db2777; margin-bottom: 5px;">꾸며주는 말 마스터하기</h2>
+                <p style="color: #64748b;">공부하고 싶은 단계를 선택해 주세요!</p>
             </div>
-
-            <div id="quiz-area"></div>
-            <button class="back-btn" onclick="goToMenu()">활동 메뉴로 돌아가기</button>
+            <div class="level-grid">
+                <button class="level-card-btn" onclick="startQuiz(1)">
+                    <div><strong>1단계</strong><div style="font-size: 0.9rem; color: #64748b; font-weight: normal;">색깔·모양·크기 꾸며주기</div></div>
+                    <span>⭐</span>
+                </button>
+                <button class="level-card-btn" onclick="startQuiz(2)">
+                    <div><strong>2단계</strong><div style="font-size: 0.9rem; color: #64748b; font-weight: normal;">형태·느낌·감정 꾸며주기</div></div>
+                    <span>⭐⭐</span>
+                </button>
+                <button class="level-card-btn" onclick="startQuiz(3)">
+                    <div><strong>3단계</strong><div style="font-size: 0.9rem; color: #64748b; font-weight: normal;">단어 조각 모아 문장 만들기</div></div>
+                    <span>⭐⭐⭐</span>
+                </button>
+            </div>
+            <button class="back-btn" onclick="enterMenu()">활동 메뉴로 돌아가기</button>
         </div>
 
-        <!-- [화면 4] 활동 2 (준비중 공간) -->
+        <!-- [화면 4] 퀴즈 풀이 화면 -->
+        <div id="screen-quiz" class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <span id="quiz-level-title" style="font-weight: bold; color: #db2777; font-size: 1.1rem;"></span>
+                <span id="quiz-progress" style="font-weight: bold; color: #64748b;"></span>
+            </div>
+            <div id="quiz-area"></div>
+            <button class="back-btn" onclick="showCard('screen-level-select')">단계 선택으로 가기</button>
+        </div>
+
+        <!-- [화면 5] 활동 2 (준비중) -->
         <div id="screen-activity2" class="card" style="text-align: center; justify-content: center; padding: 40px 0;">
             <div style="font-size: 3rem; margin-bottom: 15px;">🚧</div>
             <h2 style="color: #db2777; margin-bottom: 10px;">활동 2: 문장고리 공간</h2>
             <p style="color: #64748b; margin-bottom: 25px;">선생님이 멋진 문장고리 활동을 준비하고 있어요!</p>
-            <button class="back-btn" onclick="goToMenu()">활동 메뉴로 돌아가기</button>
+            <button class="back-btn" onclick="enterMenu()">활동 메뉴로 돌아가기</button>
         </div>
 
-        <!-- [화면 5] 결과지 화면 -->
+        <!-- [화면 6] 결과지 화면 -->
         <div id="screen-result" class="card">
             <div class="result-box">
                 <div class="result-title">🎉 학습 결과 리포트 🎉</div>
                 <div id="result-content"></div>
-                <button class="role-btn role-student" style="margin-top: 15px; padding: 12px;" onclick="goToMenu()">다른 활동 하러 가기</button>
+                <button class="role-btn role-student" style="margin-top: 15px; padding: 12px;" onclick="showCard('screen-level-select')">다른 단계 도장깨기 🚀</button>
             </div>
         </div>
 
@@ -308,44 +354,45 @@
         let currentQuizIndex = 0;
         let score = 0;
         let wrongList = [];
+        let hasWrongCurrentQ = false; // 현재 문제에서 틀린 적이 있는지 체크 (1,2단계용)
 
-        // 문제 데이터 (단계별 10문제)
+        // 3어절 제한 및 그림 + 빈칸 문장 데이터 (각 단계별 10문제)
         const quizData = {
             1: [
-                { q: "🔴 빨간 사과 그림이에요. 알맞은 말은?", options: ["차가운", "빨간", "네모난", "작은"], answer: "빨간" },
-                { q: "🟡 노란 바나나 그림이에요. 알맞은 말은?", options: ["노란", "무서운", "커다란", "뜨거운"], answer: "노란" },
-                { q: "⬜ 네모난 상자 그림이에요. 알맞은 말은?", options: ["동그란", "네모난", "하얀", "작은"], answer: "네모난" },
-                { q: "⚪ 하얀 우유 그림이에요. 알맞은 말은?", options: ["빨간", "세모난", "하얀", "커다란"], answer: "하얀" },
-                { q: "🔺 세모난 조각 그림이에요. 알맞은 말은?", options: ["세모난", "노란", "따뜻한", "차가운"], answer: "세모난" },
-                { q: "🔵 동그란 공 그림이에요. 알맞은 말은?", options: ["네모난", "동그란", "귀여운", "푹신한"], answer: "동그란" },
-                { q: "🐘 커다란 코끼리 그림이에요. 알맞은 말은?", options: ["작은", "커다란", "하얀", "빨간"], answer: "커다란" },
-                { q: "🐜 작은 개미 그림이에요. 알맞은 말은?", options: ["커다란", "작은", "노란", "동그란"], answer: "작은" },
-                { q: "🟢 초록색 풀잎 그림이에요. 알맞은 말은?", options: ["초록색", "빨간", "네모난", "차가운"], answer: "초록색" },
-                { q: "⬛ 까만 밤하늘 그림이에요. 알맞은 말은?", options: ["까만", "하얀", "노란", "작은"], answer: "까만" }
+                { emoji: "🍎", sentence: "______ 사과가 있어요.", options: ["빨간", "차가운", "네모난", "작은"], answer: "빨간" },
+                { emoji: "🍌", sentence: "______ 바나나요.", options: ["노란", "무서운", "커다란", "뜨거운"], answer: "노란" },
+                { emoji: "📦", sentence: "______ 상자예요.", options: ["동그란", "네모난", "하얀", "작은"], answer: "네모난" },
+                { emoji: "🥛", sentence: "______ 우유예요.", options: ["빨간", "세모난", "하얀", "커다란"], answer: "하얀" },
+                { emoji: "📐", sentence: "______ 조각이에요.", options: ["세모난", "노란", "따뜻한", "차가운"], answer: "세모난" },
+                { emoji: "⚽", sentence: "______ 공이에요.", options: ["네모난", "동그란", "귀여운", "푹신한"], answer: "동그란" },
+                { emoji: "🐘", sentence: "______ 코끼리가 걸어요.", options: ["작은", "커다란", "하얀", "빨간"], answer: "커다란" },
+                { emoji: "🐜", sentence: "______ 개미가 기어요.", options: ["커다란", "작은", "노란", "동그란"], answer: "작은" },
+                { emoji: "🌿", sentence: "______ 풀잎이 자라요.", options: ["초록색", "빨간", "네모난", "차가운"], answer: "초록색" },
+                { emoji: "🌙", sentence: "______ 밤하늘이에요.", options: ["까만", "하얀", "노란", "작은"], answer: "까만" }
             ],
             2: [
-                { q: "🧊 얼음처럼 차가운 느낌이에요. 알맞은 말은?", options: ["차가운", "뜨거운", "귀여운", "무서운"], answer: "차가운" },
-                { q: "🔥 뜨거운 국물 느낌이에요. 알맞은 말은?", options: ["시원한", "뜨거운", "푹신한", "무서운"], answer: "뜨거운" },
-                { q: "🛏️ 푹신한 침대 느낌이에요. 알맞은 말은?", options: ["차가운", "푹신한", "무서운", "따뜻한"], answer: "푹신한" },
-                { q: "🧊 시원한 바람 느낌이에요. 알맞은 말은?", options: ["뜨거운", "시원한", "귀여운", "푹신한"], answer: "시원한" },
-                { q: "☀️ 따뜻한 햇살 느낌이에요. 알맞은 말은?", options: ["따뜻한", "무서운", "차가운", "시원한"], answer: "따뜻한" },
-                { q: "🐶 귀여운 강아지 감정이에요. 알맞은 말은?", options: ["무서운", "귀여운", "뜨거운", "차가운"], answer: "귀여운" },
-                { q: "🦖 무서운 공룡 감정이에요. 알맞은 말은?", options: ["귀여운", "무서운", "푹신한", "따뜻한"], answer: "무서운" },
-                { q: "😊 기쁜 표정 감정이에요. 알맞은 말은?", options: ["기쁜", "무서운", "차가운", "뜨거운"], answer: "기쁜" },
-                { q: "😢 슬픈 표정 감정이에요. 알맞은 말은?", options: ["슬픈", "귀여운", "시원한", "따뜻한"], answer: "슬픈" },
-                { q: "😡 화난 표정 감정이에요. 알맞은 말은?", options: ["화난", "기쁜", "푹신한", "작은"], answer: "화난" }
+                { emoji: "🧊", sentence: "______ 얼음을 먹어요.", options: ["차가운", "뜨거운", "귀여운", "무서운"], answer: "차가운" },
+                { emoji: "🍲", sentence: "______ 국물을 마셔요.", options: ["시원한", "뜨거운", "푹신한", "무서운"], answer: "뜨거운" },
+                { emoji: "🛏️", sentence: "______ 침대에 누워요.", options: ["차가운", "푹신한", "무서운", "따뜻한"], answer: "푹신한" },
+                { emoji: " 바람", emojiAlt: "💨", sentence: "______ 바람이 불어요.", options: ["뜨거운", "시원한", "귀여운", "푹신한"], answer: "시원한" },
+                { emoji: "☀️", sentence: "______ 햇살이 비쳐요.", options: ["따뜻한", "무서운", "차가운", "시원한"], answer: "따뜻한" },
+                { emoji: "🐶", sentence: "______ 토끼가 뛰어요.", options: ["무서운", "귀여운", "뜨거운", "차가운"], answer: "귀여운" },
+                { emoji: "🦖", sentence: "______ 공룡이 나타나요.", options: ["귀여운", "무서운", "푹신한", "따뜻한"], answer: "무서운" },
+                { emoji: "😊", sentence: "______ 아이가 웃어요.", options: ["기쁜", "무서운", "차가운", "뜨거운"], answer: "기쁜" },
+                { emoji: "😢", sentence: "______ 친구가 울어요.", options: ["슬픈", "귀여운", "시원한", "따뜻한"], answer: "슬픈" },
+                { emoji: "😡", sentence: "______ 괴물이 화나요.", options: ["화난", "기쁜", "푹신한", "작은"], answer: "화난" }
             ],
             3: [
-                { q: "🧩 목표 문장: [커다란 코끼리가 걸어요]", words: ["걸어요", "커다란", "코끼리가"], target: ["커다란", "코끼리가", "걸어요"] },
-                { q: "🧩 목표 문장: [빨간 사과가 맛있어요]", words: ["맛있어요", "빨간", "사과가"], target: ["빨간", "사과가", "맛있어요"] },
-                { q: "🧩 목표 문장: [차가운 얼음이 녹아요]", words: ["얼음이", "차가운", "녹아요"], target: ["차가운", "얼음이", "녹아요"] },
-                { q: "🧩 목표 문장: [귀여운 토끼가 뛰어요]", words: ["뛰어요", "토끼가", "귀여운"], target: ["귀여운", "토끼가", "뛰어요"] },
-                { q: "🧩 목표 문장: [작은 개미가 기어요]", words: ["기어요", "개미가", "작은"], target: ["작은", "개미가", "기어요"] },
-                { q: "🧩 목표 문장: [따뜻한 햇살이 비쳐요]", words: ["비쳐요", "햇살이", "따뜻한"], target: ["따뜻한", "햇살이", "비쳐요"] },
-                { q: "🧩 목표 문장: [노란 바나나를 먹어요]", words: ["먹어요", "노란", "바나나를"], target: ["노란", "바나나를", "먹어요"] },
-                { q: "🧩 목표 문장: [푹신한 솜사탕을 봐요]", words: ["봐요", "솜사탕을", "푹신한"], target: ["푹신한", "솜사탕을", "봐요"] },
-                { q: "🧩 목표 문장: [무서운 사자가 울어요]", words: ["울어요", "무서운", "사자가"], target: ["무서운", "사자가", "울어요"] },
-                { q: "🧩 목표 문장: [네모난 상자를 열어요]", words: ["열어요", "상자를", "네모난"], target: ["네모난", "상자를", "열어요"] }
+                { emoji: "🐘", qText: "[커다란 코끼리가 걸어요]", words: ["걸어요", "커다란", "코끼리가"], target: ["커다란", "코끼리가", "걸어요"] },
+                { emoji: "🍎", qText: "[빨간 사과가 맛있어요]", words: ["맛있어요", "빨간", "사과가"], target: ["빨간", "사과가", "맛있어요"] },
+                { emoji: "🧊", qText: "[차가운 얼음이 녹아요]", words: ["얼음이", "차가운", "녹아요"], target: ["차가운", "얼음이", "녹아요"] },
+                { emoji: "🐰", qText: "[귀여운 토끼가 뛰어요]", words: ["뛰어요", "토끼가", "귀여운"], target: ["귀여운", "토끼가", "뛰어요"] },
+                { emoji: "🐜", qText: "[작은 개미가 기어요]", words: ["기어요", "개미가", "작은"], target: ["작은", "개미가", "기어요"] },
+                { emoji: "☀️", qText: "[따뜻한 햇살이 비쳐요]", words: ["비쳐요", "햇살이", "따뜻한"], target: ["따뜻한", "햇살이", "비쳐요"] },
+                { emoji: "🍌", qText: "[노란 바나나를 먹어요]", words: ["먹어요", "노란", "바나나를"], target: ["노란", "바나나를", "먹어요"] },
+                { emoji: "🍬", qText: "[푹신한 솜사탕을 봐요]", words: ["봐요", "솜사탕을", "푹신한"], target: ["푹신한", "솜사탕을", "봐요"] },
+                { emoji: "🦁", qText: "[무서운 사자가 울어요]", words: ["울어요", "무서운", "사자가"], target: ["무서운", "사자가", "울어요"] },
+                { emoji: "📦", qText: "[네모난 상자를 열어요]", words: ["열어요", "상자를", "네모난"], target: ["네모난", "상자를", "열어요"] }
             ]
         };
 
@@ -382,31 +429,26 @@
 
         function selectActivity(num) {
             if (num === 1) {
-                showCard('screen-activity1');
-                setLevel(1);
+                showCard('screen-level-select');
             } else {
                 showCard('screen-activity2');
             }
         }
 
-        function goToMenu() {
-            showCard('screen-menu');
-        }
-
-        function setLevel(lvl) {
+        function startQuiz(lvl) {
             currentLevel = lvl;
             currentQuizIndex = 0;
             score = 0;
             wrongList = [];
-
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('lvl-btn-' + lvl).classList.add('active');
-
+            showCard('screen-quiz');
             loadQuiz();
         }
 
         function loadQuiz() {
+            hasWrongCurrentQ = false;
             const quizArea = document.getElementById('quiz-area');
+            document.getElementById('quiz-level-title').innerText = `[ ${currentLevel}단계 공부 중 ]`;
+            document.getElementById('quiz-progress').innerText = `문제 ${currentQuizIndex + 1} / 10`;
             
             if (currentQuizIndex >= 10) {
                 showResult();
@@ -417,14 +459,14 @@
             
             if (currentLevel === 1 || currentLevel === 2) {
                 quizArea.innerHTML = `
-                    <div style="font-weight: bold; color: #db2777; margin-bottom: 10px;">[ ${currentLevel}단계 ] 문제 ${currentQuizIndex + 1} / 10</div>
                     <div class="quiz-box">
-                        <div class="question-text">${qData.q}</div>
+                        <div class="quiz-img">${qData.emoji || "💨"}</div>
+                        <div class="sentence-box">${qData.sentence}</div>
                         <div class="options-grid">
-                            <button class="option-btn" onclick="checkChoice('${qData.options[0]}', '${qData.answer}')">${qData.options[0]}</button>
-                            <button class="option-btn" onclick="checkChoice('${qData.options[1]}', '${qData.answer}')">${qData.options[1]}</button>
-                            <button class="option-btn" onclick="checkChoice('${qData.options[2]}', '${qData.answer}')">${qData.options[2]}</button>
-                            <button class="option-btn" onclick="checkChoice('${qData.options[3]}', '${qData.answer}')">${qData.options[3]}</button>
+                            <button class="option-btn" onclick="checkChoice(0)">${qData.options[0]}</button>
+                            <button class="option-btn" onclick="checkChoice(1)">${qData.options[1]}</button>
+                            <button class="option-btn" onclick="checkChoice(2)">${qData.options[2]}</button>
+                            <button class="option-btn" onclick="checkChoice(3)">${qData.options[3]}</button>
                         </div>
                     </div>
                 `;
@@ -433,28 +475,49 @@
                 let shuffledWords = [...qData.words].sort(() => Math.random() - 0.5);
                 
                 quizArea.innerHTML = `
-                    <div style="font-weight: bold; color: #db2777; margin-bottom: 10px;">[ 3단계 ] 문제 ${currentQuizIndex + 1} / 10</div>
                     <div class="quiz-box">
-                        <div class="question-text">${qData.q}</div>
+                        <div class="quiz-img">${qData.emoji}</div>
+                        <div style="font-size: 1.1rem; color: #4b5563; margin-bottom: 15px; font-weight: bold;">목표 문장을 완성해보세요!</div>
                         <div class="word-pool" id="word-pool">
                             ${shuffledWords.map(w => `<div class="word-chip" onclick="pickWord('${w}')">${w}</div>`).join('')}
                         </div>
                         <div id="dropzone" class="sentence-dropzone" onclick="resetSentence()">
                             여기를 눌러 단어를 채워보세요 (클릭하면 초기화)
                         </div>
-                        <button class="role-btn role-student" style="padding: 10px; font-size: 1rem;" onclick="submitSentence()">정답 확인!</button>
+                        <button class="role-btn role-student" style="padding: 12px; font-size: 1.1rem;" onclick="submitSentence()">정답 확인하기 ✔️</button>
                     </div>
                 `;
             }
         }
 
-        function checkChoice(selected, answer) {
+        function checkChoice(idx) {
             const qData = quizData[currentLevel][currentQuizIndex];
-            if (selected === answer) {
-                score++;
+            const selectedWord = qData.options[idx];
+
+            if (selectedWord === qData.answer) {
+                // 정답인 경우
+                if (!hasWrongCurrentQ) {
+                    score++;
+                }
+                currentQuizIndex++;
+                loadQuiz();
             } else {
-                wrongList.push({ q: qData.q, user: selected, correct: answer });
+                // 오답인 경우
+                if (!hasWrongCurrentQ) {
+                    hasWrongCurrentQ = true;
+                    wrongList.push({ sentence: qData.sentence, user: selectedWord, correct: qData.answer });
+                    // 첫 번째 틀렸을 때만 팝업 띄우기
+                    document.getElementById('custom-modal').style.display = 'flex';
+                } else {
+                    // 두 번째 이상 틀렸을 때는 팝업 없이 다음 문제로 진행
+                    currentQuizIndex++;
+                    loadQuiz();
+                }
             }
+        }
+
+        function closeModal() {
+            document.getElementById('custom-modal').style.display = 'none';
             currentQuizIndex++;
             loadQuiz();
         }
@@ -462,8 +525,6 @@
         function pickWord(word) {
             userSentence.push(word);
             document.getElementById('dropzone').innerText = userSentence.join(' ');
-            
-            // 사용한 단어는 숨기기
             event.target.style.display = 'none';
         }
 
@@ -485,7 +546,7 @@
             if (isMatch) {
                 score++;
             } else {
-                wrongList.push({ q: qData.q, user: userSentence.join(' '), correct: qData.target.join(' ') });
+                wrongList.push({ sentence: qData.qText, user: userSentence.join(' '), correct: qData.target.join(' ') });
             }
             currentQuizIndex++;
             loadQuiz();
@@ -497,7 +558,7 @@
                 <div class="result-detail">
                     <strong>👤 학습자:</strong> ${studentName}<br>
                     <strong>🏆 맞은 개수:</strong> ${score} / 10 개<br>
-                    <strong>🌟 잘한 점:</strong> ${score >= 8 ? "꾸며주는 말을 완벽하게 이해하고 멋지게 문장을 완성했어요! 최고예요!" : "끝까지 집중해서 10문제를 모두 풀어낸 멋진 끈기를 보여주었어요!"}
+                    <strong>🌟 잘한 점:</strong> ${score >= 8 ? "꾸며주는 말을 멋지게 이해하고 훌륭하게 문장을 완성했어요! 최고예요!" : "끝까지 집중해서 10문제를 모두 마친 멋진 끈기를 보여주었어요!"}
                 </div>
             `;
 
@@ -505,9 +566,9 @@
                 contentHtml += `
                     <div class="result-detail" style="border-left: 4px solid #f43f5e;">
                         <strong>💡 아쉬웠던 점 & 복습하기:</strong><br>
-                        다음에 다시 풀 때 이 부분을 조금 더 주의해봐요!<br>
+                        다음에는 이 문장들을 더 주의 깊게 살펴봐요!<br>
                         <ul style="margin: 5px 0 0 20px; padding: 0;">
-                            ${wrongList.map(w => `<li>${w.q.split(':')[0]} (내가 쓴 답: ${w.user})</li>`).join('')}
+                            ${wrongList.map(w => `<li>"${w.sentence}" (내가 고른 답: ${w.user})</li>`).join('')}
                         </ul>
                     </div>
                 `;
@@ -515,7 +576,7 @@
                 contentHtml += `
                     <div class="result-detail" style="border-left: 4px solid #10b981;">
                         <strong>💡 아쉬웠던 점:</strong><br>
-                        틀린 문제가 하나도 없어요! 완벽하게 다 맞췄답니다! 🎉
+                        틀린 문제가 하나도 없어요! 모든 문제를 완벽하게 맞혔답니다! 🎉
                     </div>
                 `;
             }
