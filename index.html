@@ -7,9 +7,9 @@
     <style>
         body {
             font-family: 'Malgun Gothic', 'Comic Sans MS', sans-serif;
-            background-color: #fdf2f8;
+            background-color: #f0fdf4; /* 싱그러운 연두빛 배경 */
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -18,11 +18,11 @@
         }
         .container {
             width: 100%;
-            max-width: 650px;
+            max-width: 750px; /* 태블릿 가로폭에 맞게 조금 더 넓게 확정 */
             background: white;
-            padding: 30px;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px rgba(244, 114, 182, 0.15);
+            padding: 35px;
+            border-radius: 28px;
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.15);
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -31,12 +31,12 @@
         }
         header {
             text-align: center;
-            margin-bottom: 20px;
-            border-bottom: 3px dashed #fbcfe8;
+            margin-bottom: 25px;
+            border-bottom: 3px dashed #a7f3d0;
             padding-bottom: 15px;
         }
-        h1 { color: #db2777; font-size: 1.6rem; margin-bottom: 5px; }
-        .sub-title { color: #4b5563; font-weight: bold; font-size: 1.1rem; }
+        h1 { color: #047857; font-size: 2.0rem; margin-bottom: 8px; }
+        .sub-title { color: #374151; font-weight: bold; font-size: 1.25rem; }
         
         .card {
             display: none;
@@ -51,55 +51,59 @@
             text-align: center;
             padding: 30px 0;
         }
+        
+        /* 태블릿용 왕특대 버튼 스타일 */
         .role-btn, .menu-btn-custom {
             display: block;
             width: 100%;
-            padding: 18px;
-            font-size: 1.2rem;
+            padding: 22px;
+            font-size: 1.4rem;
             font-weight: bold;
             border: none;
-            border-radius: 16px;
+            border-radius: 18px;
             cursor: pointer;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             transition: 0.2s;
             text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
-        .role-student { background-color: #f472b6; color: white; }
-        .role-student:hover { background-color: #ec4899; }
-        .role-teacher { background-color: #94a3b8; color: white; }
-        .role-teacher:hover { background-color: #64748b; }
+        .role-student { background-color: #10b981; color: white; }
+        .role-student:hover { background-color: #059669; }
+        .role-teacher { background-color: #64748b; color: white; }
+        .role-teacher:hover { background-color: #475569; }
 
         .name-input {
-            width: 80%;
-            padding: 15px;
-            font-size: 1.2rem;
-            border: 2px solid #f472b6;
-            border-radius: 12px;
+            width: 85%;
+            padding: 18px;
+            font-size: 1.3rem;
+            border: 3px solid #10b981;
+            border-radius: 16px;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             outline: none;
+            background-color: #f9fafb;
         }
         .cheer-text {
-            font-size: 1.2rem;
-            color: #db2777;
+            font-size: 1.4rem;
+            color: #047857;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .level-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
+            gap: 18px;
             margin: 15px 0;
         }
         .level-card-btn {
-            padding: 20px;
-            font-size: 1.2rem;
+            padding: 24px;
+            font-size: 1.35rem;
             font-weight: bold;
-            border: 3px solid #fbcfe8;
-            background: #fff1f2;
-            color: #be185d;
-            border-radius: 16px;
+            border: 3px solid #a7f3d0;
+            background: #f0fdf4;
+            color: #065f46;
+            border-radius: 18px;
             cursor: pointer;
             transition: 0.2s;
             text-align: left;
@@ -108,79 +112,80 @@
             justify-content: space-between;
         }
         .level-card-btn:hover {
-            background: #ffe4e6;
-            border-color: #f472b6;
+            background: #d1fae5;
+            border-color: #10b981;
         }
 
-        /* 퀴즈 영역 디자인 */
+        /* 퀴즈 영역 (왕특대 그림 및 글씨) */
         .quiz-box {
-            background: #fffbfe;
-            border: 2px solid #fce7f3;
-            padding: 25px;
-            border-radius: 16px;
+            background: #f8fafc;
+            border: 3px solid #e2e8f0;
+            padding: 30px;
+            border-radius: 20px;
             margin-bottom: 15px;
             text-align: center;
         }
         .quiz-img {
-            font-size: 4.5rem;
-            margin-bottom: 10px;
+            font-size: 6.5rem; /* 그림 이미지 큼직하고 선명하게 */
+            margin-bottom: 15px;
+            line-height: 1;
         }
         .sentence-box {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             font-weight: bold;
             color: #1f2937;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             background: #ffffff;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid #f3e8ff;
+            padding: 20px;
+            border-radius: 16px;
+            border: 2px solid #cbd5e1;
         }
         .options-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 15px;
         }
         .option-btn {
-            padding: 16px;
-            font-size: 1.1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
+            padding: 20px;
+            font-size: 1.3rem;
+            border: 3px solid #cbd5e1;
+            border-radius: 16px;
             background: white;
             cursor: pointer;
             font-weight: bold;
             color: #334155;
             transition: 0.1s;
         }
-        .option-btn:hover { border-color: #f472b6; background: #fff1f2; }
+        .option-btn:hover { border-color: #10b981; background: #f0fdf4; color: #047857; }
 
         /* 수준3 단어 조합 영역 */
         .word-pool {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             justify-content: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
         .word-chip {
-            padding: 12px 18px;
-            background: #fce7f3;
-            color: #be185d;
-            border-radius: 20px;
+            padding: 14px 22px;
+            background: #d1fae5;
+            color: #065f46;
+            border-radius: 24px;
             font-weight: bold;
             cursor: pointer;
-            border: 2px dashed #f472b6;
-            font-size: 1.1rem;
+            border: 3px dashed #10b981;
+            font-size: 1.25rem;
         }
         .sentence-dropzone {
-            border: 2px dashed #cbd5e1;
-            padding: 18px;
-            border-radius: 12px;
+            border: 3px dashed #94a3b8;
+            padding: 22px;
+            border-radius: 16px;
             text-align: center;
-            min-height: 25px;
-            font-size: 1.2rem;
+            min-height: 35px;
+            font-size: 1.35rem;
             color: #475569;
-            background: #f8fafc;
-            margin-bottom: 15px;
+            background: #ffffff;
+            margin-bottom: 20px;
         }
 
         /* 팝업 모달창 */
@@ -188,18 +193,18 @@
             display: none;
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.4);
-            border-radius: 24px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 28px;
             justify-content: center;
             align-items: center;
             z-index: 10;
         }
         .modal-content {
             background: white;
-            padding: 25px 35px;
-            border-radius: 20px;
+            padding: 35px 45px;
+            border-radius: 24px;
             text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
             animation: popUp 0.2s ease-in-out;
         }
         @keyframes popUp {
@@ -210,30 +215,31 @@
         /* 결과지 스타일 */
         .result-box {
             text-align: center;
-            padding: 20px;
-            background: #fdf4ff;
-            border-radius: 16px;
-            border: 2px solid #f0abfc;
+            padding: 25px;
+            background: #f0fdf4;
+            border-radius: 20px;
+            border: 3px solid #6ee7b7;
         }
-        .result-title { font-size: 1.4rem; color: #a855f7; font-weight: bold; margin-bottom: 15px; }
-        .result-detail { font-size: 1.1rem; color: #334155; margin-bottom: 10px; text-align: left; background: white; padding: 15px; border-radius: 10px; }
+        .result-title { font-size: 1.6rem; color: #047857; font-weight: bold; margin-bottom: 15px; }
+        .result-detail { font-size: 1.2rem; color: #1f2937; margin-bottom: 15px; text-align: left; background: white; padding: 20px; border-radius: 14px; line-height: 1.5; }
 
         .back-btn {
             background: #e2e8f0;
-            color: #475569;
+            color: #334155;
             border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
+            padding: 14px 24px;
+            border-radius: 14px;
             cursor: pointer;
             font-weight: bold;
-            margin-top: 15px;
+            font-size: 1.1rem;
+            margin-top: 20px;
         }
 
         footer {
             text-align: center;
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: #6b7280;
+            margin-top: 25px;
+            font-size: 1.0rem;
+            color: #4b5563;
             font-weight: bold;
         }
     </style>
@@ -241,12 +247,12 @@
 <body>
 
     <div class="container">
-        <!-- 팝업 메시지 모달 -->
+        <!-- 팝업 모달창 (다시 한번 생각해볼까?) -->
         <div id="custom-modal" class="modal-overlay">
             <div class="modal-content">
-                <div style="font-size: 3rem; margin-bottom: 10px;">🤔</div>
-                <div id="modal-text" style="font-size: 1.2rem; font-weight: bold; color: #db2777; margin-bottom: 20px;">다시 한번 생각해 볼까?</div>
-                <button class="role-btn role-student" style="padding: 10px 25px; font-size: 1rem; margin: 0 auto; width: auto;" onclick="closeModal()">확인</button>
+                <div style="font-size: 4rem; margin-bottom: 15px;">🤔</div>
+                <div style="font-size: 1.4rem; font-weight: bold; color: #047857; margin-bottom: 25px;">다시 한번 생각해 볼까?</div>
+                <button class="role-btn role-student" style="padding: 12px 30px; font-size: 1.2rem; margin: 0 auto; width: auto;" onclick="closeModal()">확인</button>
             </div>
         </div>
 
@@ -258,7 +264,7 @@
         <!-- [화면 0] 대상 선택 -->
         <div id="screen-role" class="card active">
             <div class="role-select-box">
-                <p style="font-size: 1.2rem; color: #db2777; margin-bottom: 25px; font-weight: bold;">👋 반가워요! 누구인가요?</p>
+                <p style="font-size: 1.35rem; color: #047857; margin-bottom: 30px; font-weight: bold;">👋 반가워요! 누구인가요?</p>
                 <button class="role-btn role-student" onclick="goToLogin('student')">🧑‍🎓 학생이에요</button>
                 <button class="role-btn role-teacher" onclick="goToLogin('teacher')">👩‍🏫 선생님 / 보호자에요</button>
             </div>
@@ -268,7 +274,7 @@
         <div id="screen-login" class="card">
             <div class="role-select-box">
                 <div class="cheer-text">✨ 오늘도 열심히 공부해요! 화이팅! ✨</div>
-                <p style="margin-bottom: 15px; color: #4b5563; font-weight: bold;">이름을 입력하고 시작해볼까요?</p>
+                <p style="margin-bottom: 18px; color: #374151; font-weight: bold; font-size: 1.2rem;">이름을 입력하고 시작해볼까요?</p>
                 <input type="text" id="student-name-input" class="name-input" placeholder="이름을 적어주세요 (예: 김이도)">
                 <button class="role-btn role-student" onclick="startApp()">공부 시작하기 🚀</button>
                 <button class="back-btn" onclick="location.reload()">처음으로</button>
@@ -277,17 +283,17 @@
 
         <!-- [화면 2] 메인 메뉴 (활동 선택) -->
         <div id="screen-menu" class="card">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <span id="welcome-msg" style="font-size: 1.3rem; font-weight: bold; color: #db2777;"></span>
+            <div style="text-align: center; margin-bottom: 25px;">
+                <span id="welcome-msg" style="font-size: 1.4rem; font-weight: bold; color: #047857;"></span>
             </div>
             <div class="level-grid">
                 <button class="level-card-btn" onclick="selectActivity(1)">
                     <span>🍎 활동 1: 꾸며주는 말로 문장 완성하기</span>
-                    <span style="font-size: 1.5rem;">👉</span>
+                    <span style="font-size: 1.8rem;">👉</span>
                 </button>
                 <button class="level-card-btn" onclick="selectActivity(2)">
                     <span>🔗 활동 2: 문장고리로 문장 완성하기</span>
-                    <span style="font-size: 1.5rem;">👉</span>
+                    <span style="font-size: 1.8rem;">👉</span>
                 </button>
             </div>
             <button class="back-btn" onclick="location.reload()">처음 화면으로</button>
@@ -295,22 +301,22 @@
 
         <!-- [화면 3] 활동1 - 단계 선택 화면 -->
         <div id="screen-level-select" class="card">
-            <div style="text-align: center; margin-bottom: 15px;">
-                <h2 style="color: #db2777; margin-bottom: 5px;">꾸며주는 말 마스터하기</h2>
-                <p style="color: #64748b;">공부하고 싶은 단계를 선택해 주세요!</p>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="color: #047857; font-size: 1.6rem; margin-bottom: 8px;">꾸며주는 말 마스터하기</h2>
+                <p style="color: #4b5563; font-size: 1.15rem;">공부하고 싶은 단계를 선택해 주세요!</p>
             </div>
             <div class="level-grid">
                 <button class="level-card-btn" onclick="startQuiz(1)">
-                    <div><strong>1단계</strong><div style="font-size: 0.9rem; color: #64748b; font-weight: normal;">색깔·모양·크기 꾸며주기</div></div>
-                    <span>⭐</span>
+                    <div><strong>1단계</strong><div style="font-size: 1.0rem; color: #4b5563; font-weight: normal; margin-top: 4px;">색깔·모양·크기 꾸며주기</div></div>
+                    <span style="font-size: 1.4rem;">⭐</span>
                 </button>
                 <button class="level-card-btn" onclick="startQuiz(2)">
-                    <div><strong>2단계</strong><div style="font-size: 0.9rem; color: #64748b; font-weight: normal;">형태·느낌·감정 꾸며주기</div></div>
-                    <span>⭐⭐</span>
+                    <div><strong>2단계</strong><div style="font-size: 1.0rem; color: #4b5563; font-weight: normal; margin-top: 4px;">형태·느낌·감정 꾸며주기</div></div>
+                    <span style="font-size: 1.4rem;">⭐⭐</span>
                 </button>
                 <button class="level-card-btn" onclick="startQuiz(3)">
-                    <div><strong>3단계</strong><div style="font-size: 0.9rem; color: #64748b; font-weight: normal;">단어 조각 모아 문장 만들기</div></div>
-                    <span>⭐⭐⭐</span>
+                    <div><strong>3단계</strong><div style="font-size: 1.0rem; color: #4b5563; font-weight: normal; margin-top: 4px;">단어 조각 모아 문장 만들기</div></div>
+                    <span style="font-size: 1.4rem;">⭐⭐⭐</span>
                 </button>
             </div>
             <button class="back-btn" onclick="enterMenu()">활동 메뉴로 돌아가기</button>
@@ -318,9 +324,9 @@
 
         <!-- [화면 4] 퀴즈 풀이 화면 -->
         <div id="screen-quiz" class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <span id="quiz-level-title" style="font-weight: bold; color: #db2777; font-size: 1.1rem;"></span>
-                <span id="quiz-progress" style="font-weight: bold; color: #64748b;"></span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <span id="quiz-level-title" style="font-weight: bold; color: #047857; font-size: 1.25rem;"></span>
+                <span id="quiz-progress" style="font-weight: bold; color: #4b5563; font-size: 1.15rem;"></span>
             </div>
             <div id="quiz-area"></div>
             <button class="back-btn" onclick="showCard('screen-level-select')">단계 선택으로 가기</button>
@@ -328,9 +334,9 @@
 
         <!-- [화면 5] 활동 2 (준비중) -->
         <div id="screen-activity2" class="card" style="text-align: center; justify-content: center; padding: 40px 0;">
-            <div style="font-size: 3rem; margin-bottom: 15px;">🚧</div>
-            <h2 style="color: #db2777; margin-bottom: 10px;">활동 2: 문장고리 공간</h2>
-            <p style="color: #64748b; margin-bottom: 25px;">선생님이 멋진 문장고리 활동을 준비하고 있어요!</p>
+            <div style="font-size: 4rem; margin-bottom: 15px;">🚧</div>
+            <h2 style="color: #047857; font-size: 1.6rem; margin-bottom: 10px;">활동 2: 문장고리 공간</h2>
+            <p style="color: #4b5563; font-size: 1.2rem; margin-bottom: 25px;">선생님이 멋진 문장고리 활동을 준비하고 있어요!</p>
             <button class="back-btn" onclick="enterMenu()">활동 메뉴로 돌아가기</button>
         </div>
 
@@ -339,7 +345,7 @@
             <div class="result-box">
                 <div class="result-title">🎉 학습 결과 리포트 🎉</div>
                 <div id="result-content"></div>
-                <button class="role-btn role-student" style="margin-top: 15px; padding: 12px;" onclick="showCard('screen-level-select')">다른 단계 도장깨기 🚀</button>
+                <button class="role-btn role-student" style="margin-top: 20px; padding: 16px; font-size: 1.25rem;" onclick="showCard('screen-level-select')">다른 단계 도장깨기 🚀</button>
             </div>
         </div>
 
@@ -354,31 +360,31 @@
         let currentQuizIndex = 0;
         let score = 0;
         let wrongList = [];
-        let hasWrongCurrentQ = false; // 현재 문제에서 틀린 적이 있는지 체크 (1,2단계용)
+        let attemptCount = 0; // 해당 문제의 시도 횟수 (0: 첫 시도, 1: 틀려서 재도전 중)
 
-        // 3어절 제한 및 그림 + 빈칸 문장 데이터 (각 단계별 10문제)
+        // 1학년 맞춤형 및 오개념 방지 3어절 문장 데이터 (각 10문제)
         const quizData = {
             1: [
-                { emoji: "🍎", sentence: "______ 사과가 있어요.", options: ["빨간", "차가운", "네모난", "작은"], answer: "빨간" },
-                { emoji: "🍌", sentence: "______ 바나나요.", options: ["노란", "무서운", "커다란", "뜨거운"], answer: "노란" },
-                { emoji: "📦", sentence: "______ 상자예요.", options: ["동그란", "네모난", "하얀", "작은"], answer: "네모난" },
-                { emoji: "🥛", sentence: "______ 우유예요.", options: ["빨간", "세모난", "하얀", "커다란"], answer: "하얀" },
-                { emoji: "📐", sentence: "______ 조각이에요.", options: ["세모난", "노란", "따뜻한", "차가운"], answer: "세모난" },
-                { emoji: "⚽", sentence: "______ 공이에요.", options: ["네모난", "동그란", "귀여운", "푹신한"], answer: "동그란" },
+                { emoji: "🍎", sentence: "______ 사과가 열려요.", options: ["빨간", "차가운", "네모난", "작은"], answer: "빨간" },
+                { emoji: "🍌", sentence: "______ 바나나를 먹어요.", options: ["노란", "무서운", "커다란", "뜨거운"], answer: "노란" },
+                { emoji: "📦", sentence: "______ 상자를 열어요.", options: ["동그란", "네모난", "하얀", "작은"], answer: "네모난" },
+                { emoji: "🥛", sentence: "______ 우유를 마셔요.", options: ["빨간", "세모난", "하얀", "커다란"], answer: "하얀" },
+                { emoji: "⚽", sentence: "______ 공을 차요.", options: ["네모난", "동그란", "귀여운", "푹신한"], answer: "동그란" },
                 { emoji: "🐘", sentence: "______ 코끼리가 걸어요.", options: ["작은", "커다란", "하얀", "빨간"], answer: "커다란" },
                 { emoji: "🐜", sentence: "______ 개미가 기어요.", options: ["커다란", "작은", "노란", "동그란"], answer: "작은" },
                 { emoji: "🌿", sentence: "______ 풀잎이 자라요.", options: ["초록색", "빨간", "네모난", "차가운"], answer: "초록색" },
-                { emoji: "🌙", sentence: "______ 밤하늘이에요.", options: ["까만", "하얀", "노란", "작은"], answer: "까만" }
+                { emoji: "🌙", sentence: "______ 밤이 찾아와요.", options: ["까만", "하얀", "노란", "작은"], answer: "까만" },
+                { emoji: "🌷", sentence: "______ 꽃이 피어요.", options: ["예쁜", "차가운", "네모난", "무서운"], answer: "예쁜" }
             ],
             2: [
                 { emoji: "🧊", sentence: "______ 얼음을 먹어요.", options: ["차가운", "뜨거운", "귀여운", "무서운"], answer: "차가운" },
                 { emoji: "🍲", sentence: "______ 국물을 마셔요.", options: ["시원한", "뜨거운", "푹신한", "무서운"], answer: "뜨거운" },
                 { emoji: "🛏️", sentence: "______ 침대에 누워요.", options: ["차가운", "푹신한", "무서운", "따뜻한"], answer: "푹신한" },
-                { emoji: " 바람", emojiAlt: "💨", sentence: "______ 바람이 불어요.", options: ["뜨거운", "시원한", "귀여운", "푹신한"], answer: "시원한" },
+                { emoji: "💨", sentence: "______ 바람이 불어요.", options: ["뜨거운", "시원한", "귀여운", "푹신한"], answer: "시원한" },
                 { emoji: "☀️", sentence: "______ 햇살이 비쳐요.", options: ["따뜻한", "무서운", "차가운", "시원한"], answer: "따뜻한" },
-                { emoji: "🐶", sentence: "______ 토끼가 뛰어요.", options: ["무서운", "귀여운", "뜨거운", "차가운"], answer: "귀여운" },
+                { emoji: "🐰", sentence: "______ 토끼가 뛰어요.", options: ["무서운", "귀여운", "뜨거운", "차가운"], answer: "귀여운" },
                 { emoji: "🦖", sentence: "______ 공룡이 나타나요.", options: ["귀여운", "무서운", "푹신한", "따뜻한"], answer: "무서운" },
-                { emoji: "😊", sentence: "______ 아이가 웃어요.", options: ["기쁜", "무서운", "차가운", "뜨거운"], answer: "기쁜" },
+                { emoji: "😊", sentence: "______ 친구가 웃어요.", options: ["기쁜", "무서운", "차가운", "뜨거운"], answer: "기쁜" },
                 { emoji: "😢", sentence: "______ 친구가 울어요.", options: ["슬픈", "귀여운", "시원한", "따뜻한"], answer: "슬픈" },
                 { emoji: "😡", sentence: "______ 괴물이 화나요.", options: ["화난", "기쁜", "푹신한", "작은"], answer: "화난" }
             ],
@@ -445,7 +451,7 @@
         }
 
         function loadQuiz() {
-            hasWrongCurrentQ = false;
+            attemptCount = 0; // 새 문제이므로 시도 횟수 초기화
             const quizArea = document.getElementById('quiz-area');
             document.getElementById('quiz-level-title').innerText = `[ ${currentLevel}단계 공부 중 ]`;
             document.getElementById('quiz-progress').innerText = `문제 ${currentQuizIndex + 1} / 10`;
@@ -460,7 +466,7 @@
             if (currentLevel === 1 || currentLevel === 2) {
                 quizArea.innerHTML = `
                     <div class="quiz-box">
-                        <div class="quiz-img">${qData.emoji || "💨"}</div>
+                        <div class="quiz-img">${qData.emoji}</div>
                         <div class="sentence-box">${qData.sentence}</div>
                         <div class="options-grid">
                             <button class="option-btn" onclick="checkChoice(0)">${qData.options[0]}</button>
@@ -477,14 +483,14 @@
                 quizArea.innerHTML = `
                     <div class="quiz-box">
                         <div class="quiz-img">${qData.emoji}</div>
-                        <div style="font-size: 1.1rem; color: #4b5563; margin-bottom: 15px; font-weight: bold;">목표 문장을 완성해보세요!</div>
+                        <div style="font-size: 1.25rem; color: #374151; margin-bottom: 20px; font-weight: bold;">목표 문장을 순서대로 완성해보세요!</div>
                         <div class="word-pool" id="word-pool">
                             ${shuffledWords.map(w => `<div class="word-chip" onclick="pickWord('${w}')">${w}</div>`).join('')}
                         </div>
                         <div id="dropzone" class="sentence-dropzone" onclick="resetSentence()">
                             여기를 눌러 단어를 채워보세요 (클릭하면 초기화)
                         </div>
-                        <button class="role-btn role-student" style="padding: 12px; font-size: 1.1rem;" onclick="submitSentence()">정답 확인하기 ✔️</button>
+                        <button class="role-btn role-student" style="padding: 16px; font-size: 1.2rem;" onclick="submitSentence()">정답 확인하기 ✔️</button>
                     </div>
                 `;
             }
@@ -495,21 +501,21 @@
             const selectedWord = qData.options[idx];
 
             if (selectedWord === qData.answer) {
-                // 정답인 경우
-                if (!hasWrongCurrentQ) {
+                // 정답 맞힘
+                if (attemptCount === 0) {
                     score++;
                 }
                 currentQuizIndex++;
                 loadQuiz();
             } else {
                 // 오답인 경우
-                if (!hasWrongCurrentQ) {
-                    hasWrongCurrentQ = true;
+                if (attemptCount === 0) {
+                    // 첫 번째 오답: 팝업 띄우고 재도전 기회 부여
+                    attemptCount = 1;
                     wrongList.push({ sentence: qData.sentence, user: selectedWord, correct: qData.answer });
-                    // 첫 번째 틀렸을 때만 팝업 띄우기
                     document.getElementById('custom-modal').style.display = 'flex';
                 } else {
-                    // 두 번째 이상 틀렸을 때는 팝업 없이 다음 문제로 진행
+                    // 두 번째도 틀렸으면 그대로 다음 문제로 진행
                     currentQuizIndex++;
                     loadQuiz();
                 }
@@ -518,8 +524,7 @@
 
         function closeModal() {
             document.getElementById('custom-modal').style.display = 'none';
-            currentQuizIndex++;
-            loadQuiz();
+            // 팝업 닫고 같은 문제를 다시 풀 수 있게 둠 (사용자가 다른 보기 선택 가능)
         }
 
         function pickWord(word) {
@@ -544,12 +549,24 @@
             const isMatch = userSentence.every((val, idx) => val === qData.target[idx]);
 
             if (isMatch) {
-                score++;
+                if (attemptCount === 0) {
+                    score++;
+                }
+                currentQuizIndex++;
+                loadQuiz();
             } else {
-                wrongList.push({ sentence: qData.qText, user: userSentence.join(' '), correct: qData.target.join(' ') });
+                if (attemptCount === 0) {
+                    // 3단계 첫 번째 틀림 -> 팝업 띄우고 재도전 기회 부여 (초기화)
+                    attemptCount = 1;
+                    wrongList.push({ sentence: qData.qText, user: userSentence.join(' '), correct: qData.target.join(' ') });
+                    document.getElementById('custom-modal').style.display = 'flex';
+                    resetSentence();
+                } else {
+                    // 두 번째도 틀렸으면 다음 문제로 진행
+                    currentQuizIndex++;
+                    loadQuiz();
+                }
             }
-            currentQuizIndex++;
-            loadQuiz();
         }
 
         function showResult() {
@@ -564,17 +581,17 @@
 
             if (wrongList.length > 0) {
                 contentHtml += `
-                    <div class="result-detail" style="border-left: 4px solid #f43f5e;">
+                    <div class="result-detail" style="border-left: 5px solid #10b981;">
                         <strong>💡 아쉬웠던 점 & 복습하기:</strong><br>
                         다음에는 이 문장들을 더 주의 깊게 살펴봐요!<br>
-                        <ul style="margin: 5px 0 0 20px; padding: 0;">
-                            ${wrongList.map(w => `<li>"${w.sentence}" (내가 고른 답: ${w.user})</li>`).join('')}
+                        <ul style="margin: 8px 0 0 20px; padding: 0;">
+                            ${wrongList.map(w => `<li>"${w.sentence}" (처음 고른 답: ${w.user})</li>`).join('')}
                         </ul>
                     </div>
                 `;
             } else {
                 contentHtml += `
-                    <div class="result-detail" style="border-left: 4px solid #10b981;">
+                    <div class="result-detail" style="border-left: 5px solid #10b981;">
                         <strong>💡 아쉬웠던 점:</strong><br>
                         틀린 문제가 하나도 없어요! 모든 문제를 완벽하게 맞혔답니다! 🎉
                     </div>
