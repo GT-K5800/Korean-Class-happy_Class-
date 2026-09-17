@@ -270,38 +270,6 @@
             outline: none;
         }
 
-        .word-pool {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-        .word-chip {
-            padding: 14px 22px;
-            background: #d1fae5;
-            color: #065f46;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            border: 2px dashed #10b981;
-            font-size: 1.2rem;
-            user-select: none;
-        }
-        .sentence-dropzone {
-            border: 2px dashed #94a3b8;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            min-height: 35px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #047857;
-            background: #ffffff;
-            margin-bottom: 15px;
-            cursor: pointer;
-        }
-
         .match-container {
             display: flex;
             justify-content: space-between;
@@ -569,7 +537,7 @@
                     <span id="badge-lvl-2" style="font-size: 1.2rem;">🔒 잠김</span>
                 </button>
                 <button id="btn-lvl-3" class="level-card-btn" onclick="startQuiz(3)" disabled>
-                    <div><strong>3단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">직접 타이핑 및 단어 조각 모아 문장 만들기</div></div>
+                    <div><strong>3단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">꾸며주는 말 직접 타이핑 빈칸 채우기</div></div>
                     <span id="badge-lvl-3" style="font-size: 1.2rem;">🔒 잠김</span>
                 </button>
             </div>
@@ -605,7 +573,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.17. 23:50:00 (v.1.0.25)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.17. 23:55:30 (v.1.0.26)</div>
         </footer>
     </div>
 
@@ -617,7 +585,6 @@
                 qrContainer.innerHTML = "";
                 qrLargeContainer.innerHTML = "";
                 
-                // 기본 소형 QR
                 new QRCode(qrContainer, {
                     text: window.location.href,
                     width: 100,
@@ -627,7 +594,6 @@
                     correctLevel : QRCode.CorrectLevel.H
                 });
 
-                // 팝업용 대형 QR
                 new QRCode(qrLargeContainer, {
                     text: window.location.href,
                     width: 260,
@@ -658,12 +624,10 @@
         let selectedModifier = null;
         let matchedPairsCount = 0;
         let hasWonCertificate = false;
-        let userSentence = [];
 
         let studentRecords = { 1: null, 2: null, 3: null };
         let levelUnlocked = { 2: false, 3: false };
 
-        // [오답 보기가 서로 겹치지 않도록 철저히 정제된 마스터 문장 은행]
         const masterSentenceBank = [
             { visual: "🌷", sentence: "______ 꽃이 피어요.", options: ["예쁜", "차가운", "네모난", "무서운"], answer: "예쁜" },
             { visual: "🎤", sentence: "______ 노래를 불러요.", options: ["신나는", "무서운", "네모난", "작은"], answer: "신나는" },
@@ -739,14 +703,6 @@
                 sentences: ["코끼리가 걸어요.", "개미가 기어요.", "사과가 열려요."],
                 pairs: { "커다란": "코끼리가 걸어요.", "작은": "개미가 기어요.", "빨간": "사과가 열려요." }
             }
-        ];
-
-        const dragBank = [
-            { visual: "🐘", qText: "커다란 코끼리가 걸어요", words: ["걸어요", "커다란", "코끼리가"], target: ["커다란", "코끼리가", "걸어요"] },
-            { visual: "🍎", qText: "빨간 사과가 맛있어요", words: ["맛있어요", "빨간", "사과가"], target: ["빨간", "사과가", "맛있어요"] },
-            { visual: "🧊", qText: "차가운 얼음이 녹아요", words: ["얼음이", "차가운", "녹아요"], target: ["차가운", "얼음이", "녹아요"] },
-            { visual: "🐰", qText: "귀여운 토끼가 뛰어요", words: ["뛰어요", "토끼가", "귀여운"], target: ["귀여운", "토끼가", "뛰어요"] },
-            { visual: "🦒", qText: "큰 기린이 보여요", words: ["보여요", "큰", "기린이"], target: ["큰", "기린이", "보여요"] }
         ];
 
         function shuffleArray(array) {
@@ -892,13 +848,11 @@
                 }));
                 activeQuizList = shuffleArray([...lines, ...blinks]);
             } else {
-                let typings = shuffleArray(masterSentenceBank).slice(0, 7).map(item => ({
-                    type: "blank", visual: item.visual, sentence: item.sentence, options: shuffleArray(item.options), answer: item.answer, problemText: item.sentence
+                // [수정] 3단계는 10문제 모두 직접 타이핑 빈칸 채우기 문제로만 구성
+                let typings = shuffleArray(masterSentenceBank).slice(0, 10).map(item => ({
+                    type: "typing", visual: item.visual, sentence: item.sentence, options: shuffleArray(item.options), answer: item.answer, problemText: item.sentence
                 }));
-                let drags = shuffleArray(dragBank).slice(0, 3).map(item => ({
-                    type: "drag", visual: item.visual, qText: item.qText, words: item.words, target: item.target, problemText: "[조각문장] " + item.qText
-                }));
-                activeQuizList = shuffleArray([...typings, ...drags]);
+                activeQuizList = typings;
             }
 
             showCard('screen-quiz');
@@ -967,20 +921,17 @@
                         <div style="font-size: 1.0rem; color: #047857; font-weight: bold;" id="match-status">연결한 개수: 0 / 3</div>
                     </div>
                 `;
-            } else if (qData.type === "drag") {
-                userSentence = [];
-                let shuffledWords = shuffleArray(qData.words);
+            } else if (qData.type === "typing") {
+                let shuffledOpts = shuffleArray(qData.options);
                 quizArea.innerHTML = `
                     <div class="quiz-box">
-                        <div class="quiz-visual">${qData.visual}</div>
-                        <div style="font-size: 1.2rem; color: #374151; font-weight: bold; margin-bottom: 15px;">단어 조각을 순서대로 눌러 문장을 완성하세요!</div>
-                        <div class="word-pool">
-                            ${shuffledWords.map(w => `<div class="word-chip" onclick="pickWord(this, '${w}')" ontouchend="pickWord(this, '${w}')">${w}</div>`).join('')}
-                        </div>
-                        <div id="dropzone" class="sentence-dropzone" onclick="resetSentence()" ontouchend="resetSentence()">
-                            여기를 눌러 단어를 채워보세요 (클릭하면 초기화)
-                        </div>
-                        <button class="role-btn role-student" style="padding: 14px; font-size: 1.15rem; width: 60%; margin: 0 auto;" onclick="submitDragSentence('${qData.problemText}', JSON.stringify(qData.target))">정답 확인하기 ✔️</button>
+                        ${visualHtml}
+                        <div class="sentence-box">${qData.sentence}</div>
+                        <div style="font-size: 1.1rem; color: #4b5563; margin-bottom: 12px; font-weight: bold;">보기 중에서 알맞은 말을 골라 직접 적어보세요!</div>
+                        <div style="margin-bottom: 15px; font-weight: bold; color: #047857;">[ 보기: ${shuffledOpts.join(', ')} ]</div>
+                        <input type="text" id="typing-input" class="typing-input" placeholder="여기에 적어주세요">
+                        <br>
+                        <button class="role-btn role-student" style="padding: 14px; font-size: 1.15rem; width: 60%; margin: 0 auto;" onclick="checkTypingAnswer('${qData.answer}', '${qData.problemText}')">정답 확인하기 ✔️</button>
                     </div>
                 `;
             }
@@ -1061,46 +1012,6 @@
             svg.appendChild(line);
         }
 
-        function pickWord(chip, word) {
-            userSentence.push(word);
-            document.getElementById('dropzone').innerText = userSentence.join(' ');
-            chip.style.display = 'none';
-        }
-
-        function resetSentence() {
-            userSentence = [];
-            document.getElementById('dropzone').innerText = "여기를 눌러 단어를 채워보세요 (클릭하면 초기화)";
-            document.querySelectorAll('.word-chip').forEach(c => c.style.display = 'block');
-        }
-
-        function submitDragSentence(problemText, targetStr) {
-            if (userSentence.length < 3) {
-                alert("단어를 모두 골라 문장을 완성해 주세요!");
-                return;
-            }
-
-            const targetArr = JSON.parse(targetStr);
-            const isMatch = userSentence.every((val, idx) => val === targetArr[idx]);
-
-            if (isMatch) {
-                if (attemptCount === 0) score++;
-                currentQuizIndex++;
-                loadQuiz();
-            } else {
-                if (attemptCount === 0) {
-                    attemptCount = 1;
-                    wrongList.push({ problem: problemText, user: userSentence.join(' '), correct: targetArr.join(' ') });
-                    document.getElementById('modal-icon').innerText = "🤔";
-                    document.getElementById('modal-msg').innerText = "다시 한번 생각해 볼까?";
-                    document.getElementById('custom-modal').style.display = 'flex';
-                    resetSentence();
-                } else {
-                    currentQuizIndex++;
-                    loadQuiz();
-                }
-            }
-        }
-
         function checkChoice(selected, answer, problemText) {
             if (selected === answer) {
                 if (attemptCount === 0) score++;
@@ -1129,6 +1040,32 @@
                 if (attemptCount === 0) {
                     attemptCount = 1;
                     wrongList.push({ problem: problemText, user: "틀린 그림 선택", correct: "정답 그림(" + answerVisual + ")" });
+                    document.getElementById('modal-icon').innerText = "🤔";
+                    document.getElementById('modal-msg').innerText = "다시 한번 생각해 볼까?";
+                    document.getElementById('custom-modal').style.display = 'flex';
+                } else {
+                    currentQuizIndex++;
+                    loadQuiz();
+                }
+            }
+        }
+
+        function checkTypingAnswer(answer, problemText) {
+            const inputVal = document.getElementById('typing-input').value.trim();
+
+            if (!inputVal) {
+                alert("답을 입력해 주세요!");
+                return;
+            }
+
+            if (inputVal === answer) {
+                if (attemptCount === 0) score++;
+                currentQuizIndex++;
+                loadQuiz();
+            } else {
+                if (attemptCount === 0) {
+                    attemptCount = 1;
+                    wrongList.push({ problem: problemText, user: inputVal, correct: answer });
                     document.getElementById('modal-icon').innerText = "🤔";
                     document.getElementById('modal-msg').innerText = "다시 한번 생각해 볼까?";
                     document.getElementById('custom-modal').style.display = 'flex';
