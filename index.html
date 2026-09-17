@@ -268,13 +268,13 @@
             margin-top: 15px;
         }
 
-        /* 하단 제작자 및 업데이트 정보 영역 */
+        /* 하단 제작자 및 고정 업데이트 정보 영역 */
         footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-top: 20px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #4b5563;
             font-weight: bold;
             border-top: 2px solid #e2e8f0;
@@ -407,13 +407,13 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div id="live-clock" style="color: #059669;">최근 업데이트: 계산 중...</div>
+            <div id="fixed-clock" style="color: #059669;">최근 업데이트: 2026.09.17. 22:20:00</div>
         </footer>
     </div>
 
     <script>
         let studentName = "";
-        let isTeacherMode = false; // 선생님 모드 여부
+        let isTeacherMode = false;
         let currentLevel = 1;
         let currentQuizIndex = 0;
         let score = 0;
@@ -433,25 +433,6 @@
             2: false,
             3: false
         };
-
-        // 실시간 업데이트 시계 (연, 월, 일, 시, 분, 초)
-        function updateClock() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-
-            const timeString = `최근 업데이트: ${year}.${month}.${day}. ${hours}:${minutes}:${seconds}`;
-            const clockEl = document.getElementById('live-clock');
-            if (clockEl) {
-                clockEl.innerText = timeString;
-            }
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
 
         // 문제 은행 데이터
         const bankStage1 = [
@@ -545,7 +526,6 @@
             if (pw === "5415") {
                 isTeacherMode = true;
                 studentName = "선생님";
-                // 선생님 모드에서는 모든 단계 해금 처리
                 levelUnlocked[2] = true;
                 levelUnlocked[3] = true;
                 enterMenu();
@@ -580,7 +560,6 @@
         }
 
         function updateLevelSelectUI() {
-            // 기록 텍스트 업데이트 (최고 기록 저장 반영)
             let recordHtml = "";
             for (let lvl = 1; lvl <= 3; lvl++) {
                 if (studentRecords[lvl] !== null) {
@@ -592,7 +571,7 @@
             }
             document.getElementById('my-record-text').innerHTML = recordHtml;
 
-            // 해금 상태 반영 (선생님 모드이거나 조건 충족 시 열림)
+            // 해금 상태 반영 (조건 충족 혹은 선생님 모드)
             const btn2 = document.getElementById('btn-lvl-2');
             const badge2 = document.getElementById('badge-lvl-2');
             if (levelUnlocked[2] || isTeacherMode) {
@@ -801,17 +780,28 @@
         function showResult() {
             showCard('screen-result');
             
-            // 기존 최고 기록과 비교하여 더 높은 점수로 저장 (누적 저장 반영)
+            // 최고 기록 누적 저장
             if (studentRecords[currentLevel] === null || score > studentRecords[currentLevel]) {
                 studentRecords[currentLevel] = score;
             }
 
-            // 해금 조건 검사 및 반영
+            // 해금 조건 검사 확실하게 반영 (1단계 7점 이상 -> 2단계 해금 / 2단계 6점 이상 -> 3단계 해금)
             if (currentLevel === 1 && score >= 7) {
                 levelUnlocked[2] = true;
             }
             if (currentLevel === 2 && score >= 6) {
                 levelUnlocked[3] = true;
+            }
+
+            let unlockMsg = "";
+            if (isTeacherMode) {
+                unlockMsg = "👑 선생님 프리패스 모드 (모든 단계 해금됨)";
+            } else if (currentLevel === 1) {
+                unlockMsg = (score >= 7) ? "✨ 2단계 해금 성공!" : "🔒 2단계 해금 실패 (7점 이상 필요)";
+            } else if (currentLevel === 2) {
+                unlockMsg = (score >= 6) ? "✨ 3단계 해금 성공!" : "🔒 3단계 해금 실패 (6점 이상 필요)";
+            } else {
+                unlockMsg = "🎉 모든 단계 도전 완료!";
             }
 
             let contentHtml = `
@@ -820,11 +810,7 @@
                     <strong>🏆 도전 단계:</strong> ${currentLevel}단계<br>
                     <strong>🌟 이번 점수:</strong> ${score} / 10 점<br>
                     <strong>📌 저장된 최고 점수:</strong> ${studentRecords[currentLevel]}점<br>
-                    <strong>🎯 해금 상태:</strong> ${
-                        isTeacherMode ? "👑 선생님 프리패스 모드 (모든 단계 해금됨)" :
-                        currentLevel === 1 ? (score >= 7 ? "✨ 2단계 해금 성공!" : "🔒 2단계 해금 실패 (7점 이상 필요)") :
-                        currentLevel === 2 ? (score >= 6 ? "✨ 3단계 해금 성공!" : "🔒 3단계 해금 실패 (6점 이상 필요)") : "🎉 모든 단계 도전 완료!"
-                    }
+                    <strong>🎯 해금 상태:</strong> ${unlockMsg}
                 </div>
             `;
 
