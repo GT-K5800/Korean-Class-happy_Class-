@@ -49,19 +49,19 @@
 
         .role-select-box, .menu-center-box {
             text-align: center;
-            padding: 30px 0;
+            padding: 20px 0;
         }
         
         .role-btn, .menu-btn-custom {
             display: block;
             width: 100%;
-            padding: 22px;
-            font-size: 1.4rem;
+            padding: 20px;
+            font-size: 1.35rem;
             font-weight: bold;
             border: none;
             border-radius: 18px;
             cursor: pointer;
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             transition: 0.2s;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
@@ -92,12 +92,12 @@
         .level-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 18px;
+            gap: 15px;
             margin: 15px 0;
         }
         .level-card-btn {
-            padding: 24px;
-            font-size: 1.35rem;
+            padding: 22px;
+            font-size: 1.3rem;
             font-weight: bold;
             border: 3px solid #a7f3d0;
             background: #f0fdf4;
@@ -110,42 +110,60 @@
             align-items: center;
             justify-content: space-between;
         }
-        .level-card-btn:hover {
+        .level-card-btn:hover:not(:disabled) {
             background: #d1fae5;
             border-color: #10b981;
+        }
+        .level-card-btn:disabled {
+            background: #f1f5f9;
+            color: #94a3b8;
+            border-color: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+        /* 기록 패널 */
+        .record-box {
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
+            padding: 15px 20px;
+            border-radius: 14px;
+            margin-bottom: 15px;
+            text-align: left;
+            font-size: 1.05rem;
+            color: #334155;
         }
 
         .quiz-box {
             background: #f8fafc;
             border: 3px solid #e2e8f0;
-            padding: 30px;
+            padding: 25px;
             border-radius: 20px;
             margin-bottom: 15px;
             text-align: center;
         }
         .quiz-img {
-            font-size: 6.5rem;
-            margin-bottom: 15px;
+            font-size: 6rem;
+            margin-bottom: 12px;
             line-height: 1;
         }
         .sentence-box {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: #1f2937;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             background: #ffffff;
-            padding: 20px;
+            padding: 18px;
             border-radius: 16px;
             border: 2px solid #cbd5e1;
         }
         .options-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 12px;
         }
         .option-btn {
-            padding: 20px;
-            font-size: 1.3rem;
+            padding: 18px;
+            font-size: 1.25rem;
             border: 3px solid #cbd5e1;
             border-radius: 16px;
             background: white;
@@ -156,25 +174,37 @@
         }
         .option-btn:hover { border-color: #10b981; background: #f0fdf4; color: #047857; }
 
-        /* 선긋기(매칭) 스타일 전용 */
+        /* 타이핑 입력창 (3단계) */
+        .typing-input {
+            width: 80%;
+            padding: 16px;
+            font-size: 1.3rem;
+            border: 3px solid #10b981;
+            border-radius: 14px;
+            text-align: center;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        /* 선긋기 매칭 스타일 */
         .match-container {
             display: flex;
             justify-content: space-around;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 15px;
+            margin-bottom: 15px;
         }
         .match-col {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             flex: 1;
         }
         .match-item {
-            padding: 18px 12px;
+            padding: 16px 10px;
             background: white;
             border: 3px solid #cbd5e1;
             border-radius: 14px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
             text-align: center;
@@ -185,35 +215,11 @@
             background: #d1fae5;
             color: #047857;
         }
-
-        /* 단어 조합 영역 */
-        .word-pool {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .word-chip {
-            padding: 14px 22px;
-            background: #d1fae5;
-            color: #065f46;
-            border-radius: 24px;
-            font-weight: bold;
-            cursor: pointer;
-            border: 3px dashed #10b981;
-            font-size: 1.25rem;
-        }
-        .sentence-dropzone {
-            border: 3px dashed #94a3b8;
-            padding: 22px;
-            border-radius: 16px;
-            text-align: center;
-            min-height: 35px;
-            font-size: 1.35rem;
-            color: #475569;
-            background: #ffffff;
-            margin-bottom: 20px;
+        .match-item.matched {
+            border-color: #94a3b8;
+            background: #e2e8f0;
+            color: #94a3b8;
+            cursor: default;
         }
 
         /* 팝업 모달창 */
@@ -242,29 +248,29 @@
 
         .result-box {
             text-align: center;
-            padding: 25px;
+            padding: 20px;
             background: #f0fdf4;
             border-radius: 20px;
             border: 3px solid #6ee7b7;
         }
-        .result-title { font-size: 1.6rem; color: #047857; font-weight: bold; margin-bottom: 15px; }
-        .result-detail { font-size: 1.2rem; color: #1f2937; margin-bottom: 15px; text-align: left; background: white; padding: 20px; border-radius: 14px; line-height: 1.5; }
+        .result-title { font-size: 1.5rem; color: #047857; font-weight: bold; margin-bottom: 12px; }
+        .result-detail { font-size: 1.1rem; color: #1f2937; margin-bottom: 12px; text-align: left; background: white; padding: 15px; border-radius: 14px; line-height: 1.4; max-height: 220px; overflow-y: auto; }
 
         .back-btn {
             background: #e2e8f0;
             color: #334155;
             border: none;
-            padding: 14px 24px;
+            padding: 12px 22px;
             border-radius: 14px;
             cursor: pointer;
             font-weight: bold;
             font-size: 1.1rem;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         footer {
             text-align: center;
-            margin-top: 25px;
+            margin-top: 20px;
             font-size: 1.0rem;
             color: #4b5563;
             font-weight: bold;
@@ -277,9 +283,9 @@
         <!-- 팝업 모달창 -->
         <div id="custom-modal" class="modal-overlay">
             <div class="modal-content">
-                <div style="font-size: 4rem; margin-bottom: 15px;">🤔</div>
-                <div style="font-size: 1.4rem; font-weight: bold; color: #047857; margin-bottom: 25px;">다시 한번 생각해 볼까?</div>
-                <button class="role-btn role-student" style="padding: 12px 30px; font-size: 1.2rem; margin: 0 auto; width: auto;" onclick="closeModal()">확인</button>
+                <div style="font-size: 3.5rem; margin-bottom: 10px;">🤔</div>
+                <div style="font-size: 1.3rem; font-weight: bold; color: #047857; margin-bottom: 20px;">다시 한번 생각해 볼까?</div>
+                <button class="role-btn role-student" style="padding: 10px 25px; font-size: 1.1rem; margin: 0 auto; width: auto;" onclick="closeModal()">확인</button>
             </div>
         </div>
 
@@ -310,7 +316,7 @@
 
         <!-- [화면 2] 메인 메뉴 -->
         <div id="screen-menu" class="card">
-            <div style="text-align: center; margin-bottom: 25px;">
+            <div style="text-align: center; margin-bottom: 20px;">
                 <span id="welcome-msg" style="font-size: 1.4rem; font-weight: bold; color: #047857;"></span>
             </div>
             <div class="level-grid">
@@ -326,24 +332,31 @@
             <button class="back-btn" onclick="location.reload()">처음 화면으로</button>
         </div>
 
-        <!-- [화면 3] 단계 선택 -->
+        <!-- [화면 3] 단계 선택 (해금 시스템 및 나의 기록 반영) -->
         <div id="screen-level-select" class="card">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h2 style="color: #047857; font-size: 1.6rem; margin-bottom: 8px;">꾸며주는 말 마스터하기</h2>
-                <p style="color: #4b5563; font-size: 1.15rem;">공부하고 싶은 단계를 선택해 주세요!</p>
+            <div style="text-align: center; margin-bottom: 15px;">
+                <h2 style="color: #047857; font-size: 1.5rem; margin-bottom: 5px;">꾸며주는 말 마스터하기</h2>
+                <p style="color: #4b5563; font-size: 1.1rem;">단계를 깨고 다음 단계로 도전해보세요!</p>
             </div>
+
+            <!-- 나의 기록 표시 박스 -->
+            <div class="record-box">
+                <div style="font-weight: bold; color: #047857; margin-bottom: 5px;">📊 나의 학습 기록</div>
+                <div id="my-record-text">아직 도전한 기록이 없어요! 첫 번째 단계를 시작해보세요.</div>
+            </div>
+
             <div class="level-grid">
                 <button class="level-card-btn" onclick="startQuiz(1)">
-                    <div><strong>1단계</strong><div style="font-size: 1.0rem; color: #4b5563; font-weight: normal; margin-top: 4px;">색깔·모양·크기 다지기</div></div>
-                    <span style="font-size: 1.4rem;">⭐</span>
+                    <div><strong>1단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-weight: normal; margin-top: 3px;">색깔·모양·크기 다지기</div></div>
+                    <span style="font-size: 1.3rem;">⭐ (바로시작)</span>
                 </button>
-                <button class="level-card-btn" onclick="startQuiz(2)">
-                    <div><strong>2단계</strong><div style="font-size: 1.0rem; color: #4b5563; font-weight: normal; margin-top: 4px;">느낌·감정 및 문장 연결하기</div></div>
-                    <span style="font-size: 1.4rem;">⭐⭐</span>
+                <button id="btn-lvl-2" class="level-card-btn" onclick="startQuiz(2)" disabled>
+                    <div><strong>2단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-weight: normal; margin-top: 3px;">느낌·감정 및 선긋기 (1단계 7점 이상 필요)</div></div>
+                    <span id="badge-lvl-2" style="font-size: 1.2rem;">🔒 잠김</span>
                 </button>
-                <button class="level-card-btn" onclick="startQuiz(3)">
-                    <div><strong>3단계</strong><div style="font-size: 1.0rem; color: #4b5563; font-weight: normal; margin-top: 4px;">단어 조각 모아 문장 만들기</div></div>
-                    <span style="font-size: 1.4rem;">⭐⭐⭐</span>
+                <button id="btn-lvl-3" class="level-card-btn" onclick="startQuiz(3)" disabled>
+                    <div><strong>3단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-weight: normal; margin-top: 3px;">빈칸 타이핑 문장 완성 (2단계 6점 이상 필요)</div></div>
+                    <span id="badge-lvl-3" style="font-size: 1.2rem;">🔒 잠김</span>
                 </button>
             </div>
             <button class="back-btn" onclick="enterMenu()">활동 메뉴로 돌아가기</button>
@@ -351,9 +364,9 @@
 
         <!-- [화면 4] 퀴즈 풀이 -->
         <div id="screen-quiz" class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <span id="quiz-level-title" style="font-weight: bold; color: #047857; font-size: 1.25rem;"></span>
-                <span id="quiz-progress" style="font-weight: bold; color: #4b5563; font-size: 1.15rem;"></span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <span id="quiz-level-title" style="font-weight: bold; color: #047857; font-size: 1.2rem;"></span>
+                <span id="quiz-progress" style="font-weight: bold; color: #4b5563; font-size: 1.1rem;"></span>
             </div>
             <div id="quiz-area"></div>
             <button class="back-btn" onclick="showCard('screen-level-select')">단계 선택으로 가기</button>
@@ -372,7 +385,7 @@
             <div class="result-box">
                 <div class="result-title">🎉 학습 결과 리포트 🎉</div>
                 <div id="result-content"></div>
-                <button class="role-btn role-student" style="margin-top: 20px; padding: 16px; font-size: 1.25rem;" onclick="showCard('screen-level-select')">다른 단계 도장깨기 🚀</button>
+                <button class="role-btn role-student" style="margin-top: 15px; padding: 14px; font-size: 1.2rem;" onclick="showCard('screen-level-select')">단계 선택 화면으로 가기 🚀</button>
             </div>
         </div>
 
@@ -388,63 +401,93 @@
         let score = 0;
         let wrongList = [];
         let attemptCount = 0;
+        let activeQuizList = []; // 랜덤 섞인 10문제 저장소
         let selectedModifier = null; // 2단계 선긋기용
+        let matchedPairsCount = 0; // 선긋기 복수 정답 카운트
 
-        // 1단계 문제 유형 (빈칸 채우기 + 그림 맞추기 혼합)
-        const stage1Data = [
-            { type: "blank", emoji: "🍎", sentence: "______ 사과가 열려요.", options: ["빨간", "차가운", "네모난", "작은"], answer: "빨간" },
-            { type: "blank", emoji: "🍌", sentence: "______ 바나나를 먹어요.", options: ["노란", "무서운", "커다란", "뜨거운"], answer: "노란" },
-            { type: "blank", emoji: "📦", sentence: "______ 상자를 열어요.", options: ["동그란", "네모난", "하얀", "작은"], answer: "네모난" },
-            { type: "blank", emoji: "🥛", sentence: "______ 우유를 마셔요.", options: ["빨간", "세모난", "하얀", "커다란"], answer: "하얀" },
-            { type: "blank", emoji: "⚽", sentence: "______ 공을 차요.", options: ["네모난", "동그란", "귀여운", "푹신한"], answer: "동그란" },
-            { type: "match-emoji", text: "예쁜 꽃이 피었어요.", emojiOptions: ["🌷", "🐘", "🧊", "⚽"], answer: "🌷" },
-            { type: "match-emoji", text: "커다란 코끼리가 걸어요.", emojiOptions: ["🐜", "🐘", "🍌", "📦"], answer: "🐘" },
-            { type: "match-emoji", text: "동그란 시계를 봐요.", emojiOptions: ["⏰", "📦", "🥛", "⚽"], answer: "⏰" },
-            { type: "match-emoji", text: "노란 바나나가 있어요.", emojiOptions: ["🍎", "🍌", "🌿", "🌙"], answer: "🍌" },
-            { type: "match-emoji", text: "하얀 눈이 내려요.", emojiOptions: ["☀️", "❄️", "🔥", "🌿"], answer: "❄️" }
+        // 학생별 최고 기록 저장 객체
+        let studentRecords = {
+            1: null,
+            2: null,
+            3: null
+        };
+        let levelUnlocked = {
+            2: false,
+            3: false
+        };
+
+        // 풀세트 문제 은행 (풍부하게 구축)
+        const bankStage1 = [
+            { type: "blank", emoji: "🍎", sentence: "______ 사과가 열려요.", options: ["빨간", "차가운", "네모난", "작은"], answer: "빨간", desc: "사과의 색깔" },
+            { type: "blank", emoji: "🍌", sentence: "______ 바나나를 먹어요.", options: ["노란", "무서운", "커다란", "뜨거운"], answer: "노란", desc: "바나나의 색깔" },
+            { type: "blank", emoji: "📦", sentence: "______ 상자를 열어요.", options: ["동그란", "네모난", "하얀", "작은"], answer: "네모난", desc: "상자의 모양" },
+            { type: "blank", emoji: "🥛", sentence: "______ 우유를 마셔요.", options: ["빨간", "세모난", "하얀", "커다란"], answer: "하얀", desc: "우유의 색깔" },
+            { type: "blank", emoji: "⚽", sentence: "______ 공을 차요.", options: ["네모난", "동그란", "귀여운", "푹신한"], answer: "동그란", desc: "공의 모양" },
+            { type: "blank", emoji: "🐘", sentence: "______ 코끼리가 걸어요.", options: ["작은", "커다란", "하얀", "빨간"], answer: "커다란", desc: "코끼리의 크기" },
+            { type: "blank", emoji: "🐜", sentence: "______ 개미가 기어요.", options: ["커다란", "작은", "노란", "동그란"], answer: "작은", desc: "개미의 크기" },
+            { type: "blank", emoji: "🌿", sentence: "______ 풀잎이 자라요.", options: ["초록색", "빨간", "네모난", "차가운"], answer: "초록색", desc: "풀잎의 색깔" },
+            { type: "blank", emoji: "🌙", sentence: "______ 밤이 찾아와요.", options: ["까만", "하얀", "노란", "작은"], answer: "까만", desc: "밤하늘의 색깔" },
+            { type: "blank", emoji: "🌷", sentence: "______ 꽃이 피어요.", options: ["예쁜", "차가운", "네모난", "무서운"], answer: "예쁜", desc: "꽃의 생김새" },
+            { type: "match-emoji", text: "예쁜 꽃이 피었어요.", emojiOptions: ["🌷", "🐘", "🧊", "⚽"], answer: "🌷", desc: "꽃 그림 찾기" },
+            { type: "match-emoji", text: "커다란 코끼리가 걸어요.", emojiOptions: ["🐜", "🐘", "🍌", "📦"], answer: "🐘", desc: "코끼리 그림 찾기" },
+            { type: "match-emoji", text: "동그란 시계를 봐요.", emojiOptions: ["⏰", "📦", "🥛", "⚽"], answer: "⏰", desc: "시계 그림 찾기" },
+            { type: "match-emoji", text: "노란 바나나가 있어요.", emojiOptions: ["🍎", "🍌", "🌿", "🌙"], answer: "🍌", desc: "바나나 그림 찾기" },
+            { type: "match-emoji", text: "하얀 눈이 내려요.", emojiOptions: ["☀️", "❄️", "🔥", "🌿"], answer: "❄️", desc: "눈꽃 그림 찾기" }
         ];
 
-        // 2단계 문제 유형 (빈칸 채우기 + 그림 맞추기 + 선긋기 + 드래그 문장 완성 혼합)
-        const stage2Data = [
-            { type: "blank", emoji: "🧊", sentence: "______ 얼음을 먹어요.", options: ["차가운", "뜨거운", "귀여운", "무서운"], answer: "차가운" },
-            { type: "blank", emoji: "🍲", sentence: "______ 국물을 마셔요.", options: ["시원한", "뜨거운", "푹신한", "무서운"], answer: "뜨거운" },
-            { type: "blank", emoji: "🛏️", sentence: "______ 침대에 누워요.", options: ["차가운", "푹신한", "무서운", "따뜻한"], answer: "푹신한" },
-            { type: "match-emoji", text: "신나는 노래를 불러요.", emojiOptions: ["🎤", "💤", "🔥", "🦖"], answer: "🎤" },
-            { type: "match-emoji", text: "귀여운 고양이가 잠자요.", emojiOptions: ["🦁", "🐱", "🐜", "🐘"], answer: "🐱" },
-            { type: "match-emoji", text: "매운 라면을 먹어요.", emojiOptions: ["🍜", "🍰", "🍎", "🥛"], answer: "🍜" },
+        const bankStage2 = [
+            { type: "blank", emoji: "🧊", sentence: "______ 얼음을 먹어요.", options: ["차가운", "뜨거운", "귀여운", "무서운"], answer: "차가운", desc: "얼음의 느낌" },
+            { type: "blank", emoji: "🍲", sentence: "______ 국물을 마셔요.", options: ["시원한", "뜨거운", "푹신한", "무서운"], answer: "뜨거운", desc: "국물의 느낌" },
+            { type: "blank", emoji: "🛏️", sentence: "______ 침대에 누워요.", options: ["차가운", "푹신한", "무서운", "따뜻한"], answer: "푹신한", desc: "침대의 느낌" },
+            { type: "blank", emoji: "💨", sentence: "______ 바람이 불어요.", options: ["뜨거운", "시원한", "귀여운", "푹신한"], answer: "시원한", desc: "바람의 느낌" },
+            { type: "blank", emoji: "☀️", sentence: "______ 햇살이 비쳐요.", options: ["따뜻한", "무서운", "차가운", "시원한"], answer: "따뜻한", desc: "햇살의 느낌" },
+            { type: "match-emoji", text: "신나는 노래를 불러요.", emojiOptions: ["🎤", "💤", "🔥", "🦖"], answer: "🎤", desc: "노래(마이크) 그림" },
+            { type: "match-emoji", text: "귀여운 고양이가 잠자요.", emojiOptions: ["🦁", "🐱", "🐜", "🐘"], answer: "🐱", desc: "고양이 그림" },
+            { type: "match-emoji", text: "매운 라면을 먹어요.", emojiOptions: ["🍜", "🍰", "🍎", "🥛"], answer: "🍜", desc: "라면 그림" },
             { 
                 type: "line-match", 
-                prompt: "꾸며주는 말을 알맞은 문장과 연결해봐요!", 
+                prompt: "꾸며주는 말을 알맞은 문장 2개와 각각 연결해봐요!", 
                 modifiers: ["따뜻한", "시원한"], 
                 sentences: ["바람이 불어요.", "난로가 있어요."], 
-                pairs: { "따뜻한": "난로가 있어요.", "시원한": "바람이 불어요." } 
+                pairs: { "따뜻한": "난로가 있어요.", "시원한": "바람이 불어요." },
+                desc: "날씨와 느낌 연결하기"
             },
             { 
                 type: "line-match", 
-                prompt: "꾸며주는 말을 알맞은 문장과 연결해봐요!", 
+                prompt: "꾸며주는 말을 알맞은 문장 2개와 각각 연결해봐요!", 
                 modifiers: ["신나는", "재미있는"], 
                 sentences: ["만화책을 읽어요.", "노래를 불러요."], 
-                pairs: { "신나는": "노래를 불러요.", "재미있는": "만화책을 읽어요." } 
+                pairs: { "신나는": "노래를 불러요.", "재미있는": "만화책을 읽어요." },
+                desc: "활동과 느낌 연결하기"
             },
-            { type: "drag", emoji: "☀️", qText: "[밝은 해가 비춰요]", words: ["비춰요", "해가", "밝은"], target: ["밝은", "해가", "비춰요"] },
-            { type: "drag", emoji: "🌲", qText: "[커다란 나무가 있어요]", words: ["나무가", "커다란", "있어요"], target: ["커다란", "나무가", "있어요"] }
+            { type: "blank", emoji: "🐰", sentence: "______ 토끼가 뛰어요.", options: ["무서운", "귀여운", "뜨거운", "차가운"], answer: "귀여운", desc: "토끼의 감정/모습" },
+            { type: "blank", emoji: "🦖", sentence: "______ 공룡이 나타나요.", options: ["귀여운", "무서운", "푹신한", "따뜻한"], answer: "무서운", desc: "공룡의 느낌" }
         ];
 
-        // 3단계 문제 유형 (단어 조각 모아 문장 만들기)
-        const stage3Data = [
-            { emoji: "🐘", qText: "[커다란 코끼리가 걸어요]", words: ["걸어요", "커다란", "코끼리가"], target: ["커다란", "코끼리가", "걸어요"] },
-            { emoji: "🍎", qText: "[빨간 사과가 맛있어요]", words: ["맛있어요", "빨간", "사과가"], target: ["빨간", "사과가", "맛있어요"] },
-            { emoji: "🧊", qText: "[차가운 얼음이 녹아요]", words: ["얼음이", "차가운", "녹아요"], target: ["차가운", "얼음이", "녹아요"] },
-            { emoji: "🐰", qText: "[귀여운 토끼가 뛰어요]", words: ["뛰어요", "토끼가", "귀여운"], target: ["귀여운", "토끼가", "뛰어요"] },
-            { emoji: "🐜", qText: "[작은 개미가 기어요]", words: ["기어요", "개미가", "작은"], target: ["작은", "개미가", "기어요"] },
-            { emoji: "☀️", qText: "[따뜻한 햇살이 비쳐요]", words: ["비쳐요", "햇살이", "따뜻한"], target: ["따뜻한", "햇살이", "비쳐요"] },
-            { emoji: "🍌", qText: "[노란 바나나를 먹어요]", words: ["먹어요", "노란", "바나나를"], target: ["노란", "바나나를", "먹어요"] },
-            { emoji: "🍬", qText: "[푹신한 솜사탕을 봐요]", words: ["봐요", "솜사탕을", "푹신한"], target: ["푹신한", "솜사탕을", "봐요"] },
-            { emoji: "🦁", qText: "[무서운 사자가 울어요]", words: ["울어요", "무서운", "사자가"], target: ["무서운", "사자가", "울어요"] },
-            { emoji: "📦", qText: "[네모난 상자를 열어요]", words: ["열어요", "상자를", "네모난"], target: ["네모난", "상자를", "열어요"] }
+        // 3단계: 타이핑 빈칸 채우기 문제 은행
+        const bankStage3 = [
+            { emoji: "🐘", sentence: "______ 코끼리가 걸어요.", answer: "커다란", options: ["커다란", "맛있는", "웃긴", "재밌는"], desc: "코끼리의 크기" },
+            { emoji: "🍎", sentence: "______ 사과가 맛있어요.", answer: "빨간", options: ["빨간", "차가운", "네모난", "짧은"], desc: "사과의 색깔" },
+            { emoji: "🧊", sentence: "______ 얼음이 녹아요.", answer: "차가운", options: ["차가운", "신나는", "예쁜", "노란"], desc: "얼음의 느낌" },
+            { emoji: "🐰", sentence: "______ 토끼가 뛰어요.", answer: "귀여운", options: ["귀여운", "무거운", "높은", "까만"], desc: "토끼의 모습" },
+            { emoji: "🐜", sentence: "______ 개미가 기어요.", answer: "작은", options: ["작은", "커다란", "뜨거운", "빠른"], desc: "개미의 크기" },
+            { emoji: "☀️", sentence: "______ 햇살이 비쳐요.", answer: "따뜻한", options: ["따뜻한", "차가운", "시끄러운", "네모난"], desc: "햇살의 느낌" },
+            { emoji: "🍌", sentence: "______ 바나나를 먹어요.", answer: "노란", options: ["노란", "빨간", "초록색", "파란"], desc: "바나나의 색깔" },
+            { emoji: "🍬", sentence: "______ 솜사탕을 봐요.", answer: "푹신한", options: ["푹신한", "단단한", "무서운", "차가운"], desc: "솜사탕의 느낌" },
+            { emoji: "🦁", sentence: "______ 사자가 울어요.", answer: "무서운", options: ["무서운", "귀여운", "작은", "예쁜"], desc: "사자의 느낌" },
+            { emoji: "📦", sentence: "______ 상자를 열어요.", answer: "네모난", options: ["네모난", "동그란", "세모난", "길쭉한"], desc: "상자의 모양" },
+            { emoji: "🌲", sentence: "______ 나무가 있어요.", answer: "커다란", options: ["커다란", "작은", "빨간", "노란"], desc: "나무의 크기" },
+            { emoji: "❄️", sentence: "______ 눈이 내려요.", answer: "하얀", options: ["하얀", "까만", "빨간", "노란"], desc: "눈의 색깔" }
         ];
 
-        let userSentence = [];
+        function shuffleArray(array) {
+            let arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
 
         function showCard(cardId) {
             document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
@@ -477,9 +520,45 @@
 
         function selectActivity(num) {
             if (num === 1) {
+                updateLevelSelectUI();
                 showCard('screen-level-select');
             } else {
                 showCard('screen-activity2');
+            }
+        }
+
+        function updateLevelSelectUI() {
+            // 기록 텍스트 업데이트
+            let recordHtml = "";
+            for (let lvl = 1; lvl <= 3; lvl++) {
+                if (studentRecords[lvl] !== null) {
+                    recordHtml += `[${lvl}단계]: ${studentRecords[lvl]}점 / 10점<br>`;
+                }
+            }
+            if (recordHtml === "") {
+                recordHtml = "아직 도전한 기록이 없어요! 첫 번째 단계를 시작해보세요.";
+            }
+            document.getElementById('my-record-text').innerHTML = recordHtml;
+
+            // 해금 상태 반영
+            const btn2 = document.getElementById('btn-lvl-2');
+            const badge2 = document.getElementById('badge-lvl-2');
+            if (levelUnlocked[2]) {
+                btn2.removeAttribute('disabled');
+                badge2.innerText = "⭐ 열림";
+            } else {
+                btn2.setAttribute('disabled', 'true');
+                badge2.innerText = "🔒 잠김";
+            }
+
+            const btn3 = document.getElementById('btn-lvl-3');
+            const badge3 = document.getElementById('badge-lvl-3');
+            if (levelUnlocked[3]) {
+                btn3.removeAttribute('disabled');
+                badge3.innerText = "⭐ 열림";
+            } else {
+                btn3.setAttribute('disabled', 'true');
+                badge3.innerText = "🔒 잠김";
             }
         }
 
@@ -488,19 +567,21 @@
             currentQuizIndex = 0;
             score = 0;
             wrongList = [];
+            
+            // 단계별 문제 무작위 셔플 후 10문제 추출
+            if (lvl === 1) activeQuizList = shuffleArray(bankStage1).slice(0, 10);
+            else if (lvl === 2) activeQuizList = shuffleArray(bankStage2).slice(0, 10);
+            else activeQuizList = shuffleArray(bankStage3).slice(0, 10);
+
             showCard('screen-quiz');
             loadQuiz();
-        }
-
-        function getActiveQuizData() {
-            if (currentLevel === 1) return stage1Data[currentQuizIndex];
-            if (currentLevel === 2) return stage2Data[currentQuizIndex];
-            return stage3Data[currentQuizIndex];
         }
 
         function loadQuiz() {
             attemptCount = 0;
             selectedModifier = null;
+            matchedPairsCount = 0;
+
             const quizArea = document.getElementById('quiz-area');
             document.getElementById('quiz-level-title').innerText = `[ ${currentLevel}단계 공부 중 ]`;
             document.getElementById('quiz-progress').innerText = `문제 ${currentQuizIndex + 1} / 10`;
@@ -510,19 +591,18 @@
                 return;
             }
 
-            const qData = getActiveQuizData();
+            const qData = activeQuizList[currentQuizIndex];
 
-            // 유형별 렌더링
             if (qData.type === "blank") {
                 quizArea.innerHTML = `
                     <div class="quiz-box">
                         <div class="quiz-img">${qData.emoji}</div>
                         <div class="sentence-box">${qData.sentence}</div>
                         <div class="options-grid">
-                            <button class="option-btn" onclick="checkChoice('${qData.options[0]}', '${qData.answer}')">${qData.options[0]}</button>
-                            <button class="option-btn" onclick="checkChoice('${qData.options[1]}', '${qData.answer}')">${qData.options[1]}</button>
-                            <button class="option-btn" onclick="checkChoice('${qData.options[2]}', '${qData.answer}')">${qData.options[2]}</button>
-                            <button class="option-btn" onclick="checkChoice('${qData.options[3]}', '${qData.answer}')">${qData.options[3]}</button>
+                            <button class="option-btn" onclick="checkChoice('${qData.options[0]}', '${qData.answer}', '${qData.desc}')">${qData.options[0]}</button>
+                            <button class="option-btn" onclick="checkChoice('${qData.options[1]}', '${qData.answer}', '${qData.desc}')">${qData.options[1]}</button>
+                            <button class="option-btn" onclick="checkChoice('${qData.options[2]}', '${qData.answer}', '${qData.desc}')">${qData.options[2]}</button>
+                            <button class="option-btn" onclick="checkChoice('${qData.options[3]}', '${qData.answer}', '${qData.desc}')">${qData.options[3]}</button>
                         </div>
                     </div>
                 `;
@@ -532,14 +612,15 @@
                         <div style="font-size: 1.2rem; color: #374151; font-weight: bold; margin-bottom: 10px;">문장을 읽고 알맞은 그림을 고르세요!</div>
                         <div class="sentence-box" style="font-size: 1.4rem;">${qData.text}</div>
                         <div class="options-grid">
-                            <button class="option-btn" style="font-size: 3rem;" onclick="checkChoice('${qData.emojiOptions[0]}', '${qData.answer}')">${qData.emojiOptions[0]}</button>
-                            <button class="option-btn" style="font-size: 3rem;" onclick="checkChoice('${qData.emojiOptions[1]}', '${qData.answer}')">${qData.emojiOptions[1]}</button>
-                            <button class="option-btn" style="font-size: 3rem;" onclick="checkChoice('${qData.emojiOptions[2]}', '${qData.answer}')">${qData.emojiOptions[2]}</button>
-                            <button class="option-btn" style="font-size: 3rem;" onclick="checkChoice('${qData.emojiOptions[3]}', '${qData.answer}')">${qData.emojiOptions[3]}</button>
+                            <button class="option-btn" style="font-size: 3rem;" onclick="checkChoice('${qData.emojiOptions[0]}', '${qData.answer}', '${qData.desc}')">${qData.emojiOptions[0]}</button>
+                            <button class="option-btn" style="font-size: 3rem;" onclick="checkChoice('${qData.emojiOptions[1]}', '${qData.answer}', '${qData.desc}')">${qData.emojiOptions[1]}</button>
+                            <button class="option-btn" style="font-size: 3rem;" onclick="checkChoice('${qData.emojiOptions[2]}', '${qData.answer}', '${qData.desc}')">${qData.emojiOptions[2]}</button>
+                            <button class="option-btn" style="font-size: 3rem;" onclick="checkChoice('${qData.emojiOptions[3]}', '${qData.answer}', '${qData.desc}')">${qData.emojiOptions[3]}</button>
                         </div>
                     </div>
                 `;
             } else if (qData.type === "line-match") {
+                // 선긋기 2개 동시 매칭 유형
                 quizArea.innerHTML = `
                     <div class="quiz-box">
                         <div style="font-size: 1.2rem; color: #374151; font-weight: bold; margin-bottom: 15px;">${qData.prompt}</div>
@@ -553,52 +634,69 @@
                                 ${qData.sentences.map(s => `<div class="match-item" id="sent-${s}" onclick="selectSent('${s}')">${s}</div>`).join('')}
                             </div>
                         </div>
+                        <div style="font-size: 1.0rem; color: #047857; font-weight: bold;" id="match-status">연결한 개수: 0 / 2</div>
                     </div>
                 `;
             } else {
-                // 드래그 문장 만들기 (3단계 포함)
-                userSentence = [];
-                let shuffledWords = [...qData.words].sort(() => Math.random() - 0.5);
-                
+                // 3단계 타이핑 빈칸 채우기 유형
+                let shuffledOpts = shuffleArray(qData.options);
                 quizArea.innerHTML = `
                     <div class="quiz-box">
-                        <div class="quiz-img">${qData.emoji || "🧩"}</div>
-                        <div style="font-size: 1.2rem; color: #374151; margin-bottom: 15px; font-weight: bold;">단어 조각을 순서대로 눌러 완성하세요!</div>
-                        <div class="word-pool">
-                            ${shuffledWords.map(w => `<div class="word-chip" onclick="pickWord(this, '${w}')">${w}</div>`).join('')}
-                        </div>
-                        <div id="dropzone" class="sentence-dropzone" onclick="resetSentence()">
-                            여기를 눌러 단어를 채워보세요 (클릭하면 초기화)
-                        </div>
-                        <button class="role-btn role-student" style="padding: 14px; font-size: 1.15rem;" onclick="submitSentence()">정답 확인하기 ✔️</button>
+                        <div class="quiz-img">${qData.emoji}</div>
+                        <div class="sentence-box">${qData.sentence}</div>
+                        <div style="font-size: 1.1rem; color: #4b5563; margin-bottom: 12px; font-weight: bold;">보기 중에서 알맞은 말을 골라 직접 적어보세요!</div>
+                        <div style="margin-bottom: 15px; font-weight: bold; color: #047857;">[ 보기: ${shuffledOpts.join(', ')} ]</div>
+                        <input type="text" id="typing-input" class="typing-input" placeholder="여기에 적어주세요">
+                        <br>
+                        <button class="role-btn role-student" style="padding: 14px; font-size: 1.15rem; width: 60%; margin: 0 auto;" onclick="checkTypingAnswer('${qData.answer}', '${qData.desc}')">정답 확인하기 ✔️</button>
                     </div>
                 `;
             }
         }
 
-        // 선긋기(매칭) 로직
+        // 선긋기 매칭 로직
         function selectMod(mod) {
-            document.querySelectorAll('[id^="mod-"]').forEach(el => el.classList.remove('selected'));
-            document.getElementById('mod-' + mod).classList.add('selected');
+            const el = document.getElementById('mod-' + mod);
+            if (el.classList.contains('matched')) return;
+            document.querySelectorAll('[id^="mod-"]').forEach(e => { if(!e.classList.contains('matched')) e.classList.remove('selected'); });
+            el.classList.add('selected');
             selectedModifier = mod;
         }
 
         function selectSent(sent) {
+            const sentEl = document.getElementById('sent-' + sent);
+            if (sentEl.classList.contains('matched')) return;
+
             if (!selectedModifier) {
                 alert("먼저 왼쪽에서 꾸며주는 말을 선택해 주세요!");
                 return;
             }
-            const qData = getActiveQuizData();
+
+            const qData = activeQuizList[currentQuizIndex];
             const correctSent = qData.pairs[selectedModifier];
 
             if (sent === correctSent) {
-                if (attemptCount === 0) score++;
-                currentQuizIndex++;
-                loadQuiz();
+                // 맞음 처리
+                document.getElementById('mod-' + selectedModifier).classList.remove('selected');
+                document.getElementById('mod-' + selectedModifier).classList.add('matched');
+                sentEl.classList.add('matched');
+                
+                matchedPairsCount++;
+                document.getElementById('match-status').innerText = `연결한 개수: ${matchedPairsCount} / 2`;
+                selectedModifier = null;
+
+                if (matchedPairsCount === 2) {
+                    if (attemptCount === 0) score++;
+                    setTimeout(() => {
+                        currentQuizIndex++;
+                        loadQuiz();
+                    }, 600);
+                }
             } else {
+                // 틀림 처리
                 if (attemptCount === 0) {
                     attemptCount = 1;
-                    wrongList.push({ sentence: `${selectedModifier} + ${sent}`, user: "오답 연결", correct: "올바른 짝" });
+                    wrongList.push({ problem: qData.desc, user: "선긋기 오답", correct: "올바른 짝 연결" });
                     document.getElementById('custom-modal').style.display = 'flex';
                 } else {
                     currentQuizIndex++;
@@ -607,7 +705,8 @@
             }
         }
 
-        function checkChoice(selected, answer) {
+        function checkChoice(selected, answer, desc) {
+            const qData = activeQuizList[currentQuizIndex];
             if (selected === answer) {
                 if (attemptCount === 0) score++;
                 currentQuizIndex++;
@@ -615,7 +714,32 @@
             } else {
                 if (attemptCount === 0) {
                     attemptCount = 1;
-                    wrongList.push({ sentence: "선택 문제", user: selected, correct: answer });
+                    wrongList.push({ problem: desc || qData.sentence || qData.text, user: selected, correct: answer });
+                    document.getElementById('custom-modal').style.display = 'flex';
+                } else {
+                    currentQuizIndex++;
+                    loadQuiz();
+                }
+            }
+        }
+
+        function checkTypingAnswer(answer, desc) {
+            const inputVal = document.getElementById('typing-input').value.trim();
+            const qData = activeQuizList[currentQuizIndex];
+
+            if (!inputVal) {
+                alert("답을 입력해 주세요!");
+                return;
+            }
+
+            if (inputVal === answer) {
+                if (attemptCount === 0) score++;
+                currentQuizIndex++;
+                loadQuiz();
+            } else {
+                if (attemptCount === 0) {
+                    attemptCount = 1;
+                    wrongList.push({ problem: qData.sentence, user: inputVal, correct: answer });
                     document.getElementById('custom-modal').style.display = 'flex';
                 } else {
                     currentQuizIndex++;
@@ -628,65 +752,43 @@
             document.getElementById('custom-modal').style.display = 'none';
         }
 
-        function pickWord(chip, word) {
-            userSentence.push(word);
-            document.getElementById('dropzone').innerText = userSentence.join(' ');
-            chip.style.display = 'none';
-        }
-
-        function resetSentence() {
-            userSentence = [];
-            document.getElementById('dropzone').innerText = "여기를 눌러 단어를 채워보세요 (클릭하면 초기화)";
-            document.querySelectorAll('.word-chip').forEach(c => c.style.display = 'block');
-        }
-
-        function submitSentence() {
-            if (userSentence.length < 3) {
-                alert("단어를 모두 골라 문장을 완성해 주세요!");
-                return;
-            }
-
-            const qData = getActiveQuizData();
-            const isMatch = userSentence.every((val, idx) => val === qData.target[idx]);
-
-            if (isMatch) {
-                if (attemptCount === 0) score++;
-                currentQuizIndex++;
-                loadQuiz();
-            } else {
-                if (attemptCount === 0) {
-                    attemptCount = 1;
-                    wrongList.push({ sentence: qData.qText, user: userSentence.join(' '), correct: qData.target.join(' ') });
-                    document.getElementById('custom-modal').style.display = 'flex';
-                    resetSentence();
-                } else {
-                    currentQuizIndex++;
-                    loadQuiz();
-                }
-            }
-        }
-
         function showResult() {
             showCard('screen-result');
+            studentRecords[currentLevel] = score;
+
+            // 해금 조건 검사
+            if (currentLevel === 1 && score >= 7) {
+                levelUnlocked[2] = true;
+            }
+            if (currentLevel === 2 && score >= 6) {
+                levelUnlocked[3] = true;
+            }
+
             let contentHtml = `
                 <div class="result-detail">
                     <strong>👤 학습자:</strong> ${studentName}<br>
-                    <strong>🏆 맞은 개수:</strong> ${score} / 10 개<br>
-                    <strong>🌟 잘한 점:</strong> ${score >= 8 ? "꾸며주는 말을 멋지게 이해하고 훌륭하게 문장을 완성했어요! 최고예요!" : "끝까지 집중해서 10문제를 모두 마친 멋진 끈기를 보여주었어요!"}
+                    <strong>🏆 도전 단계:</strong> ${currentLevel}단계<br>
+                    <strong>🌟 맞은 개수:</strong> ${score} / 10 개<br>
+                    <strong>🎯 해금 상태:</strong> ${
+                        currentLevel === 1 ? (score >= 7 ? "✨ 2단계 해금 성공!" : "🔒 2단계 해금 실패 (7점 이상 필요)") :
+                        currentLevel === 2 ? (score >= 6 ? "✨ 3단계 해금 성공!" : "🔒 3단계 해금 실패 (6점 이상 필요)") : "🎉 모든 단계 도전 완료!"
+                    }
                 </div>
             `;
 
             if (wrongList.length > 0) {
                 contentHtml += `
                     <div class="result-detail" style="border-left: 5px solid #10b981;">
-                        <strong>💡 아쉬웠던 점 & 복습하기:</strong><br>
-                        다음에는 이 내용들을 더 주의 깊게 살펴봐요!<br>
+                        <strong>💡 오답 피드백 (어떻게 고쳐야 할까요?):</strong><br>
+                        <ul style="margin: 8px 0 0 15px; padding: 0;">
+                            ${wrongList.map(w => `<li><strong>[문제]</strong> ${w.problem}<br>• 내가 쓴 답: <span style="color: #ef4444;">${w.user}</span><br>• 올바른 정답: <span style="color: #10b981; font-weight: bold;">${w.correct}</span></li><br>`).join('')}
+                        </ul>
                     </div>
                 `;
             } else {
                 contentHtml += `
                     <div class="result-detail" style="border-left: 5px solid #10b981;">
-                        <strong>💡 아쉬웠던 점:</strong><br>
+                        <strong>💡 피드백:</strong><br>
                         틀린 문제가 하나도 없어요! 모든 문제를 완벽하게 맞혔답니다! 🎉
                     </div>
                 `;
