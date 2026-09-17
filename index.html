@@ -223,6 +223,35 @@
             outline: none;
         }
 
+        .word-pool {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .word-chip {
+            padding: 12px 18px;
+            background: #d1fae5;
+            color: #065f46;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px dashed #10b981;
+            font-size: 1.15rem;
+        }
+        .sentence-dropzone {
+            border: 2px dashed #94a3b8;
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+            min-height: 30px;
+            font-size: 1.2rem;
+            color: #334155;
+            background: #ffffff;
+            margin-bottom: 15px;
+        }
+
         .match-container {
             display: flex;
             justify-content: space-between;
@@ -369,7 +398,7 @@
 <body>
 
     <div class="container">
-        <!-- 팝업 모달창 (오답 재도전) -->
+        <!-- 오답 모달창 -->
         <div id="custom-modal" class="modal-overlay">
             <div class="modal-content">
                 <div style="font-size: 3.5rem; margin-bottom: 10px;">🤔</div>
@@ -378,7 +407,7 @@
             </div>
         </div>
 
-        <!-- 상장 보기 모달창 -->
+        <!-- 상장 모달창 -->
         <div id="cert-modal" class="modal-overlay">
             <div class="modal-content" style="background: transparent; width: 92%; max-width: 520px; padding: 0; box-shadow: none;">
                 <div class="certificate-box">
@@ -458,7 +487,6 @@
                     <div style="font-weight: bold; color: #047857; margin-bottom: 5px;">📊 나의 학습 기록 저장소</div>
                     <div id="my-record-text">아직 도전한 기록이 없어요! 첫 번째 단계를 시작해보세요.</div>
                 </div>
-                <!-- 선생님 모드에서는 상장 보기 버튼이 즉시 활성화됨 -->
                 <button id="cert-view-btn" class="cert-btn" onclick="openCertModal()" disabled>
                     <span style="font-size: 2.2rem;">🏅</span>
                     <span style="font-size: 0.85rem; margin-top: 2px;">상장 보기</span>
@@ -467,15 +495,15 @@
 
             <div class="level-grid">
                 <button class="level-card-btn" onclick="startQuiz(1)">
-                    <div><strong>1단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">색깔·모양·크기 다지기</div></div>
+                    <div><strong>1단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">꾸며주는 말을 골라 문장 완성하기 (객관식)</div></div>
                     <span style="font-size: 1.3rem;">⭐ (바로시작)</span>
                 </button>
                 <button id="btn-lvl-2" class="level-card-btn" onclick="startQuiz(2)" disabled>
-                    <div><strong>2단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">느낌·감정 및 선긋기 (1단계 7점 이상 필요)</div></div>
+                    <div><strong>2단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">문장을 읽고 알맞은 그림 찾기 및 선긋기</div></div>
                     <span id="badge-lvl-2" style="font-size: 1.2rem;">🔒 잠김</span>
                 </button>
                 <button id="btn-lvl-3" class="level-card-btn" onclick="startQuiz(3)" disabled>
-                    <div><strong>3단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">빈칸 타이핑 문장 완성 (2단계 6점 이상 필요)</div></div>
+                    <div><strong>3단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">직접 타이핑 및 단어 조각 모아 문장 만들기</div></div>
                     <span id="badge-lvl-3" style="font-size: 1.2rem;">🔒 잠김</span>
                 </button>
             </div>
@@ -511,7 +539,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.17. 22:49:17</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.17. 23:02:00</div>
         </footer>
     </div>
 
@@ -527,53 +555,99 @@
         let selectedModifier = null;
         let matchedPairsCount = 0;
         let hasWonCertificate = false;
+        let userSentence = [];
 
         let studentRecords = { 1: null, 2: null, 3: null };
         let levelUnlocked = { 2: false, 3: false };
 
-        const bankStage1 = [
-            { type: "blank", visual: "🍎", sentence: "______ 사과가 열려요.", options: ["빨간", "차가운", "네모난", "작은"], answer: "빨간", desc: "사과의 색깔" },
-            { type: "blank", visual: "🍌", sentence: "______ 바나나를 먹어요.", options: ["노란", "무서운", "커다란", "뜨거운"], answer: "노란", desc: "바나나의 색깔" },
-            { type: "blank", visual: "📦", sentence: "______ 상자를 열어요.", options: ["동그란", "네모난", "하얀", "작은"], answer: "네모난", desc: "상자의 모양" },
-            { type: "blank", visual: "🥛", sentence: "______ 우유를 마셔요.", options: ["빨간", "세모난", "하얀", "커다란"], answer: "하얀", desc: "우유의 색깔" },
-            { type: "blank", visual: "⚽", sentence: "______ 공을 차요.", options: ["네모난", "동그란", "귀여운", "푹신한"], answer: "동그란", desc: "공의 모양" },
-            { type: "blank", visual: "🐘", sentence: "______ 코끼리가 걸어요.", options: ["작은", "커다란", "하얀", "빨간"], answer: "커다란", desc: "코끼리의 크기" },
-            { type: "blank", visual: "🐜", sentence: "______ 개미가 기어요.", options: ["커다란", "작은", "노란", "동그란"], answer: "작은", desc: "개미의 크기" },
-            { type: "blank", visual: "🌿", sentence: "______ 풀잎이 자라요.", options: ["초록색", "빨간", "네모난", "차가운"], answer: "초록색", desc: "풀잎의 색깔" },
-            { type: "blank", visual: "🌙", sentence: "______ 밤이 찾아와요.", options: ["까만", "하얀", "노란", "작은"], answer: "까만", desc: "밤하늘의 색깔" },
-            { type: "blank", visual: "🌷", sentence: "______ 꽃이 피어요.", options: ["예쁜", "차가운", "네모난", "무서운"], answer: "예쁜", desc: "꽃의 생김새" },
-            { type: "match-visual", text: "예쁜 꽃이 피었어요.", visualOptions: ["🌷", "🐘", "🧊", "⚽"], answer: "🌷", desc: "꽃 그림 찾기" },
-            { type: "match-visual", text: "커다란 코끼리가 걸어요.", visualOptions: ["🐜", "🐘", "🍌", "📦"], answer: "🐘", desc: "코끼리 그림 찾기" }
+        // [통합 메인 문장 은행 (모든 선생님 입력 예시 포함, 제외 문장 삭제 완료)]
+        const masterSentenceBank = [
+            { visual: "🌷", sentence: "______ 꽃이 피어요.", options: ["예쁜", "차가운", "네모난", "무서운"], answer: "예쁜", type: "blank" },
+            { visual: "🎤", sentence: "______ 노래를 불러요.", options: ["신나는", "무서운", "네모난", "작은"], answer: "신나는", type: "blank" },
+            { visual: "☁️", sentence: "______ 하늘을 봅니다.", options: ["파란", "차가운", "네모난", "무서운"], answer: "파란", type: "blank" },
+            { visual: "☀️", sentence: "______ 해가 비쳐요.", options: ["밝은", "까만", "세모난", "작은"], answer: "밝은", type: "blank" },
+            { visual: "🐱", sentence: "______ 고양이가 잠자요.", options: ["귀여운", "뜨거운", "네모난", "무서운"], answer: "귀여운", type: "blank" },
+            { visual: "🍜", sentence: "______ 라면을 먹어요.", options: ["매운", "차가운", "귀여운", "무서운"], answer: "매운", type: "blank" },
+            { visual: "✏️", sentence: "______ 연필로 써요.", options: ["긴", "둥근", "네모난", "무서운"], answer: "긴", type: "blank" },
+            { visual: "🖊️", sentence: "______ 볼펜으로 써요.", options: ["짧은", "커다란", "네모난", "무서운"], answer: "짧은", type: "blank" },
+            { visual: "⏰", sentence: "______ 시계를 봐요.", options: ["동그란", "세모난", "길쭉한", "무서운"], answer: "동그란", type: "blank" },
+            { visual: "📺", sentence: "______ TV를 봐요.", options: ["네모난", "동그란", "세모난", "무서운"], answer: "네모난", type: "blank" },
+            { visual: "🎩", sentence: "______ 고깔모자를 써요.", options: ["뾰족한", "동그란", "네모난", "무서운"], answer: "뾰족한", type: "blank" },
+            { visual: "🍰", sentence: "______ 케이크를 먹어요.", options: ["달콤한", "차가운", "네모난", "무서운"], answer: "달콤한", type: "blank" },
+            { visual: "🪨", sentence: "______ 돌을 들어요.", options: ["무거운", "가벼운", "네모난", "무서운"], answer: "무거운", type: "blank" },
+            { visual: "🦛", sentence: "______ 하마가 있어요.", options: ["뚱뚱한", "날씬한", "네모난", "무서운"], answer: "뚱뚱한", type: "blank" },
+            { visual: "🍌", sentence: "______ 바나나를 먹어요.", options: ["노란", "빨간", "네모난", "무서운"], answer: "노란", type: "blank" },
+            { visual: "🐈‍⬛", sentence: "______ 고양이가 누워요.", options: ["까만", "하얀", "네모난", "무서운"], answer: "까만", type: "blank" },
+            { visual: "📄", sentence: "______ 종이에 그려요.", options: ["하얀", "까만", "네모난", "무서운"], answer: "하얀", type: "blank" },
+            { visual: "🚗", sentence: "______ 자동차를 타요.", options: ["멋진", "후진", "네모난", "무서운"], answer: "멋진", type: "blank" },
+            { visual: "🚙", sentence: "______ 자동차가 있어요.", options: ["낡은", "새로운", "네모난", "무서운"], answer: "낡은", type: "blank" },
+            { visual: "🦖", sentence: "______ 공룡이 다가와요.", options: ["커다란", "작은", "네모난", "귀여운"], answer: "커다란", type: "blank" },
+            { visual: "🚂", sentence: "______ 기차가 달려요.", options: ["기다란", "짧은", "네모난", "무서운"], answer: "기다란", type: "blank" },
+            { visual: "🐆", sentence: "______ 치타가 달려요.", options: ["빠른", "느린", "네모난", "무서운"], answer: "빠른", type: "blank" },
+            { visual: "🏠", sentence: "______ 방이 되었어요.", options: ["깔끔한", "더러운", "네모난", "무서운"], answer: "깔끔한", type: "blank" },
+            { visual: "👐", sentence: "______ 손을 씻어요.", options: ["더러운", "깨끗한", "네모난", "무서운"], answer: "더러운", type: "blank" },
+            { visual: "🔥", sentence: "______ 난로가 있어요.", options: ["따뜻한", "차가운", "네모난", "무서운"], answer: "따뜻한", type: "blank" },
+            { visual: "📚", sentence: "______ 만화책을 읽어요.", options: ["재미있는", "지루한", "네모난", "무서운"], answer: "재미있는", type: "blank" },
+            { visual: "🌲", sentence: "______ 나무가 있어요.", options: ["커다란", "작은", "네모난", "무서운"], answer: "커다란", type: "blank" },
+            { visual: "❄️", sentence: "______ 눈이 내려요.", options: ["하얀", "까만", "네모난", "무서운"], answer: "하얀", type: "blank" },
+            { visual: "🎵", sentence: "______ 노래를 불러요.", options: ["즐거운", "슬픈", "네모난", "무서운"], answer: "즐거운", type: "blank" },
+            { visual: "💃", sentence: "______ 춤을 춰요.", options: ["신나는", "지루한", "네모난", "무서운"], answer: "신나는", type: "blank" },
+            { visual: "🎨", sentence: "______ 그림을 그려요.", options: ["멋진", "이상한", "네모난", "무서운"], answer: "멋진", type: "blank" },
+            { visual: "⛰️", sentence: "______ 산이 보여요.", options: ["높은", "낮은", "네모난", "무서운"], answer: "높은", type: "blank" },
+            { visual: "💧", sentence: "______ 물이 흘러요.", options: ["맑은", "탁한", "네모난", "무서운"], answer: "맑은", type: "blank" },
+            { visual: "🍞", sentence: "______ 빵을 먹어요.", options: ["부드러운", "딱딱한", "네모난", "무서운"], answer: "부드러운", type: "blank" },
+            { visual: "🍪", sentence: "______ 과자를 먹어요.", options: ["맛있는", "맛없는", "네모난", "무서운"], answer: "맛있는", type: "blank" },
+            { visual: "🔊", sentence: "______ 소리가 들려요.", options: ["시끄러운", "조용한", "네모난", "무서운"], answer: "시끄러운", type: "blank" },
+            { visual: "👶", sentence: "______ 아기가 하품해요.", options: ["졸린", "배고픈", "네모난", "무서운"], answer: "졸린", type: "blank" },
+            { visual: "⭐", sentence: "______ 별이 빛나요.", options: ["반짝이는", "어두운", "네모난", "무서운"], answer: "반짝이는", type: "blank" },
+            { visual: "🍎", sentence: "______ 사과가 열려요.", options: ["빨간", "차가운", "네모난", "작은"], answer: "빨간", type: "blank" },
+            { visual: "📦", sentence: "______ 상자를 열어요.", options: ["동그란", "네모난", "하얀", "작은"], answer: "네모난", type: "blank" },
+            { visual: "⚽", sentence: "______ 공을 차요.", options: ["네모난", "동그란", "귀여운", "푹신한"], answer: "동그란", type: "blank" },
+            { visual: "🐜", sentence: "______ 개미가 기어요.", options: ["커다란", "작은", "노란", "동그란"], answer: "작은", type: "blank" },
+            { visual: "🧊", sentence: "______ 얼음을 먹어요.", options: ["차가운", "뜨거운", "귀여운", "무서운"], answer: "차가운", type: "blank" },
+            { visual: "🛏️", sentence: "______ 침대에 누워요.", options: ["차가운", "푹신한", "무서운", "따뜻한"], answer: "푹신한", type: "blank" },
+            { visual: "💨", sentence: "______ 바람이 불어요.", options: ["뜨거운", "시원한", "귀여운", "푹신한"], answer: "시원한", type: "blank" },
+            { visual: "🐰", sentence: "______ 토끼가 뛰어요.", options: ["무서운", "귀여운", "뜨거운", "차가운"], answer: "귀여운", type: "blank" }
         ];
 
-        const bankStage2 = [
-            { type: "blank", visual: "🧊", sentence: "______ 얼음을 먹어요.", options: ["차가운", "뜨거운", "귀여운", "무서운"], answer: "차가운", desc: "얼음의 느낌" },
-            { type: "blank", visual: "🍲", sentence: "______ 국물을 마셔요.", options: ["시원한", "뜨거운", "푹신한", "무서운"], answer: "뜨거운", desc: "국물의 느낌" },
-            { type: "blank", visual: "🛏️", sentence: "______ 침대에 누워요.", options: ["차가운", "푹신한", "무서운", "따뜻한"], answer: "푹신한", desc: "침대의 느낌" },
-            { type: "blank", visual: "💨", sentence: "______ 바람이 불어요.", options: ["뜨거운", "시원한", "귀여운", "푹신한"], answer: "시원한", desc: "바람의 느낌" },
-            { type: "match-visual", text: "신나는 노래를 불러요.", visualOptions: ["🎤", "🛏️", "🍲", "💨"], answer: "🎤", desc: "노래 그림 찾기" },
-            { 
-                type: "line-match", 
-                prompt: "꾸며주는 말을 알맞은 문장 3개와 각각 연결해봐요!", 
-                modifiers: ["높은", "맛있는", "신나는"], 
-                sentences: ["과자를 먹어요.", "산이 보여요.", "춤을 춰요."], 
-                pairs: { "높은": "산이 보여요.", "맛있는": "과자를 먹어요.", "신나는": "춤을 춰요." },
-                desc: "꾸며주는 말과 3가지 문장 선긋기"
+        // 그림 맞추기 은행
+        const matchVisualBank = [
+            { text: "예쁜 꽃이 피었어요.", visualOptions: ["🌷", "🐘", "🧊", "⚽"], answer: "🌷" },
+            { text: "커다란 코끼리가 걸어요.", visualOptions: ["🐜", "🐘", "🍌", "📦"], answer: "🐘" },
+            { text: "빨간 사과가 열려요.", visualOptions: ["🍎", "🍌", "🥛", "⚽"], answer: "🍎" },
+            { text: "신나는 노래를 불러요.", visualOptions: ["🎤", "🛏️", "🍲", "💨"], answer: "🎤" },
+            { text: "파란 하늘을 봅니다.", visualOptions: ["☁️", "🐜", "🧊", "⚽"], answer: "☁️" },
+            { text: "매운 라면을 먹어요.", visualOptions: ["🍜", "🍎", "🍌", "📦"], answer: "🍜" }
+        ];
+
+        // 선긋기 은행 (3가지 문장 세트)
+        const lineMatchBank = [
+            {
+                prompt: "꾸며주는 말을 알맞은 문장 3개와 각각 연결해봐요!",
+                modifiers: ["높은", "맛있는", "신나는"],
+                sentences: ["산이 보여요.", "과자를 먹어요.", "춤을 춰요."],
+                pairs: { "높은": "산이 보여요.", "맛있는": "과자를 먹어요.", "신나는": "춤을 춰요." }
             },
-            { type: "blank", visual: "🐰", sentence: "______ 토끼가 뛰어요.", options: ["무서운", "귀여운", "뜨거운", "차가운"], answer: "귀여운", desc: "토끼의 감정/모습" }
+            {
+                prompt: "꾸며주는 말을 알맞은 문장 3개와 각각 연결해봐요!",
+                modifiers: ["따뜻한", "시원한", "재미있는"],
+                sentences: ["난로가 있어요.", "바람이 불어요.", "만화책을 읽어요."],
+                pairs: { "따뜻한": "난로가 있어요.", "시원한": "바람이 불어요.", "재미있는": "만화책을 읽어요." }
+            },
+            {
+                prompt: "꾸며주는 말을 알맞은 문장 3개와 각각 연결해봐요!",
+                modifiers: ["커다란", "작은", "빨간"],
+                sentences: ["코끼리가 걸어요.", "개미가 기어요.", "사과가 열려요."],
+                pairs: { "커다란": "코끼리가 걸어요.", "작은": "개미가 기어요.", "빨간": "사과가 열려요." }
+            }
         ];
 
-        const bankStage3 = [
-            { visual: "🐘", sentence: "______ 코끼리가 걸어요.", answer: "커다란", options: ["커다란", "맛있는", "웃긴", "시원한"], desc: "코끼리의 크기" },
-            { visual: "🐜", sentence: "______ 개미가 기어요.", answer: "작은", options: ["작은", "매운", "높은", "따뜻한"], desc: "개미의 크기" },
-            { visual: "🍎", sentence: "______ 사과가 맛있어요.", answer: "빨간", options: ["빨간", "차가운", "네모난", "짧은"], desc: "사과의 색깔" },
-            { visual: "🧊", sentence: "______ 얼음이 녹아요.", answer: "차가운", options: ["차가운", "신나는", "예쁜", "노란"], desc: "얼음의 느낌" },
-            { visual: "🐰", sentence: "______ 토끼가 뛰어요.", answer: "귀여운", options: ["귀여운", "무거운", "높은", "까만"], desc: "토끼의 모습" },
-            { visual: "☀️", sentence: "______ 햇살이 비쳐요.", answer: "따뜻한", options: ["따뜻한", "차가운", "시끄러운", "네모난"], desc: "햇살의 느낌" },
-            { visual: "🍌", sentence: "______ 바나나를 먹어요.", answer: "노란", options: ["노란", "빨간", "초록색", "파란"], desc: "바나나의 색깔" },
-            { visual: "🐱", sentence: "______ 고양이가 누워요.", answer: "귀여운", options: ["귀여운", "단단한", "무서운", "차가운"], desc: "고양이의 느낌" },
-            { visual: "📦", sentence: "______ 상자를 열어요.", answer: "네모난", options: ["네모난", "동그란", "세모난", "길쭉한"], desc: "상자의 모양" },
-            { visual: "👟", sentence: "______ 운동화를 신어요.", answer: "멋진", options: ["멋진", "차가운", "시끄러운", "슬픈"], desc: "운동화의 특징" }
+        // 드래그(클릭 조합) 은행
+        const dragBank = [
+            { visual: "🐘", qText: "커다란 코끼리가 걸어요", words: ["걸어요", "커다란", "코끼리가"], target: ["커다란", "코끼리가", "걸어요"] },
+            { visual: "🍎", qText: "빨간 사과가 맛있어요", words: ["맛있어요", "빨간", "사과가"], target: ["빨간", "사과가", "맛있어요"] },
+            { visual: "🧊", qText: "차가운 얼음이 녹아요", words: ["얼음이", "차가운", "녹아요"], target: ["차가운", "얼음이", "녹아요"] },
+            { visual: "🐰", qText: "귀여운 토끼가 뛰어요", words: ["뛰어요", "토끼가", "귀여운"], target: ["귀여운", "토끼가", "뛰어요"] }
         ];
 
         function shuffleArray(array) {
@@ -607,7 +681,7 @@
                 studentName = "선생님";
                 levelUnlocked[2] = true;
                 levelUnlocked[3] = true;
-                hasWonCertificate = true; // 선생님 모드에서는 예시 확인을 위해 상장 활성화
+                hasWonCertificate = true;
                 enterMenu();
             } else {
                 alert("비밀번호가 틀렸습니다! (정답: 5415)");
@@ -700,9 +774,31 @@
             score = 0;
             wrongList = [];
             
-            if (lvl === 1) activeQuizList = shuffleArray(bankStage1).slice(0, 10);
-            else if (lvl === 2) activeQuizList = shuffleArray(bankStage2).slice(0, 10);
-            else activeQuizList = shuffleArray(bankStage3).slice(0, 10);
+            if (lvl === 1) {
+                let blinks = shuffleArray(masterSentenceBank).slice(0, 7).map(item => ({
+                    type: "blank", visual: item.visual, sentence: item.sentence, options: shuffleArray(item.options), answer: item.answer, problemText: item.sentence
+                }));
+                let matches = shuffleArray(matchVisualBank).slice(0, 3).map(item => ({
+                    type: "match-visual", text: item.text, visualOptions: item.visualOptions, answer: item.answer, problemText: item.text + " (그림 찾기)"
+                }));
+                activeQuizList = shuffleArray([...blinks, ...matches]);
+            } else if (lvl === 2) {
+                let lines = shuffleArray(lineMatchBank).slice(0, 2).map(item => ({
+                    type: "line-match", prompt: item.prompt, modifiers: item.modifiers, sentences: item.sentences, pairs: item.pairs, problemText: "선긋기 활동"
+                }));
+                let blinks = shuffleArray(masterSentenceBank).slice(0, 8).map(item => ({
+                    type: "blank", visual: item.visual, sentence: item.sentence, options: shuffleArray(item.options), answer: item.answer, problemText: item.sentence
+                }));
+                activeQuizList = shuffleArray([...lines, ...blinks]);
+            } else {
+                let typings = shuffleArray(masterSentenceBank).slice(0, 7).map(item => ({
+                    type: "blank", visual: item.visual, sentence: item.sentence, options: shuffleArray(item.options), answer: item.answer, problemText: item.sentence
+                }));
+                let drags = shuffleArray(dragBank).slice(0, 3).map(item => ({
+                    type: "drag", visual: item.visual, qText: item.qText, words: item.words, target: item.target, problemText: "[드래그] " + item.qText
+                }));
+                activeQuizList = shuffleArray([...typings, ...drags]);
+            }
 
             showCard('screen-quiz');
             loadQuiz();
@@ -731,10 +827,10 @@
                         ${visualHtml}
                         <div class="sentence-box">${qData.sentence}</div>
                         <div class="options-grid">
-                            <button class="option-btn" onclick="checkChoice('${qData.options[0]}', '${qData.answer}', '${qData.desc}')">${qData.options[0]}</button>
-                            <button class="option-btn" onclick="checkChoice('${qData.options[1]}', '${qData.answer}', '${qData.desc}')">${qData.options[1]}</button>
-                            <button class="option-btn" onclick="checkChoice('${qData.options[2]}', '${qData.answer}', '${qData.desc}')">${qData.options[2]}</button>
-                            <button class="option-btn" onclick="checkChoice('${qData.options[3]}', '${qData.answer}', '${qData.desc}')">${qData.options[3]}</button>
+                            <button class="option-btn" onclick="checkChoice('${qData.options[0]}', '${qData.answer}', '${qData.problemText}')">${qData.options[0]}</button>
+                            <button class="option-btn" onclick="checkChoice('${qData.options[1]}', '${qData.answer}', '${qData.problemText}')">${qData.options[1]}</button>
+                            <button class="option-btn" onclick="checkChoice('${qData.options[2]}', '${qData.answer}', '${qData.problemText}')">${qData.options[2]}</button>
+                            <button class="option-btn" onclick="checkChoice('${qData.options[3]}', '${qData.answer}', '${qData.problemText}')">${qData.options[3]}</button>
                         </div>
                     </div>
                 `;
@@ -745,10 +841,10 @@
                         <div style="font-size: 1.2rem; color: #374151; font-weight: bold; margin-bottom: 15px;">문장을 읽고 알맞은 그림을 고르세요!</div>
                         <div class="sentence-box" style="font-size: 1.4rem;">${qData.text}</div>
                         <div class="options-grid">
-                            <button class="option-btn" style="font-size: 3rem; padding: 20px;" onclick="checkVisualChoice('${shuffledVisuals[0]}', '${qData.answer}', '${qData.desc}')">${shuffledVisuals[0]}</button>
-                            <button class="option-btn" style="font-size: 3rem; padding: 20px;" onclick="checkVisualChoice('${shuffledVisuals[1]}', '${qData.answer}', '${qData.desc}')">${shuffledVisuals[1]}</button>
-                            <button class="option-btn" style="font-size: 3rem; padding: 20px;" onclick="checkVisualChoice('${shuffledVisuals[2]}', '${qData.answer}', '${qData.desc}')">${shuffledVisuals[2]}</button>
-                            <button class="option-btn" style="font-size: 3rem; padding: 20px;" onclick="checkVisualChoice('${shuffledVisuals[3]}', '${qData.answer}', '${qData.desc}')">${shuffledVisuals[3]}</button>
+                            <button class="option-btn" style="font-size: 3rem; padding: 20px;" onclick="checkVisualChoice('${shuffledVisuals[0]}', '${qData.answer}', '${qData.problemText}')">${shuffledVisuals[0]}</button>
+                            <button class="option-btn" style="font-size: 3rem; padding: 20px;" onclick="checkVisualChoice('${shuffledVisuals[1]}', '${qData.answer}', '${qData.problemText}')">${shuffledVisuals[1]}</button>
+                            <button class="option-btn" style="font-size: 3rem; padding: 20px;" onclick="checkVisualChoice('${shuffledVisuals[2]}', '${qData.answer}', '${qData.problemText}')">${shuffledVisuals[2]}</button>
+                            <button class="option-btn" style="font-size: 3rem; padding: 20px;" onclick="checkVisualChoice('${shuffledVisuals[3]}', '${qData.answer}', '${qData.problemText}')">${shuffledVisuals[3]}</button>
                         </div>
                     </div>
                 `;
@@ -770,17 +866,20 @@
                         <div style="font-size: 1.0rem; color: #047857; font-weight: bold;" id="match-status">연결한 개수: 0 / 3</div>
                     </div>
                 `;
-            } else {
-                let shuffledOpts = shuffleArray(qData.options);
+            } else if (qData.type === "drag") {
+                userSentence = [];
+                let shuffledWords = shuffleArray(qData.words);
                 quizArea.innerHTML = `
                     <div class="quiz-box">
-                        ${visualHtml}
-                        <div class="sentence-box">${qData.sentence}</div>
-                        <div style="font-size: 1.1rem; color: #4b5563; margin-bottom: 12px; font-weight: bold;">보기 중에서 알맞은 말을 골라 직접 적어보세요!</div>
-                        <div style="margin-bottom: 15px; font-weight: bold; color: #047857;">[ 보기: ${shuffledOpts.join(', ')} ]</div>
-                        <input type="text" id="typing-input" class="typing-input" placeholder="여기에 적어주세요">
-                        <br>
-                        <button class="role-btn role-student" style="padding: 14px; font-size: 1.15rem; width: 60%; margin: 0 auto;" onclick="checkTypingAnswer('${qData.answer}', '${qData.desc}')">정답 확인하기 ✔️</button>
+                        <div class="quiz-visual">${qData.visual}</div>
+                        <div style="font-size: 1.2rem; color: #374151; font-weight: bold; margin-bottom: 15px;">단어 조각을 순서대로 눌러 문장을 완성하세요!</div>
+                        <div class="word-pool">
+                            ${shuffledWords.map(w => `<div class="word-chip" onclick="pickWord(this, '${w}')">${w}</div>`).join('')}
+                        </div>
+                        <div id="dropzone" class="sentence-dropzone" onclick="resetSentence()">
+                            여기를 눌러 단어를 채워보세요 (클릭하면 초기화)
+                        </div>
+                        <button class="role-btn role-student" style="padding: 14px; font-size: 1.15rem; width: 60%; margin: 0 auto;" onclick="submitDragSentence('${qData.problemText}', JSON.stringify(qData.target))">정답 확인하기 ✔️</button>
                     </div>
                 `;
             }
@@ -828,7 +927,7 @@
             } else {
                 if (attemptCount === 0) {
                     attemptCount = 1;
-                    wrongList.push({ problem: qData.desc, user: "선긋기 오답", correct: "올바른 짝 연결" });
+                    wrongList.push({ problem: qData.problemText, user: "선긋기 오답", correct: "올바른 짝 연결" });
                     document.getElementById('custom-modal').style.display = 'flex';
                 } else {
                     currentQuizIndex++;
@@ -859,8 +958,45 @@
             svg.appendChild(line);
         }
 
-        function checkChoice(selected, answer, desc) {
-            const qData = activeQuizList[currentQuizIndex];
+        function pickWord(chip, word) {
+            userSentence.push(word);
+            document.getElementById('dropzone').innerText = userSentence.join(' ');
+            chip.style.display = 'none';
+        }
+
+        function resetSentence() {
+            userSentence = [];
+            document.getElementById('dropzone').innerText = "여기를 눌러 단어를 채워보세요 (클릭하면 초기화)";
+            document.querySelectorAll('.word-chip').forEach(c => c.style.display = 'block');
+        }
+
+        function submitDragSentence(problemText, targetStr) {
+            if (userSentence.length < 3) {
+                alert("단어를 모두 골라 문장을 완성해 주세요!");
+                return;
+            }
+
+            const targetArr = JSON.parse(targetStr);
+            const isMatch = userSentence.every((val, idx) => val === targetArr[idx]);
+
+            if (isMatch) {
+                if (attemptCount === 0) score++;
+                currentQuizIndex++;
+                loadQuiz();
+            } else {
+                if (attemptCount === 0) {
+                    attemptCount = 1;
+                    wrongList.push({ problem: problemText, user: userSentence.join(' '), correct: targetArr.join(' ') });
+                    document.getElementById('custom-modal').style.display = 'flex';
+                    resetSentence();
+                } else {
+                    currentQuizIndex++;
+                    loadQuiz();
+                }
+            }
+        }
+
+        function checkChoice(selected, answer, problemText) {
             if (selected === answer) {
                 if (attemptCount === 0) score++;
                 currentQuizIndex++;
@@ -868,7 +1004,7 @@
             } else {
                 if (attemptCount === 0) {
                     attemptCount = 1;
-                    wrongList.push({ problem: desc || qData.sentence || qData.text, user: selected, correct: answer });
+                    wrongList.push({ problem: problemText, user: selected, correct: answer });
                     document.getElementById('custom-modal').style.display = 'flex';
                 } else {
                     currentQuizIndex++;
@@ -877,7 +1013,7 @@
             }
         }
 
-        function checkVisualChoice(selectedVisual, answerVisual, desc) {
+        function checkVisualChoice(selectedVisual, answerVisual, problemText) {
             if (selectedVisual === answerVisual) {
                 if (attemptCount === 0) score++;
                 currentQuizIndex++;
@@ -885,32 +1021,7 @@
             } else {
                 if (attemptCount === 0) {
                     attemptCount = 1;
-                    wrongList.push({ problem: desc, user: "틀린 그림 선택", correct: "정답 그림" });
-                    document.getElementById('custom-modal').style.display = 'flex';
-                } else {
-                    currentQuizIndex++;
-                    loadQuiz();
-                }
-            }
-        }
-
-        function checkTypingAnswer(answer, desc) {
-            const inputVal = document.getElementById('typing-input').value.trim();
-            const qData = activeQuizList[currentQuizIndex];
-
-            if (!inputVal) {
-                alert("답을 입력해 주세요!");
-                return;
-            }
-
-            if (inputVal === answer) {
-                if (attemptCount === 0) score++;
-                currentQuizIndex++;
-                loadQuiz();
-            } else {
-                if (attemptCount === 0) {
-                    attemptCount = 1;
-                    wrongList.push({ problem: qData.sentence, user: inputVal, correct: answer });
+                    wrongList.push({ problem: problemText, user: "틀린 그림 선택", correct: "정답 그림(" + answerVisual + ")" });
                     document.getElementById('custom-modal').style.display = 'flex';
                 } else {
                     currentQuizIndex++;
