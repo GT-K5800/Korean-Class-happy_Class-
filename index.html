@@ -573,7 +573,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.18. 10:31:00 (v.1.0.36)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.18. 10:38:00 (v.1.0.37)</div>
         </footer>
     </div>
 
@@ -714,7 +714,7 @@
         let studentRecords = { 1: null, 2: null, 3: null };
         let levelUnlocked = { 2: false, 3: false };
 
-        // 30개 문장 목록 원본 데이터 (깔끔한 이모티콘 매칭 반영)
+        // 30개 문장 목록 원본 데이터 (문장 수정 반영 완료)
         const rawSentenceData = [
             { visual: "🌷", full: "예쁜 꽃이 피었어요.", target: "예쁜", options: ["뚱뚱한", "차가운", "빠른", "예쁜"] },
             { visual: "🎤", full: "신나는 노래를 불러요.", target: "신나는", options: ["파란", "딱딱한", "신나는", "동그란"] },
@@ -723,7 +723,7 @@
             { visual: "🍜", full: "맛있는 라면을 먹어요.", target: "맛있는", options: ["세모난", "푹신한", "맛있는", "느린"] },
             { visual: "🦒", full: "기다란 목을 가졌어요.", target: "기다란", options: ["기다란", "시원한", "하얀", "달콤한"] },
             { visual: "⏰", full: "동그란 시계를 봐요.", target: "동그란", options: ["신나는", "차가운", "동그란", "맛있는"] },
-            { visual: "☁️", full: "파란 하늘이 멋져요.", target: "파란", options: ["파란", "네모난", "따뜻한", "빠른"] },
+            { visual: "🌊", full: "푸른 바다가 보여요.", target: "푸른", options: ["푸른", "네모난", "따뜻한", "빠른"] },
             { visual: "📺", full: "네모난 TV를 봐요.", target: "네모난", options: ["하얀", "네모난", "푹신한", "반짝이는"] },
             { visual: "🍰", full: "달콤한 케이크를 먹어요.", target: "달콤한", options: ["뜨거운", "느린", "달콤한", "신나는"] },
             { visual: "🪨", full: "무거운 돌을 들어요.", target: "무거운", options: ["무서운", "무거운", "기다란", "시끄러운"] },
@@ -736,7 +736,7 @@
             { visual: "🐰", full: "귀여운 토끼가 보여요.", target: "귀여운", options: ["귀여운", "차가운", "시끄러운", "딱딱한"] },
             { visual: "🦖", full: "무서운 공룡이 뛰어요.", target: "무서운", options: ["무서운", "맛있는", "예쁜", "달콤한"] },
             { visual: "⛄", full: "하얀 눈사람을 만들어요.", target: "하얀", options: ["까만", "하얀", "기다란", "따뜻한"] },
-            { visual: "💃", full: "즐거운 춤을 춰요.", target: "즐거운", options: ["푹신한", "울퉁불퉁한", "작은", "즐거운"] },
+            { visual: "💃", full: "신나는 춤을 춰요.", target: "신나는", options: ["푹신한", "울퉁불퉁한", "작은", "신나는"] },
             { visual: "🎨", full: "멋진 그림을 그렸어요.", target: "멋진", options: ["멋진", "하얀", "뚱뚱한", "뾰족한"] },
             { visual: "🔊", full: "시끄러운 소리가 들려요.", target: "시끄러운", options: ["파란", "시끄러운", "추운", "딱딱한"] },
             { visual: "🍎", full: "빨간 사과가 열렸어요.", target: "빨간", options: ["뾰족한", "빨간", "빠른", "무서운"] },
@@ -772,9 +772,9 @@
             },
             {
                 prompt: "꾸며주는 말을 알맞은 문장 3개와 각각 연결해봐요!",
-                modifiers: ["파란", "네모난", "달콤한"],
-                sentences: ["하늘이 멋져요.", "TV를 봐요.", "케이크를 먹어요."],
-                pairs: { "파란": "하늘이 멋져요.", "네모난": "TV를 봐요.", "달콤한": "케이크를 먹어요." }
+                modifiers: ["푸른", "네모난", "달콤한"],
+                sentences: ["바다가 보여요.", "TV를 봐요.", "케이크를 먹어요."],
+                pairs: { "푸른": "바다가 보여요.", "네모난": "TV를 봐요.", "달콤한": "케이크를 먹어요." }
             }
         ];
 
@@ -930,11 +930,10 @@
                     type: "typing", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
                 }));
 
-                const wrongWordMap = { "예쁜": "미운", "신나는": "지루한", "동그란": "네모난", "귀여운": "무서운", "맛있는": "맛없는", "기다란": "짧은", "파란": "노란", "네모난": "동그란", "달콤한": "쓴", "무거운": "가벼운", "뚱뚱한": "날씬한", "노란": "파란", "하얀": "까만", "멋진": "이상한", "커다란": "작은", "무서운": "착한", "즐거운": "슬픈", "시끄러운": "조용한", "빨간": "초록색", "뾰족한": "둥근", "작은": "커다란", "푹신한": "딱딱한", "느린": "빠른", "반짝이는": "컴컴한" };
+                const wrongWordMap = { "예쁜": "미운", "신나는": "지루한", "동그란": "네모난", "귀여운": "무서운", "맛있는": "맛없는", "기다란": "짧은", "푸른": "누런", "네모난": "동그란", "달콤한": "쓴", "무거운": "가벼운", "뚱뚱한": "날씬한", "노란": "파란", "하얀": "까만", "멋진": "이상한", "커다란": "작은", "무서운": "착한", "시끄러운": "조용한", "빨간": "초록색", "뾰족한": "둥근", "작은": "커다란", "푹신한": "딱딱한", "느린": "빠른", "반짝이는": "컴컴한" };
 
                 let fixList = selectedItems.slice(7, 10).map(item => {
                     let wrongW = wrongWordMap[item.target] || "다른말";
-                    // 잘못된 부분만 빨간색으로 감싸기
                     let coloredWrong = `<span style="color: #dc2626;">${wrongW}</span>`;
                     let badSentence = item.full.replace(item.target, coloredWrong);
                     let wrongOptions = shuffleArray([item.target, wrongW, "이상한", "바른말"]);
