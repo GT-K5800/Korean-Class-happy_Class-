@@ -529,16 +529,16 @@
 
             <div class="level-grid">
                 <button class="level-card-btn" onclick="startQuiz(1)">
-                    <div><strong>⭐ 1단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">꾸며주는 말을 골라 문장 완성하기 (객관식)</div></div>
-                    <span style="font-size: 1.3rem;">바로시작</span>
+                    <div><strong>1단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">꾸며주는 말을 골라 문장 완성하기 (객관식)</div></div>
+                    <div><span style="font-size: 1.2rem; margin-right: 8px;">⭐</span><span style="font-size: 1.1rem; font-weight: bold;">바로시작</span></div>
                 </button>
                 <button id="btn-lvl-2" class="level-card-btn" onclick="startQuiz(2)" disabled>
-                    <div><strong>⭐⭐ 2단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">문장을 읽고 알맞은 그림 찾기 및 선긋기</div></div>
-                    <span id="badge-lvl-2" style="font-size: 1.2rem;">🔒 잠김</span>
+                    <div><strong>2단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">문장을 읽고 알맞은 그림 찾기 및 선긋기</div></div>
+                    <div><span style="font-size: 1.2rem; margin-right: 8px;">⭐⭐</span><span id="badge-lvl-2" style="font-size: 1.1rem; font-weight: bold;">🔒 잠김</span></div>
                 </button>
                 <button id="btn-lvl-3" class="level-card-btn" onclick="startQuiz(3)" disabled>
-                    <div><strong>⭐⭐⭐ 3단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">꾸며주는 말 직접 타이핑 빈칸 채우기</div></div>
-                    <span id="badge-lvl-3" style="font-size: 1.2rem;">🔒 잠김</span>
+                    <div><strong>3단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">빈칸 채우기 및 틀린 꾸며주는 말 고치기</div></div>
+                    <div><span style="font-size: 1.2rem; margin-right: 8px;">⭐⭐⭐</span><span id="badge-lvl-3" style="font-size: 1.1rem; font-weight: bold;">🔒 잠김</span></div>
                 </button>
             </div>
             <button class="back-btn" onclick="enterMenu()">활동 메뉴로 돌아가기</button>
@@ -573,7 +573,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.18. 09:30:00 (v.1.0.30)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.18. 10:10:00 (v.1.0.32)</div>
         </footer>
     </div>
 
@@ -714,38 +714,38 @@
         let studentRecords = { 1: null, 2: null, 3: null };
         let levelUnlocked = { 2: false, 3: false };
 
-        // [새로운 30개 문장 목록 반영]
-        const masterSentenceBank = [
-            { visual: "🌷", sentence: "예쁜 꽃이 피었어요.", options: ["뚱뚱한", "차가운", "빠른", "예쁜"], answer: "예쁜" },
-            { visual: "🎤", sentence: "신나는 노래를 불러요.", options: ["파란", "딱딱한", "신나는", "동그란"], answer: "신나는" },
-            { visual: "☀️", sentence: "동그란 해가 떴어요.", options: ["동그란", "즐거운", "빠른", "시끄러운"], answer: "동그란" },
-            { visual: "🐱", sentence: "귀여운 고양이가 있어요.", options: ["반짝이는", "귀여운", "뜨거운", "네모난"], answer: "귀여운" },
-            { visual: "🍜", sentence: "맛있는 라면을 먹어요.", options: ["세모난", "푹신한", "맛있는", "느린"], answer: "맛있는" },
-            { visual: "🦒", sentence: "기다란 목을 가졌어요.", options: ["기다란", "시원한", "하얀", "달콤한"], answer: "기다란" },
-            { visual: "⏰", sentence: "동그란 시계를 봐요.", options: ["신나는", "차가운", "동그란", "맛있는"], answer: "동그란" },
-            { visual: "☁️", sentence: "파란 하늘이 멋져요.", options: ["파란", "네모난", "따뜻한", "빠른"], answer: "파란" },
-            { visual: "📺", sentence: "네모난 TV를 봐요.", options: ["하얀", "네모난", "푹신한", "반짝이는"], answer: "네모난" },
-            { visual: "🍰", sentence: "달콤한 케이크를 먹어요.", options: ["뜨거운", "느린", "달콤한", "신나는"], answer: "달콤한" },
-            { visual: "🪨", sentence: "무거운 돌을 들어요.", options: ["무서운", "무거운", "기다란", "시끄러운"], answer: "무거운" },
-            { visual: "🦛", sentence: "뚱뚱한 하마가 있어요.", options: ["뚱뚱한", "맛있는", "가벼운", "시원한"], answer: "뚱뚱한" },
-            { visual: "🍌", sentence: "노란 바나나를 먹어요.", options: ["빨간", "노란", "하얀", "까만"], answer: "노란" },
-            { visual: "📄", sentence: "하얀 종이에 그려요.", options: ["동그란", "하얀", "차가운", "빠른"], answer: "하얀" },
-            { visual: "🚗", sentence: "멋진 자동차를 타요.", options: ["멋진", "뚱뚱한", "달콤한", "맛있는"], answer: "멋진" },
-            { visual: "🚂", sentence: "기다란 기차가 지나가요.", options: ["따뜻한", "기다란", "가벼운", "즐거운"], answer: "기다란" },
-            { visual: "✈️", sentence: "커다란 비행기가 날아가요.", options: ["차가운", "동그란", "커다란", "빨간"], answer: "커다란" },
-            { visual: "🐰", sentence: "귀여운 토끼가 보여요.", options: ["귀여운", "차가운", "시끄러운", "딱딱한"], answer: "귀여운" },
-            { visual: "🦖", sentence: "무서운 공룡이 뛰어요.", options: ["무서운", "맛있는", "예쁜", "달콤한"], answer: "무서운" },
-            { visual: "⛄", sentence: "하얀 눈사람을 만들어요.", options: ["까만", "하얀", "기다란", "따뜻한"], answer: "하얀" },
-            { visual: "💃", sentence: "즐거운 춤을 춰요.", options: ["푹신한", "울퉁불퉁한", "작은", "즐거운"], answer: "즐거운" },
-            { visual: "🎨", sentence: "멋진 그림을 그렸어요.", options: ["멋진", "하얀", "뚱뚱한", "뾰족한"], answer: "멋진" },
-            { visual: "🔊", sentence: "시끄러운 소리가 들려요.", options: ["파란", "시끄러운", "추운", "딱딱한"], answer: "시끄러운" },
-            { visual: "🍎", sentence: "빨간 사과가 열렸어요.", options: ["뾰족한", "빨간", "빠른", "무서운"], answer: "빨간" },
-            { visual: "🌵", sentence: "뾰족한 가시가 있어요.", options: ["동그란", "뚱뚱한", "뾰족한", "빠른"], answer: "뾰족한" },
-            { visual: "☁️", sentence: "하얀 구름이 떠다녀요.", options: ["하얀", "네모난", "뜨거운", "시끄러운"], answer: "하얀" },
-            { visual: "🐿️", sentence: "작은 다람쥐가 있어요.", options: ["기다란", "작은", "맛있는", "따가운"], answer: "작은" },
-            { visual: "🛏️", sentence: "푹신한 침대에 누워요.", options: ["빠른", "푹신한", "가벼운", "세모난"], answer: "푹신한" },
-            { visual: "🐢", sentence: "느린 거북이가 지나가요.", options: ["차가운", "뜨거운", "달콤한", "느린"], answer: "느린" },
-            { visual: "⭐", sentence: "반짝이는 별이 빛나요.", options: ["반짝이는", "느린", "맛있는", "무서운"], answer: "반짝이는" }
+        // 30개 문장 목록 원본 데이터
+        const rawSentenceData = [
+            { visual: "🌷", full: "예쁜 꽃이 피었어요.", target: "예쁜", options: ["뚱뚱한", "차가운", "빠른", "예쁜"] },
+            { visual: "🎤", full: "신나는 노래를 불러요.", target: "신나는", options: ["파란", "딱딱한", "신나는", "동그란"] },
+            { visual: "☀️", full: "동그란 해가 떴어요.", target: "동그란", options: ["동그란", "즐거운", "빠른", "시끄러운"] },
+            { visual: "🐱", full: "귀여운 고양이가 있어요.", target: "귀여운", options: ["반짝이는", "귀여운", "뜨거운", "네모난"] },
+            { visual: "🍜", full: "맛있는 라면을 먹어요.", target: "맛있는", options: ["세모난", "푹신한", "맛있는", "느린"] },
+            { visual: "🦒", full: "기다란 목을 가졌어요.", target: "기다란", options: ["기다란", "시원한", "하얀", "달콤한"] },
+            { visual: "⏰", full: "동그란 시계를 봐요.", target: "동그란", options: ["신나는", "차가운", "동그란", "맛있는"] },
+            { visual: "☁️", full: "파란 하늘이 멋져요.", target: "파란", options: ["파란", "네모난", "따뜻한", "빠른"] },
+            { visual: "📺", full: "네모난 TV를 봐요.", target: "네모난", options: ["하얀", "네모난", "푹신한", "반짝이는"] },
+            { visual: "🍰", full: "달콤한 케이크를 먹어요.", target: "달콤한", options: ["뜨거운", "느린", "달콤한", "신나는"] },
+            { visual: "🪨", full: "무거운 돌을 들어요.", target: "무거운", options: ["무서운", "무거운", "기다란", "시끄러운"] },
+            { visual: "🦛", full: "뚱뚱한 하마가 있어요.", target: "뚱뚱한", options: ["뚱뚱한", "맛있는", "가벼운", "시원한"] },
+            { visual: "🍌", full: "노란 바나나를 먹어요.", target: "노란", options: ["빨간", "노란", "하얀", "까만"] },
+            { visual: "📄", full: "하얀 종이에 그려요.", target: "하얀", options: ["동그란", "하얀", "차가운", "빠른"] },
+            { visual: "🚗", full: "멋진 자동차를 타요.", target: "멋진", options: ["멋진", "뚱뚱한", "달콤한", "맛있는"] },
+            { visual: "🚂", full: "기다란 기차가 지나가요.", target: "기다란", options: ["따뜻한", "기다란", "가벼운", "즐거운"] },
+            { visual: "✈️", full: "커다란 비행기가 날아가요.", target: "커다란", options: ["차가운", "동그란", "커다란", "빨간"] },
+            { visual: "🐰", full: "귀여운 토끼가 보여요.", target: "귀여운", options: ["귀여운", "차가운", "시끄러운", "딱딱한"] },
+            { visual: "🦖", full: "무서운 공룡이 뛰어요.", target: "무서운", options: ["무서운", "맛있는", "예쁜", "달콤한"] },
+            { visual: "⛄", full: "하얀 눈사람을 만들어요.", target: "하얀", options: ["까만", "하얀", "기다란", "따뜻한"] },
+            { visual: "💃", full: "즐거운 춤을 춰요.", target: "즐거운", options: ["푹신한", "울퉁불퉁한", "작은", "즐거운"] },
+            { visual: "🎨", full: "멋진 그림을 그렸어요.", target: "멋진", options: ["멋진", "하얀", "뚱뚱한", "뾰족한"] },
+            { visual: "🔊", full: "시끄러운 소리가 들려요.", target: "시끄러운", options: ["파란", "시끄러운", "추운", "딱딱한"] },
+            { visual: "🍎", full: "빨간 사과가 열렸어요.", target: "빨간", options: ["뾰족한", "빨간", "빠른", "무서운"] },
+            { visual: "🌵", full: "뾰족한 가시가 있어요.", target: "뾰족한", options: ["동그란", "뚱뚱한", "뾰족한", "빠른"] },
+            { visual: "☁️", full: "하얀 구름이 떠다녀요.", target: "하얀", options: ["하얀", "네모난", "뜨거운", "시끄러운"] },
+            { visual: "🐿️", full: "작은 다람쥐가 있어요.", target: "작은", options: ["기다란", "작은", "맛있는", "따가운"] },
+            { visual: "🛏️", full: "푹신한 침대에 누워요.", target: "푹신한", options: ["빠른", "푹신한", "가벼운", "세모난"] },
+            { visual: "🐢", full: "느린 거북이가 지나가요.", target: "느린", options: ["차가운", "뜨거운", "달콤한", "느린"] },
+            { visual: "⭐", full: "반짝이는 별이 빛나요.", target: "반짝이는", options: ["반짝이는", "느린", "맛있는", "무서운"] }
         ];
 
         const matchVisualBank = [
@@ -909,26 +909,39 @@
             wrongList = [];
             
             if (lvl === 1) {
-                let blinks = shuffleArray(masterSentenceBank).slice(0, 7).map(item => ({
-                    type: "blank", visual: item.visual, sentence: item.sentence, options: shuffleArray(item.options), answer: item.answer, problemText: item.sentence
+                let blinks = shuffleArray(rawSentenceData).slice(0, 7).map(item => ({
+                    type: "blank", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
                 }));
                 let matches = shuffleArray(matchVisualBank).slice(0, 3).map(item => ({
-                    type: "match-visual", text: item.text, visualOptions: item.visualOptions, answer: item.answer, problemText: item.text + " (그림 찾기)"
+                    type: "match-visual", text: item.text.replace(item.answer, "______"), visualOptions: item.visualOptions, answer: item.answer, problemText: item.text + " (그림 찾기)"
                 }));
                 activeQuizList = shuffleArray([...blinks, ...matches]);
             } else if (lvl === 2) {
                 let lines = shuffleArray(lineMatchBank).slice(0, 2).map(item => ({
                     type: "line-match", prompt: item.prompt, modifiers: item.modifiers, sentences: item.sentences, pairs: item.pairs, problemText: "선긋기 활동"
                 }));
-                let blinks = shuffleArray(masterSentenceBank).slice(0, 8).map(item => ({
-                    type: "blank", visual: item.visual, sentence: item.sentence, options: shuffleArray(item.options), answer: item.answer, problemText: item.sentence
+                let blinks = shuffleArray(rawSentenceData).slice(0, 8).map(item => ({
+                    type: "blank", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
                 }));
                 activeQuizList = shuffleArray([...lines, ...blinks]);
             } else {
-                let typings = shuffleArray(masterSentenceBank).slice(0, 10).map(item => ({
-                    type: "typing", visual: item.visual, sentence: item.sentence, options: shuffleArray(item.options), answer: item.answer, problemText: item.sentence
+                let selectedItems = shuffleArray(rawSentenceData).slice(0, 10);
+                let typings = selectedItems.slice(0, 7).map(item => ({
+                    type: "typing", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
                 }));
-                activeQuizList = typings;
+
+                const wrongWordMap = { "예쁜": "미운", "신나는": "지루한", "동그란": "네모난", "귀여운": "무서운", "맛있는": "맛없는", "기다란": "짧은", "파란": "노란", "네모난": "동그란", "달콤한": "쓴", "무거운": "가벼운", "뚱뚱한": "날씬한", "노란": "파란", "하얀": "까만", "멋진": "이상한", "커다란": "작은", "무서운": "착한", "즐거운": "슬픈", "시끄러운": "조용한", "빨간": "초록색", "뾰족한": "둥근", "작은": "커다란", "푹신한": "딱딱한", "느린": "빠른", "반짝이는": "컴컴한" };
+
+                let fixList = selectedItems.slice(7, 10).map(item => {
+                    let wrongW = wrongWordMap[item.target] || "다른말";
+                    let badSentence = item.full.replace(item.target, wrongW);
+                    let wrongOptions = shuffleArray([item.target, wrongW, "이상한", "바른말"]);
+                    return {
+                        type: "fix-word", visual: item.visual, sentence: badSentence, wrongPart: wrongW, options: wrongOptions, answer: item.target, problemText: badSentence
+                    };
+                });
+
+                activeQuizList = shuffleArray([...typings, ...fixList]);
             }
 
             showCard('screen-quiz');
@@ -1006,6 +1019,19 @@
                         <div style="font-size: 1.1rem; color: #4b5563; margin-bottom: 12px; font-weight: bold;">보기 중에서 알맞은 말을 골라 직접 적어보세요!</div>
                         <div style="margin-bottom: 15px; font-weight: bold; color: #047857;">[ 보기: ${shuffledOpts.join(', ')} ]</div>
                         <input type="text" id="typing-input" class="typing-input" placeholder="여기에 적어주세요">
+                        <br>
+                        <button class="role-btn role-student" style="padding: 14px; font-size: 1.15rem; width: 60%; margin: 0 auto;" onclick="checkTypingAnswer('${qData.answer}', '${qData.problemText}')">정답 확인하기 ✔️</button>
+                    </div>
+                `;
+            } else if (qData.type === "fix-word") {
+                let shuffledOpts = shuffleArray(qData.options);
+                quizArea.innerHTML = `
+                    <div class="quiz-box">
+                        ${visualHtml}
+                        <div class="sentence-box" style="color: #b91c1c;">${qData.sentence}</div>
+                        <div style="font-size: 1.1rem; color: #4b5563; margin-bottom: 12px; font-weight: bold;">문장에서 잘못 쓰인 꾸며주는 말을 바르게 고쳐 적어보세요!</div>
+                        <div style="margin-bottom: 15px; font-weight: bold; color: #047857;">[ 보기: ${shuffledOpts.join(', ')} ]</div>
+                        <input type="text" id="typing-input" class="typing-input" placeholder="바른 말을 적어주세요">
                         <br>
                         <button class="role-btn role-student" style="padding: 14px; font-size: 1.15rem; width: 60%; margin: 0 auto;" onclick="checkTypingAnswer('${qData.answer}', '${qData.problemText}')">정답 확인하기 ✔️</button>
                     </div>
