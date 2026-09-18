@@ -165,7 +165,6 @@
             color: #334155;
         }
         
-        /* 천천히 모드 및 상장 버튼 구역 스타일 */
         .controls-row {
             display: flex;
             gap: 10px;
@@ -477,7 +476,6 @@
                 <p style="color: #4b5563; font-size: 1.05rem;">💡 <strong>상장 획득 조건:</strong> 마지막 4단계를 완료하고 합격 점수를 달성하면 상장이 수여됩니다!</p>
             </div>
 
-            <!-- 학습 기록 및 천천히 모드 / 상장 버튼 구역 -->
             <div class="record-wrapper">
                 <div class="record-box">
                     <div style="font-weight: bold; color: #047857; margin-bottom: 5px;">📊 나의 학습 기록 저장소</div>
@@ -552,7 +550,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.18. 11:35:00 (v.2.1.0)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.18. 11:55:00 (v.2.0.44)</div>
         </footer>
     </div>
 
@@ -687,7 +685,7 @@
         let attemptCount = 0;
         let activeQuizList = [];
         let hasWonCertificate = false;
-        let isSlowMode = false; // 천천히 모드 상태 변수
+        let isSlowMode = false;
 
         let studentRecords = { 1: null, 2: null, 3: null, 4: null };
         let levelUnlocked = { 2: false, 3: false, 4: false };
@@ -697,17 +695,15 @@
             document.getElementById('slow-mode-label').innerText = isSlowMode ? "ON" : "OFF";
         }
 
-        // ================= 데이터셋 구축 (총 10문항씩 구성, 천천히 모드 시 슬라이싱하여 5문항 제공) =================
+        // ================= 데이터셋 구축 =================
 
         // 1단계: 주인공 문장고리 찾기 (이/가) - 받침 5개, 없음 5개
         const level1Data = [
-            // 받침 있음 (가/이)
             { visual: "🦆", full: "오리가 꽥꽥 울어요.", target: "가", wrong: "이", problemText: "오리(이/가) 꽥꽥 울어요." },
             { visual: "🐓", full: "닭이 꼬끼오 울어요.", target: "이", wrong: "가", problemText: "닭(이/가) 꼬끼오 울어요." },
             { visual: "🐻", full: "곰이 숲에서 걸어요.", target: "이", wrong: "가", problemText: "곰(이/가) 숲에서 걸어요." },
             { visual: "🐟", full: "물고기가 헤엄쳐요.", target: "가", wrong: "이", problemText: "물고기(이/가) 헤엄쳐요." },
             { visual: "🌙", full: "달이 환하게 떠요.", target: "이", wrong: "가", problemText: "달(이/가) 환하게 떠요." },
-            // 받침 없음 (가/이)
             { visual: "🐶", full: "강아지가 멍멍 짖어요.", target: "가", wrong: "이", problemText: "강아지(이/가) 멍멍 짖어요." },
             { visual: "🐱", full: "고양이가 야옹 울어요.", target: "가", wrong: "이", problemText: "고양이(이/가) 야옹 울어요." },
             { visual: "🌳", full: "나무가 초록색이에요.", target: "가", wrong: "이", problemText: "나무(이/가) 초록색이에요." },
@@ -717,13 +713,11 @@
 
         // 2단계: 행동의 목적 문장고리 찾기 (을/를) - 받침 5개, 없음 5개
         const level2Data = [
-            // 받침 있음 (를)
             { visual: "🥛", full: "우유를 맛있게 마셔요.", target: "를", wrong: "을", problemText: "우유(을/를) 맛있게 마셔요." },
             { visual: "🍎", full: "사과를 상큼하게 먹어요.", target: "를", wrong: "을", problemText: "사과(을/를) 상큼하게 먹어요." },
             { visual: "🍌", full: "바나나를 달콤하게 먹어요.", target: "를", wrong: "을", problemText: "바나나(을/를) 달콤하게 먹어요." },
             { visual: "🚗", full: "자동차를 멋지게 타요.", target: "를", wrong: "을", problemText: "자동차(을/를) 멋지게 타요." },
             { visual: "🛏️", full: "침구를 포근하게 덮어요.", target: "를", wrong: "을", problemText: "침구(을/를) 포근하게 덮어요." },
-            // 받침 없음 (을)
             { visual: "📚", full: "책을 조용히 읽어요.", target: "을", wrong: "를", problemText: "책(을/를) 조용히 읽어요." },
             { visual: "⚽", full: "공을 신나게 차요.", target: "을", wrong: "를", problemText: "공(을/를) 신나게 차요." },
             { visual: "🍚", full: "밥을 맛있게 먹어요.", target: "을", wrong: "를", problemText: "밥(을/를) 맛있게 먹어요." },
@@ -731,34 +725,32 @@
             { visual: "✏️", full: "글을 반듯하게 써요.", target: "을", wrong: "를", problemText: "글(을/를) 반듯하게 써요." }
         ];
 
-        // 3단계: 비교/강조 문장고리 (은/는) - 10문제 중 5문제는 비교 문장 (은/는 각각 골고루 출제)
+        // 3단계: 비교/강조 문장고리 (은/는) - 비교 문장 5개 포함
         const level3Data = [
-            // 비교 문장 5문제 (은/는 골고루 포함)
+            { visual: "❄️", full: "겨울은 춥고, 여름은 더워요.", target: "는", wrong: "은", problemText: "겨울(은/는) 춥고, 여름(은/는) 더워요." },
+            { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", problemText: "봄(은/는) 따뜻하고, 가을(은/는) 시원해요." },
+            { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", problemText: "사슴(은/는) 뛰고, 참새(은/는) 날아가요." },
             { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", problemText: "사자(은/는) 씩씩하고, 토끼(은/는) 귀여워요." },
             { visual: "🦒", full: "기린은 목이 길고, 코끼리는 코가 길어요.", target: "은", wrong: "는", problemText: "기린(은/는) 목이 길고, 코끼리(은/는) 코가 길어요." },
-            { visual: "🐧", full: "펭귄은 날지 못하고, 참새는 잘 날아요.", target: "은", wrong: "는", problemText: "펭귄(은/는) 날지 못하고, 참새(은/는) 잘 날아요." },
-            { visual: "🐻", full: "곰은 겨울에 자고, 다람쥐는 도토리를 모아요.", target: "은", wrong: "는", problemText: "곰(은/는) 겨울에 자고, 다람쥐(은/는) 도토리를 모아요." },
-            { visual: "🐢", full: "거북이는 느리고, 치타는 빨라요.", target: "는", wrong: "은", problemText: "거북이(은/는) 느리고, 치타(은/는) 빨라요." },
-            // 단문 강조 문장 5문제
+            { visual: "🐧", full: "펭귄은 날지 못해요.", target: "은", wrong: "는", problemText: "펭귄(은/는) 날지 못해요." },
             { visual: "🐯", full: "호랑이는 무섭게 생겼어요.", target: "는", wrong: "은", problemText: "호랑이(은/는) 무섭게 생겼어요." },
             { visual: "🐻", full: "곰은 겨울에 잠을 자요.", target: "은", wrong: "는", problemText: "곰(은/는) 겨울에 잠을 자요." },
             { visual: "🐰", full: "토끼는 깡충깡충 뛰어요.", target: "는", wrong: "은", problemText: "토끼(은/는) 깡충깡충 뛰어요." },
-            { visual: "🌳", full: "단풍은 가을에 물들어요.", target: "풍은", wrong: "풍는", problemText: "단풍(은/는) 가을에 물들어요." },
-            { visual: "🍅", full: "방울은 빨갛게 익어요.", target: "울은", wrong: "울는", problemText: "방울(은/는) 빨갛게 익어요." }
+            { visual: "🐢", full: "거북이는 느리게 걸어요.", target: "는", wrong: "은", problemText: "거북이(은/는) 느리게 걸어요." }
         ];
 
         // 4단계: 다양한 문장고리 종합 (이/가 + 을/를 조합, 빈칸 형태로 제시) - 10문항
         const level4Data = [
-            { visual: "🐶", full: "강아지가 뼈다귀를 물어요.", blankFull: "강아지(______) 뼈다귀(______) 물어요.", q1Target: "가", q2Target: "를", problemText: "강아지(이/가) 뼈다귀(을/를) 물어요." },
-            { visual: "🐱", full: "고양이가 생선을 먹어요.", blankFull: "고양이(______) 생선(______) 먹어요.", q1Target: "가", q2Target: "을", problemText: "고양이(이/가) 생선(을/를) 먹어요." },
-            { visual: "👶", full: "아기가 우유를 마셔요.", blankFull: "아기(______) 우유(______) 마셔요.", q1Target: "가", q2Target: "를", problemText: "아기(이/가) 우유(을/를) 마셔요." },
-            { visual: "🐓", full: "닭이 모이를 쪼아요.", blankFull: "닭(______) 모이(______) 쪼아요.", q1Target: "이", q2Target: "를", problemText: "닭(이/가) 모이(을/를) 쪼아요." },
-            { visual: "🐻", full: "곰이 꿀을 맛있게 먹어요.", blankFull: "곰(______) 꿀(______) 맛있게 먹어요.", q1Target: "이", q2Target: "을", problemText: "곰(이/가) 꿀(을/를) 맛있게 먹어요." },
-            { visual: "🐰", full: "토끼가 당근을 먹어요.", blankFull: "토끼(______) 당근(______) 먹어요.", q1Target: "가", q2Target: "을", problemText: "토끼(이/가) 당근(을/를) 먹어요." },
-            { visual: "🐵", full: "원숭이가 바나나를 먹어요.", blankFull: "원숭이(______) 바나나(______) 먹어요.", q1Target: "가", q2Target: "를", problemText: "원숭이(이/가) 바나나(을/를) 먹어요." },
-            { visual: "🐿️", full: "다람쥐가 도토리를 주워요.", blankFull: "다람쥐(______) 도토리(______) 주워요.", q1Target: "가", q2Target: "를", problemText: "다람쥐(이/가) 도토리(을/를) 주워요." },
-            { visual: "👶", full: "아이가 그림책을 봐요.", blankFull: "아이(______) 그림책(______) 봐요.", q1Target: "가", q2Target: "을", problemText: "아이(이/가) 그림책(을/를) 봐요." },
-            { visual: "🦁", full: "사자가 고기를 먹어요.", blankFull: "사자(______) 고기(______) 먹어요.", q1Target: "가", q2Target: "를", problemText: "사자(이/가) 고기(을/를) 먹어요." }
+            { visual: "🐶", full: "강아지가 뼈다귀를 물어요.", blankFull: "강아지( ① ) 뼈다귀( ② ) 물어요.", q1Target: "가", q2Target: "를", problemText: "강아지(이/가) 뼈다귀(을/를) 물어요." },
+            { visual: "🐱", full: "고양이가 생선을 먹어요.", blankFull: "고양이( ① ) 생선( ② ) 먹어요.", q1Target: "가", q2Target: "을", problemText: "고양이(이/가) 생선(을/를) 먹어요." },
+            { visual: "👶", full: "아기가 우유를 마셔요.", blankFull: "아기( ① ) 우유( ② ) 마셔요.", q1Target: "가", q2Target: "를", problemText: "아기(이/가) 우유(을/를) 마셔요." },
+            { visual: "🐓", full: "닭이 모이를 쪼아요.", blankFull: "닭( ① ) 모이( ② ) 쪼아요.", q1Target: "이", q2Target: "를", problemText: "닭(이/가) 모이(을/를) 쪼아요." },
+            { visual: "🐻", full: "곰이 꿀을 맛있게 먹어요.", blankFull: "곰( ① ) 꿀( ② ) 맛있게 먹어요.", q1Target: "이", q2Target: "을", problemText: "곰(이/가) 꿀(을/를) 맛있게 먹어요." },
+            { visual: "🐰", full: "토끼가 당근을 먹어요.", blankFull: "토끼( ① ) 당근( ② ) 먹어요.", q1Target: "가", q2Target: "을", problemText: "토끼(이/가) 당근(을/를) 먹어요." },
+            { visual: "🐵", full: "원숭이가 바나나를 먹어요.", blankFull: "원숭이( ① ) 바나나( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "원숭이(이/가) 바나나(을/를) 먹어요." },
+            { visual: "🐿️", full: "다람쥐가 도토리를 주워요.", blankFull: "다람쥐( ① ) 도토리( ② ) 주워요.", q1Target: "가", q2Target: "를", problemText: "다람쥐(이/가) 도토리(을/를) 주워요." },
+            { visual: "👶", full: "아이가 그림책을 봐요.", blankFull: "아이( ① ) 그림책( ② ) 봐요.", q1Target: "가", q2Target: "을", problemText: "아이(이/가) 그림책(을/를) 봐요." },
+            { visual: "🦁", full: "사자가 고기를 먹어요.", blankFull: "사자( ① ) 고기( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "사자(이/가) 고기(을/를) 먹어요." }
         ];
 
         function shuffleArray(array) {
@@ -943,18 +935,17 @@
                     </div>
                 `;
             } else {
-                // 4단계: 빈칸 형태로 제시
                 quizArea.innerHTML = `
                     <div class="quiz-box">
                         ${visualHtml}
                         <div style="font-size: 1.1rem; color: #4b5563; margin-bottom: 10px; font-weight: bold;">빈칸 ①과 ②에 들어갈 알맞은 문장고리를 각각 고르세요!</div>
                         <div class="sentence-box" style="font-size: 1.4rem;">${qData.blankFull}</div>
-                        <div style="margin-bottom: 12px; font-weight: bold; color: #047857;">① 주인공 자리 (~가) 선택:</div>
+                        <div style="margin-bottom: 12px; font-weight: bold; color: #047857;">① 주인공 문장고리 선택:</div>
                         <div class="options-grid" style="margin-bottom: 15px;">
                             <button class="option-btn" id="btn-q1-이" onclick="selectQ4Part1('이', '${qData.q1Target}')">이</button>
                             <button class="option-btn" id="btn-q1-가" onclick="selectQ4Part1('가', '${qData.q1Target}')">가</button>
                         </div>
-                        <div style="margin-bottom: 12px; font-weight: bold; color: #047857;">② 목적 자리 (~를) 선택:</div>
+                        <div style="margin-bottom: 12px; font-weight: bold; color: #047857;">② 목적 문장고리 선택:</div>
                         <div class="options-grid">
                             <button class="option-btn" id="btn-q2-을" onclick="selectQ4Part2('을', '${qData.q2Target}')">을</button>
                             <button class="option-btn" id="btn-q2-를" onclick="selectQ4Part2('를', '${qData.q2Target}')">를</button>
