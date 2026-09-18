@@ -442,7 +442,7 @@
                     <div class="cert-badge">🏅</div>
                     <div class="cert-title">상 장</div>
                     <div class="cert-text">위 학생은 꾸며주는 말 활동을 훌륭하게 이해하고 멋지게 마스터하였으므로 이 상장을 수여합니다!</div>
-                    <div class="cert-name" id="cert-student-name">김이도 학생 (예시)</div>
+                    <div class="cert-name" id="cert-student-name">김경탁 학생 (예시)</div>
                     <div style="font-size: 1.0rem; color: #92400e; font-weight: bold; margin-top: 15px;">2026년 묘량중앙초등학교</div>
                 </div>
                 <button class="role-btn role-student" style="margin-top: 20px; width: 100%; padding: 14px;" onclick="closeCertModal()">상장 닫기 🏆</button>
@@ -485,7 +485,7 @@
             <div class="role-select-box">
                 <div class="cheer-text">✨ 오늘도 열심히 공부해요! 화이팅! ✨</div>
                 <p style="margin-bottom: 18px; color: #374151; font-weight: bold; font-size: 1.2rem;">이름을 입력하고 시작해볼까요?</p>
-                <input type="text" id="student-name-input" class="name-input" placeholder="이름을 적어주세요 (예: 김이도)">
+                <input type="text" id="student-name-input" class="name-input" placeholder="이름을 적어주세요 (예: 김경탁)">
                 <button class="role-btn role-student" onclick="startApp()">공부 시작하기 🚀</button>
                 <button class="back-btn" onclick="showCard('screen-role')">돌아가기</button>
             </div>
@@ -573,11 +573,61 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.18. 00:09:06 (v.1.0.27)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.18. 09:05:12 (v.1.0.28)</div>
         </footer>
     </div>
 
     <script>
+        // Web Audio API 효과음 생성기
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (!audioCtx) return;
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                // 띠링~ (밝고 청량한 고음)
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, now); // D5
+                osc.frequency.setValueAtTime(880, now + 0.08); // A5
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            } else if (type === 'success') {
+                // 빠밤~~ (성공의 팡파레 느낌)
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                notes.forEach((freq, idx) => {
+                    const noteOsc = audioCtx.createOscillator();
+                    const noteGain = audioCtx.createGain();
+                    noteOsc.connect(noteGain);
+                    noteGain.connect(audioCtx.destination);
+                    noteOsc.type = 'triangle';
+                    noteOsc.frequency.setValueAtTime(freq, now + idx * 0.1);
+                    noteGain.gain.setValueAtTime(0.25, now + idx * 0.1);
+                    noteGain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.3);
+                    noteOsc.start(now + idx * 0.1);
+                    noteOsc.stop(now + idx * 0.1 + 0.3);
+                });
+            } else if (type === 'wrong') {
+                // 띠용~ (재미있는 슬라이딩 톤)
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(300, now);
+                osc.frequency.exponentialRampToValueAtTime(150, now + 0.3);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            }
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             const qrContainer = document.getElementById("qrcode");
             const qrLargeContainer = document.getElementById("qrcode-large");
@@ -628,7 +678,6 @@
         let studentRecords = { 1: null, 2: null, 3: null };
         let levelUnlocked = { 2: false, 3: false };
 
-        // [최종 수정된 마스터 문장 은행 (보기 겹침 완전 해소)]
         const masterSentenceBank = [
             { visual: "🌷", sentence: "______ 꽃이 피어요.", options: ["예쁜", "차가운", "동그란", "조용한"], answer: "예쁜" },
             { visual: "🎤", sentence: "______ 노래를 불러요.", options: ["신나는", "지루한", "동그란", "딱딱한"], answer: "신나는" },
@@ -736,8 +785,10 @@
                 levelUnlocked[2] = true;
                 levelUnlocked[3] = true;
                 hasWonCertificate = true;
+                playSound('success');
                 enterMenu();
             } else {
+                playSound('wrong');
                 document.getElementById('modal-icon').innerText = "🔑";
                 document.getElementById('modal-msg').innerText = "비밀번호가 틀렸어요. 다시 입력해주세요!";
                 document.getElementById('custom-modal').style.display = 'flex';
@@ -752,6 +803,7 @@
             }
             studentName = input.value.trim();
             isTeacherMode = false;
+            playSound('success');
             enterMenu();
         }
 
@@ -778,7 +830,8 @@
             let recordHtml = "";
             for (let lvl = 1; lvl <= 3; lvl++) {
                 if (studentRecords[lvl] !== null) {
-                    recordHtml += `[${lvl}단계 최고 기록]: ${studentRecords[lvl]}점 / 10점<br>`;
+                    let badgeName = lvl === 1 ? "🥇 1단계 메달" : lvl === 2 ? "🥈 2단계 메달" : "🏆 3단계 메달";
+                    recordHtml += `[${lvl}단계 최고 기록]: ${studentRecords[lvl]}점 / 10점 (${badgeName} 획득!)<br>`;
                 }
             }
             if (recordHtml === "") {
@@ -956,6 +1009,7 @@
             const correctSent = qData.pairs[selectedModifier];
 
             if (sent === correctSent) {
+                playSound('correct');
                 const modEl = document.getElementById('mod-' + selectedModifier);
                 modEl.classList.remove('selected');
                 modEl.classList.add('matched');
@@ -969,12 +1023,14 @@
 
                 if (matchedPairsCount === 3) {
                     if (attemptCount === 0) score++;
+                    playSound('success');
                     setTimeout(() => {
                         currentQuizIndex++;
                         loadQuiz();
                     }, 800);
                 }
             } else {
+                playSound('wrong');
                 if (attemptCount === 0) {
                     attemptCount = 1;
                     wrongList.push({ problem: qData.problemText, user: "선긋기 오답", correct: "올바른 짝 연결" });
@@ -1012,10 +1068,12 @@
 
         function checkChoice(selected, answer, problemText) {
             if (selected === answer) {
+                playSound('correct');
                 if (attemptCount === 0) score++;
                 currentQuizIndex++;
                 loadQuiz();
             } else {
+                playSound('wrong');
                 if (attemptCount === 0) {
                     attemptCount = 1;
                     wrongList.push({ problem: problemText, user: selected, correct: answer });
@@ -1031,10 +1089,12 @@
 
         function checkVisualChoice(selectedVisual, answerVisual, problemText) {
             if (selectedVisual === answerVisual) {
+                playSound('correct');
                 if (attemptCount === 0) score++;
                 currentQuizIndex++;
                 loadQuiz();
             } else {
+                playSound('wrong');
                 if (attemptCount === 0) {
                     attemptCount = 1;
                     wrongList.push({ problem: problemText, user: "틀린 그림 선택", correct: "정답 그림(" + answerVisual + ")" });
@@ -1057,10 +1117,12 @@
             }
 
             if (inputVal === answer) {
+                playSound('correct');
                 if (attemptCount === 0) score++;
                 currentQuizIndex++;
                 loadQuiz();
             } else {
+                playSound('wrong');
                 if (attemptCount === 0) {
                     attemptCount = 1;
                     wrongList.push({ problem: problemText, user: inputVal, correct: answer });
@@ -1080,33 +1142,34 @@
 
         function showResult() {
             showCard('screen-result');
+            playSound('success');
             
             if (studentRecords[currentLevel] === null || score > studentRecords[currentLevel]) {
                 studentRecords[currentLevel] = score;
             }
 
-            if (currentLevel === 1 && score >= 7) {
-                levelUnlocked[2] = true;
-            }
-            if (currentLevel === 2 && score >= 6) {
-                levelUnlocked[3] = true;
-            }
-
-            let certMsg = "";
-            if (currentLevel === 3 && score >= 7) {
-                hasWonCertificate = true;
-                certMsg = "<br>🏆 <strong>[축하합니다! 꾸며주는 말 마스터 상장을 획득했어요!]</strong>";
-            }
-
-            let unlockMsg = "";
-            if (isTeacherMode) {
-                unlockMsg = "👑 선생님 프리패스 모드 (모든 단계 해금됨)";
-            } else if (currentLevel === 1) {
-                unlockMsg = (score >= 7) ? "✨ 2단계 해금 성공!" : "🔒 2단계 해금 실패 (7점 이상 필요)";
+            let stageBadge = "";
+            if (currentLevel === 1) {
+                if (score >= 7) {
+                    levelUnlocked[2] = true;
+                    stageBadge = "🥇 [1단계 마스터 메달 획득!] (2단계 해금 완료)";
+                } else {
+                    stageBadge = "🔒 1단계 메달 획득 실패 (7점 이상 필요)";
+                }
             } else if (currentLevel === 2) {
-                unlockMsg = (score >= 6) ? "✨ 3단계 해금 성공!" : "🔒 3단계 해금 실패 (6점 이상 필요)";
+                if (score >= 6) {
+                    levelUnlocked[3] = true;
+                    stageBadge = "🥈 [2단계 마스터 메달 획득!] (3단계 해금 완료)";
+                } else {
+                    stageBadge = "🔒 2단계 메달 획득 실패 (6점 이상 필요)";
+                }
             } else {
-                unlockMsg = "🎉 모든 단계 도전 완료!";
+                if (score >= 7) {
+                    hasWonCertificate = true;
+                    stageBadge = "🏆 [3단계 그랜드 마스터 메달 및 상장 획득!]";
+                } else {
+                    stageBadge = "🌟 3단계 도전 완료!";
+                }
             }
 
             let contentHtml = `
@@ -1115,8 +1178,7 @@
                     <strong>🏆 도전 단계:</strong> ${currentLevel}단계<br>
                     <strong>🌟 이번 점수:</strong> ${score} / 10 점<br>
                     <strong>📌 저장된 최고 기록:</strong> ${studentRecords[currentLevel]}점<br>
-                    <strong>🎯 해금 상태:</strong> ${unlockMsg}
-                    ${certMsg}
+                    <strong>🏅 업적 결과:</strong> ${stageBadge}
                 </div>
             `;
 
