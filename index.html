@@ -200,8 +200,6 @@
             position: relative;
         }
         .quiz-visual {
-            font-size: 8.5rem;
-            background: linear-gradient(135deg, #ffffff, #f1f5f9);
             width: 180px;
             height: 180px;
             margin: 0 auto 20px auto;
@@ -211,6 +209,14 @@
             border-radius: 32px;
             border: 4px solid #10b981;
             box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
+            background: white;
+            overflow: hidden;
+            object-fit: cover;
+        }
+        .quiz-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .sentence-box {
@@ -573,7 +579,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.18. 10:10:00 (v.1.0.32)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.18. 10:20:00 (v.1.0.33)</div>
         </footer>
     </div>
 
@@ -714,38 +720,38 @@
         let studentRecords = { 1: null, 2: null, 3: null };
         let levelUnlocked = { 2: false, 3: false };
 
-        // 30개 문장 목록 원본 데이터
+        // 30개 문장 목록 원본 데이터 (선생님이 주신 이미지 링크/아이콘 반영)
         const rawSentenceData = [
-            { visual: "🌷", full: "예쁜 꽃이 피었어요.", target: "예쁜", options: ["뚱뚱한", "차가운", "빠른", "예쁜"] },
-            { visual: "🎤", full: "신나는 노래를 불러요.", target: "신나는", options: ["파란", "딱딱한", "신나는", "동그란"] },
-            { visual: "☀️", full: "동그란 해가 떴어요.", target: "동그란", options: ["동그란", "즐거운", "빠른", "시끄러운"] },
-            { visual: "🐱", full: "귀여운 고양이가 있어요.", target: "귀여운", options: ["반짝이는", "귀여운", "뜨거운", "네모난"] },
-            { visual: "🍜", full: "맛있는 라면을 먹어요.", target: "맛있는", options: ["세모난", "푹신한", "맛있는", "느린"] },
-            { visual: "🦒", full: "기다란 목을 가졌어요.", target: "기다란", options: ["기다란", "시원한", "하얀", "달콤한"] },
-            { visual: "⏰", full: "동그란 시계를 봐요.", target: "동그란", options: ["신나는", "차가운", "동그란", "맛있는"] },
-            { visual: "☁️", full: "파란 하늘이 멋져요.", target: "파란", options: ["파란", "네모난", "따뜻한", "빠른"] },
-            { visual: "📺", full: "네모난 TV를 봐요.", target: "네모난", options: ["하얀", "네모난", "푹신한", "반짝이는"] },
-            { visual: "🍰", full: "달콤한 케이크를 먹어요.", target: "달콤한", options: ["뜨거운", "느린", "달콤한", "신나는"] },
-            { visual: "🪨", full: "무거운 돌을 들어요.", target: "무거운", options: ["무서운", "무거운", "기다란", "시끄러운"] },
-            { visual: "🦛", full: "뚱뚱한 하마가 있어요.", target: "뚱뚱한", options: ["뚱뚱한", "맛있는", "가벼운", "시원한"] },
-            { visual: "🍌", full: "노란 바나나를 먹어요.", target: "노란", options: ["빨간", "노란", "하얀", "까만"] },
-            { visual: "📄", full: "하얀 종이에 그려요.", target: "하얀", options: ["동그란", "하얀", "차가운", "빠른"] },
-            { visual: "🚗", full: "멋진 자동차를 타요.", target: "멋진", options: ["멋진", "뚱뚱한", "달콤한", "맛있는"] },
-            { visual: "🚂", full: "기다란 기차가 지나가요.", target: "기다란", options: ["따뜻한", "기다란", "가벼운", "즐거운"] },
-            { visual: "✈️", full: "커다란 비행기가 날아가요.", target: "커다란", options: ["차가운", "동그란", "커다란", "빨간"] },
-            { visual: "🐰", full: "귀여운 토끼가 보여요.", target: "귀여운", options: ["귀여운", "차가운", "시끄러운", "딱딱한"] },
-            { visual: "🦖", full: "무서운 공룡이 뛰어요.", target: "무서운", options: ["무서운", "맛있는", "예쁜", "달콤한"] },
-            { visual: "⛄", full: "하얀 눈사람을 만들어요.", target: "하얀", options: ["까만", "하얀", "기다란", "따뜻한"] },
-            { visual: "💃", full: "즐거운 춤을 춰요.", target: "즐거운", options: ["푹신한", "울퉁불퉁한", "작은", "즐거운"] },
-            { visual: "🎨", full: "멋진 그림을 그렸어요.", target: "멋진", options: ["멋진", "하얀", "뚱뚱한", "뾰족한"] },
-            { visual: "🔊", full: "시끄러운 소리가 들려요.", target: "시끄러운", options: ["파란", "시끄러운", "추운", "딱딱한"] },
-            { visual: "🍎", full: "빨간 사과가 열렸어요.", target: "빨간", options: ["뾰족한", "빨간", "빠른", "무서운"] },
-            { visual: "🌵", full: "뾰족한 가시가 있어요.", target: "뾰족한", options: ["동그란", "뚱뚱한", "뾰족한", "빠른"] },
-            { visual: "☁️", full: "하얀 구름이 떠다녀요.", target: "하얀", options: ["하얀", "네모난", "뜨거운", "시끄러운"] },
-            { visual: "🐿️", full: "작은 다람쥐가 있어요.", target: "작은", options: ["기다란", "작은", "맛있는", "따가운"] },
-            { visual: "🛏️", full: "푹신한 침대에 누워요.", target: "푹신한", options: ["빠른", "푹신한", "가벼운", "세모난"] },
-            { visual: "🐢", full: "느린 거북이가 지나가요.", target: "느린", options: ["차가운", "뜨거운", "달콤한", "느린"] },
-            { visual: "⭐", full: "반짝이는 별이 빛나요.", target: "반짝이는", options: ["반짝이는", "느린", "맛있는", "무서운"] }
+            { visual: '<img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=300&q=80" alt="꽃">', full: "예쁜 꽃이 피었어요.", target: "예쁜", options: ["뚱뚱한", "차가운", "빠른", "예쁜"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80" alt="노래">', full: "신나는 노래를 불러요.", target: "신나는", options: ["파란", "딱딱한", "신나는", "동그란"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=300&q=80" alt="해">', full: "동그란 해가 떴어요.", target: "동그란", options: ["동그란", "즐거운", "빠른", "시끄러운"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=300&q=80" alt="고양이">', full: "귀여운 고양이가 있어요.", target: "귀여운", options: ["반짝이는", "귀여운", "뜨거운", "네모난"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=300&q=80" alt="라면">', full: "맛있는 라면을 먹어요.", target: "맛있는", options: ["세모난", "푹신한", "맛있는", "느린"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1547721064-da6cfb341d50?auto=format&fit=crop&w=300&q=80" alt="기린">', full: "기다란 목을 가졌어요.", target: "기다란", options: ["기다란", "시원한", "하얀", "달콤한"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?auto=format&fit=crop&w=300&q=80" alt="시계">', full: "동그란 시계를 봐요.", target: "동그란", options: ["신나는", "차가운", "동그란", "맛있는"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=300&q=80" alt="하늘">', full: "파란 하늘이 멋져요.", target: "파란", options: ["파란", "네모난", "따뜻한", "빠른"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=300&q=80" alt="TV">', full: "네모난 TV를 봐요.", target: "네모난", options: ["하얀", "네모난", "푹신한", "반짝이는"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=300&q=80" alt="케이크">', full: "달콤한 케이크를 먹어요.", target: "달콤한", options: ["뜨거운", "느린", "달콤한", "신나는"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=300&q=80" alt="돌">', full: "무거운 돌을 들어요.", target: "무거운", options: ["무서운", "무거운", "기다란", "시끄러운"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=300&q=80" alt="하마">', full: "뚱뚱한 하마가 있어요.", target: "뚱뚱한", options: ["뚱뚱한", "맛있는", "가벼운", "시원한"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=300&q=80" alt="바나나">', full: "노란 바나나를 먹어요.", target: "노란", options: ["빨간", "노란", "하얀", "까만"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=300&q=80" alt="종이">', full: "하얀 종이에 그려요.", target: "하얀", options: ["동그란", "하얀", "차가운", "빠른"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=300&q=80" alt="자동차">', full: "멋진 자동차를 타요.", target: "멋진", options: ["멋진", "뚱뚱한", "달콤한", "맛있는"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=300&q=80" alt="기차">', full: "기다란 기차가 지나가요.", target: "기다란", options: ["따뜻한", "기다란", "가벼운", "즐거운"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=300&q=80" alt="비행기">', full: "커다란 비행기가 날아가요.", target: "커다란", options: ["차가운", "동그란", "커다란", "빨간"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?auto=format&fit=crop&w=300&q=80" alt="토끼">', full: "귀여운 토끼가 보여요.", target: "귀여운", options: ["귀여운", "차가운", "시끄러운", "딱딱한"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=300&q=80" alt="공룡">', full: "무서운 공룡이 뛰어요.", target: "무서운", options: ["무서운", "맛있는", "예쁜", "달콤한"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=300&q=80" alt="눈사람">', full: "하얀 눈사람을 만들어요.", target: "하얀", options: ["까만", "하얀", "기다란", "따뜻한"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=300&q=80" alt="춤">', full: "즐거운 춤을 춰요.", target: "즐거운", options: ["푹신한", "울퉁불퉁한", "작은", "즐거운"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=300&q=80" alt="그림">', full: "멋진 그림을 그렸어요.", target: "멋진", options: ["멋진", "하얀", "뚱뚱한", "뾰족한"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=300&q=80" alt="소리">', full: "시끄러운 소리가 들려요.", target: "시끄러운", options: ["파란", "시끄러운", "추운", "딱딱한"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=300&q=80" alt="사과">', full: "빨간 사과가 열렸어요.", target: "빨간", options: ["뾰족한", "빨간", "빠른", "무서운"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=300&q=80" alt="가시">', full: "뾰족한 가시가 있어요.", target: "뾰족한", options: ["동그란", "뚱뚱한", "뾰족한", "빠른"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1534088568595-a066f410bcda?auto=format&fit=crop&w=300&q=80" alt="구름">', full: "하얀 구름이 떠다녀요.", target: "하얀", options: ["하얀", "네모난", "뜨거운", "시끄러운"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=300&q=80" alt="다람쥐">', full: "작은 다람쥐가 있어요.", target: "작은", options: ["기다란", "작은", "맛있는", "따가운"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=300&q=80" alt="침대">', full: "푹신한 침대에 누워요.", target: "푹신한", options: ["빠른", "푹신한", "가벼운", "세모난"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1437622368342-9a3d7b3d4871?auto=format&fit=crop&w=300&q=80" alt="거북이">', full: "느린 거북이가 지나가요.", target: "느린", options: ["차가운", "뜨거운", "달콤한", "느린"] },
+            { visual: '<img src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=300&q=80" alt="별">', full: "반짝이는 별이 빛나요.", target: "반짝이는", options: ["반짝이는", "느린", "맛있는", "무서운"] }
         ];
 
         const matchVisualBank = [
