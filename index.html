@@ -54,7 +54,6 @@
             padding: 10px 0;
         }
         
-        /* 역할 선택 좌우 배치 스타일 */
         .role-btn-row {
             display: flex;
             gap: 15px;
@@ -568,29 +567,12 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div id="footer-version" style="color: #059669;">최근 업데이트: 2026.09.18. 22:30:00 (v.2.0.46)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.18. 22:35:00 (v.2.0.47)</div>
         </footer>
     </div>
 
     <script>
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-        // 수정 시각 자동 반영 푸터 업데이트 함수
-        window.addEventListener('DOMContentLoaded', () => {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            
-            const timeString = `${year}.${month}.${day}. ${hours}:${minutes}:${seconds}`;
-            const footerEl = document.getElementById('footer-version');
-            if (footerEl) {
-                footerEl.innerText = `최근 업데이트: ${timeString} (v.2.0.46)`;
-            }
-        });
 
         function playSound(type) {
             if (!audioCtx) return;
@@ -758,7 +740,6 @@
             { visual: "✏️", full: "글을 반듯하게 써요.", target: "을", wrong: "를", problemText: "글(을/를) 반듯하게 써요." }
         ];
 
-        // 3단계: 비교/강조 문장고리 (은/는) - 첫 번째 문장 "겨울은 춥고, 여름은 더워요."의 오답형을 '겨울는'으로 수정하고 정답 '은'으로 세팅
         const level3Data = [
             { visual: "❄️", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", fixDisplay: "겨울<span style='color: #dc2626; text-decoration: underline;'>는</span> 춥고, 여름은 더워요.", problemText: "겨울(은/는) 춥고, 여름(은/는) 더워요." },
             { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>는</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을(은/는) 시원해요." },
