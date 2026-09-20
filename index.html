@@ -216,12 +216,11 @@
         }
         .stage-square-card:hover { transform: translateY(-3px); border-color: #10b981; background: #f0fdf4; }
 
-        /* 대형 현황판 및 아치형 다리 스타일 */
         .rescue-scene-large {
             background: linear-gradient(180deg, #e0f2fe, #bae6fd);
             border: 4px solid #0284c7;
             border-radius: 24px;
-            padding: 24px 15px;
+            padding: 28px 15px;
             margin-bottom: 22px;
             text-align: center;
             position: relative;
@@ -231,13 +230,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 20px;
+            margin-top: 15px;
             position: relative;
             padding: 0 10px;
         }
         .island-circle {
-            width: 60px;
-            height: 60px;
+            width: 75px;
+            height: 75px;
             background: #fef08a;
             border: 3px solid #ca8a04;
             border-radius: 50%;
@@ -245,29 +244,16 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
+            font-size: 2.2rem;
             position: relative;
             box-shadow: 0 4px 10px rgba(0,0,0,0.12);
         }
-        .island-circle-label {
-            font-size: 0.55rem;
-            font-weight: bold;
-            color: #713f12;
-            position: absolute;
-            bottom: -16px;
-            white-space: nowrap;
-            background: rgba(255,255,255,0.95);
-            padding: 1px 4px;
-            border-radius: 4px;
-            border: 1px solid #ca8a04;
-        }
-        /* 진짜 아치형(돌다리/곡선) 모양의 다리 스타일 적용 */
         .bridge-bar {
             flex: 1;
             height: 28px;
             background: #cbd5e1;
             margin: 0 4px;
-            border-radius: 25px 25px 4px 4px; /* 위쪽이 불룩한 아치형 곡선 */
+            border-radius: 25px 25px 4px 4px;
             position: relative;
             overflow: hidden;
             border: 2px solid #94a3b8;
@@ -527,7 +513,7 @@
             <button class="back-btn" onclick="enterMenu()">활동 메뉴로 돌아가기</button>
         </div>
 
-        <!-- [화면 3-3] 활동 3 지역 선택 화면 (완료 시 팝업 대신 탭 내부에 설명 표시) -->
+        <!-- [화면 3-3] 활동 3 지역 선택 화면 -->
         <div id="screen-act3-select" class="card">
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 style="color: #047857; font-size: 1.8rem; margin-bottom: 5px;">🐾 출동! 동물 구조대! 🐾</h2>
@@ -613,7 +599,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.19. 18:30:00 (v.2.0.60)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.19. 21:00:00 (v.2.0.61)</div>
         </footer>
     </div>
 
@@ -767,7 +753,7 @@
 
         const level3Data = [
             { visual: "❄️", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", fixDisplay: "겨울<span style='color: #dc2626; text-decoration: underline;'>는</span> 춥고, 여름은 더워요.", problemText: "겨울(은/는) 춥고, 여름(은/는) 더워요." },
-            { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>는</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을은 시원해요." },
+            { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>는</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을(은/는) 시원해요." },
             { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>는</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 뛰고, 참새는 날아가요." },
             { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>은</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 씩씩하고, 토끼는 귀여워요." },
             { visual: "🦒", full: "기린은 목이 길고, 코끼리는 코가 길어요.", target: "은", wrong: "는", fixDisplay: "기린<span style='color: #dc2626; text-decoration: underline;'>는</span> 목이 길고, 코끼리는 코가 길어요.", problemText: "기린(은/는) 목이 길고, 코끼리(은/는) 코가 길어요." },
@@ -791,7 +777,7 @@
             { visual: "🦁", full: "사자가 고기를 먹어요.", blankFull: "사자( ① ) 고기( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "사자(이/가) 고기(을/를) 먹어요." }
         ];
 
-        // 활동 3 단계별 정확한 문항 구성 반영
+        // 활동 3 단계별 정확한 문항 구성 반영 (전부 아치형 다리 통일 및 이름 삭제)
         const stageData = {
             1: { // 밀림 (총 3문제)
                 title: "🌴 1단계: 밀림 지역 (코끼리 구조 작전)",
@@ -815,7 +801,7 @@
                     { type: "choice", full: "호랑이는 무섭게 생겼어요.", target: "는", wrong: "은", problemText: "알맞은 비교/강조 문장고리 고르기", format: "호랑이{blank} 무섭게 생겼어요." }
                 ]
             },
-            3: { // 남극 (총 5문제 - 타이핑 문제가 맨 마지막에 배치)
+            3: { // 남극 (총 5문제)
                 title: "🧊 3단계: 남극 지역 (아기 펭귄 구출 작전)",
                 icon: "🧊",
                 animal: "🐧",
@@ -1027,11 +1013,11 @@
             
             let fullList = stageData[selectedStage].questions;
             if (selectedDifficultyStar === 1) {
-                activeQuizList = shuffleArray(fullList).slice(0, 3); // 별 1개: 무작위 3문제
+                activeQuizList = shuffleArray(fullList).slice(0, 3);
             } else if (selectedDifficultyStar === 2) {
                 activeQuizList = shuffleArray(fullList).slice(0, Math.min(3, fullList.length));
             } else {
-                activeQuizList = fullList; // 별 3개: 전체 문제
+                activeQuizList = fullList;
             }
 
             showCard('screen-quiz');
@@ -1140,7 +1126,7 @@
             const qData = activeQuizList[currentQuizIndex];
             let visualHtml = qData.visual ? `<div class="quiz-visual">${qData.visual}</div>` : "";
 
-            // 현황판 렌더링 (다리 설치 연결 로직 정확히 반영)
+            // 현황판 렌더링 (이름 없는 깔끔한 아치형 다리 및 순차적 이동)
             let rescueSceneHtml = "";
             if (currentMode === 3) {
                 let totalQ = activeQuizList.length;
@@ -1151,7 +1137,7 @@
                     if (i > 0) { trackHtml += `<div class="bridge-bar ${isConn}"></div>`; }
                     
                     if (i === currentQuizIndex) {
-                        trackHtml += `<div class="island-circle" style="background:#fde047;">👦<div class="island-label">${act3PlayerName}</div></div>`;
+                        trackHtml += `<div class="island-circle" style="background:#fde047;">👦</div>`;
                     } else {
                         trackHtml += `<div class="island-circle" style="background:#fef08a;">🏝️</div>`;
                     }
@@ -1159,7 +1145,7 @@
                 
                 let lastConn = (currentQuizIndex >= totalQ) ? "connected" : "";
                 trackHtml += `<div class="bridge-bar ${lastConn}"></div>`;
-                trackHtml += `<div class="island-circle">${stageData[currentLevel].animal}<div class="island-label">${stageData[currentLevel].animalName}</div></div>`;
+                trackHtml += `<div class="island-circle">${stageData[currentLevel].animal}</div>`;
 
                 rescueSceneHtml = `
                     <div class="rescue-scene-large">
@@ -1224,12 +1210,12 @@
                         <div style="font-size: 1.1rem; color: #4b5563; margin-bottom: 10px; font-weight: bold;">${qData.problemText}</div>
                         <div class="sentence-box" style="font-size: 1.3rem;">${formattedProblem}</div>
                         <div style="margin-bottom: 8px; font-weight: bold; color: #047857;">① 주인공 문장고리 선택:</div>
-                        <div class="options-grid" style="margin-bottom: 12px;">
+                        <div class="options-grid" style="margin-bottom: 12px;" id="act3-q1-grid">
                             <button class="option-btn" id="btn-q1-이" onclick="selectQ4Part1('이', '${qData.q1Target}')">이</button>
                             <button class="option-btn" id="btn-q1-가" onclick="selectQ4Part1('가', '${qData.q1Target}')">가</button>
                         </div>
                         <div style="margin-bottom: 8px; font-weight: bold; color: #047857;">② 목적 문장고리 선택:</div>
-                        <div class="options-grid">
+                        <div class="options-grid" id="act3-q2-grid">
                             <button class="option-btn" id="btn-q2-을" onclick="selectQ4Part2('을', '${qData.q2Target}')">을</button>
                             <button class="option-btn" id="btn-q2-를" onclick="selectQ4Part2('를', '${qData.q2Target}')">를</button>
                         </div>
@@ -1412,7 +1398,14 @@
                     playSound('wrong');
                     wrongList.push({ problem: qData.problemText, user: `①:${q4Selected1}, ②:${q4Selected2}`, correct: `①:${qData.q1Target}, ②:${qData.q2Target}` });
                     document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
+                    // 오답 시 선택 초기화
                     q4Selected1 = null; q4Selected2 = null;
+                    if(document.getElementById('btn-q1-이')) {
+                        document.getElementById('btn-q1-이').style.background = 'white';
+                        document.getElementById('btn-q1-가').style.background = 'white';
+                        document.getElementById('btn-q2-을').style.background = 'white';
+                        document.getElementById('btn-q2-를').style.background = 'white';
+                    }
                 }
             }
         }
@@ -1426,7 +1419,14 @@
                     playSound('wrong');
                     wrongList.push({ problem: qData.problemText, user: `①:${q4Selected1}, ②:${q4Selected2}`, correct: `①:${qData.q1Target}, ②:${qData.q2Target}` });
                     document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
+                    // 오답 시 선택 초기화
                     q4Selected1 = null; q4Selected2 = null;
+                    if(document.getElementById('btn-q1-이')) {
+                        document.getElementById('btn-q1-이').style.background = 'white';
+                        document.getElementById('btn-q1-가').style.background = 'white';
+                        document.getElementById('btn-q2-을').style.background = 'white';
+                        document.getElementById('btn-q2-를').style.background = 'white';
+                    }
                 }
             }
         }
