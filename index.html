@@ -417,7 +417,7 @@
             <div class="sub-title">3차시. 꾸며주는 말과 문장고리로 문장 완성하기</div>
         </header>
 
-        <!-- [화면 0] 대상 선택 및 입장 QR코드 (좌우 분할 적용) -->
+        <!-- [화면 0] 대상 선택 및 입장 QR코드 -->
         <div id="screen-role" class="card active">
             <div class="role-select-box">
                 <p style="font-size: 1.35rem; color: #047857; margin-bottom: 20px; font-weight: bold;">👋 반가워요! 누구인가요?</p>
@@ -456,7 +456,7 @@
             </div>
         </div>
 
-        <!-- [화면 2] 메인 메뉴 (활동3 신설) -->
+        <!-- [화면 2] 메인 메뉴 -->
         <div id="screen-menu" class="card">
             <div style="text-align: center; margin-bottom: 20px;">
                 <span id="welcome-msg" style="font-size: 1.4rem; font-weight: bold; color: #047857;"></span>
@@ -478,10 +478,10 @@
             <button class="back-btn" onclick="location.reload()">처음 화면으로</button>
         </div>
 
-        <!-- [화면 3] 단계 선택 -->
+        <!-- [화면 3] 활동 2 단계 선택 -->
         <div id="screen-level-select" class="card">
             <div style="text-align: center; margin-bottom: 15px;">
-                <h2 style="color: #047857; font-size: 1.5rem; margin-bottom: 5px;">활동2. 문장고리 마스터하기</h2>
+                <h2 style="color: #047857; font-size: 1.5rem; margin-bottom: 5px;">활동 2. 문장고리 마스터하기</h2>
                 <p style="color: #4b5563; font-size: 1.05rem;">💡 <strong>상장 획득 조건:</strong> 마지막 4단계를 완료하고 합격 점수를 달성하면 상장이 수여됩니다!</p>
             </div>
 
@@ -540,11 +540,27 @@
             <button class="back-btn" onclick="goToLevelSelect()">단계 선택으로 가기</button>
         </div>
 
-        <!-- [화면 5] 활동 1 (안내 화면) -->
-        <div id="screen-activity1" class="card" style="text-align: center; justify-content: center; padding: 40px 0;">
-            <div style="font-size: 4rem; margin-bottom: 15px;">🍎</div>
-            <h2 style="color: #047857; font-size: 1.6rem; margin-bottom: 10px;">활동 1: 꾸며주는 말 공간</h2>
-            <p style="color: #4b5563; font-size: 1.2rem; margin-bottom: 25px;">꾸며주는 말 활동은 이전 차시에서 멋지게 완료했어요!</p>
+        <!-- [화면 5] 활동 1 (꾸며주는 말 단계 선택 화면으로 연결) -->
+        <div id="screen-activity1" class="card">
+            <div style="text-align: center; margin-bottom: 15px;">
+                <h2 style="color: #047857; font-size: 1.5rem; margin-bottom: 5px;">활동 1. 꾸며주는 말 마스터하기</h2>
+                <p style="color: #4b5563; font-size: 1.05rem;">💡 꾸며주는 말 단계를 선택해서 복습해봐요!</p>
+            </div>
+
+            <div class="level-grid">
+                <button class="level-card-btn" onclick="startAct1Quiz(1)">
+                    <div><strong>1단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">꾸며주는 말 골라 문장 완성하기</div></div>
+                    <div><span style="font-size: 1.2rem; margin-right: 8px;">⭐</span><span style="font-size: 1.1rem; font-weight: bold;">바로시작</span></div>
+                </button>
+                <button class="level-card-btn" onclick="startAct1Quiz(2)">
+                    <div><strong>2단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">문장 읽고 알맞은 그림 찾기</div></div>
+                    <div><span style="font-size: 1.2rem; margin-right: 8px;">⭐⭐</span><span style="font-size: 1.1rem; font-weight: bold;">바로시작</span></div>
+                </button>
+                <button class="level-card-btn" onclick="startAct1Quiz(3)">
+                    <div><strong>3단계</strong><div style="font-size: 0.95rem; color: #4b5563; margin-top: 3px;">빈칸 채우기 및 틀린 말 고치기</div></div>
+                    <div><span style="font-size: 1.2rem; margin-right: 8px;">⭐⭐⭐</span><span style="font-size: 1.1rem; font-weight: bold;">바로시작</span></div>
+                </button>
+            </div>
             <button class="back-btn" onclick="enterMenu()">활동 메뉴로 돌아가기</button>
         </div>
 
@@ -567,7 +583,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.18. 22:35:00 (v.2.0.47)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.18. 23:00:00 (v.2.0.48)</div>
         </footer>
     </div>
 
@@ -703,6 +719,7 @@
         let activeQuizList = [];
         let hasWonCertificate = false;
         let isSlowMode = false;
+        let isActivity1Mode = false; // 활동 1 모드 구분 플래그
 
         let studentRecords = { 1: null, 2: null, 3: null, 4: null };
         let levelUnlocked = { 2: false, 3: false, 4: false };
@@ -712,8 +729,28 @@
             document.getElementById('slow-mode-label').innerText = isSlowMode ? "ON" : "OFF";
         }
 
-        // ================= 데이터셋 구축 =================
+        // ================= 활동 1 데이터셋 =================
+        const rawSentenceData = [
+            { visual: "🌷", full: "예쁜 꽃이 피었어요.", target: "예쁜", options: ["뚱뚱한", "차가운", "빠른", "예쁜"] },
+            { visual: "🎤", full: "신나는 노래를 불러요.", target: "신나는", options: ["파란", "딱딱한", "신나는", "동그란"] },
+            { visual: "☀️", full: "동그란 해가 떴어요.", target: "동그란", options: ["동그란", "즐거운", "빠른", "시끄러운"] },
+            { visual: "🐱", full: "귀여운 고양이가 있어요.", target: "귀여운", options: ["반짝이는", "귀여운", "뜨거운", "네모난"] },
+            { visual: "🍜", full: "맛있는 라면을 먹어요.", target: "맛있는", options: ["세모난", "푹신한", "맛있는", "느린"] },
+            { visual: "🦒", full: "기다란 목을 가졌어요.", target: "기다란", options: ["기다란", "시원한", "하얀", "달콤한"] },
+            { visual: "⏰", full: "동그란 시계를 봐요.", target: "동그란", options: ["신나는", "차가운", "동그란", "맛있는"] },
+            { visual: "🌊", full: "푸른 바다가 보여요.", target: "푸른", options: ["푸른", "네모난", "따뜻한", "빠른"] },
+            { visual: "📺", full: "네모난 TV를 봐요.", target: "네모난", options: ["하얀", "네모난", "푹신한", "반짝이는"] },
+            { visual: "🍰", full: "달콤한 케이크를 먹어요.", target: "달콤한", options: ["뜨거운", "느린", "달콤한", "신나는"] }
+        ];
 
+        const matchVisualBank = [
+            { text: "예쁜 꽃이 피었어요.", visualOptions: ["🌷", "🐘", "🧊", "⚽"], answer: "🌷" },
+            { text: "커다란 코끼리가 걸어요.", visualOptions: ["🐜", "🐘", "🍌", "📦"], answer: "🐘" },
+            { text: "빨간 사과가 열려요.", visualOptions: ["🍎", "🍌", "🥛", "⚽"], answer: "🍎" },
+            { text: "신나는 노래를 불러요.", visualOptions: ["🎤", "🛏️", "🍲", "💨"], answer: "🎤" }
+        ];
+
+        // ================= 활동 2 데이터셋 =================
         const level1Data = [
             { visual: "🦆", full: "오리가 꽥꽥 울어요.", target: "가", wrong: "이", problemText: "오리(이/가) 꽥꽥 울어요." },
             { visual: "🐓", full: "닭이 꼬끼오 울어요.", target: "이", wrong: "가", problemText: "닭(이/가) 꼬끼오 울어요." },
@@ -744,7 +781,7 @@
             { visual: "❄️", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", fixDisplay: "겨울<span style='color: #dc2626; text-decoration: underline;'>는</span> 춥고, 여름은 더워요.", problemText: "겨울(은/는) 춥고, 여름(은/는) 더워요." },
             { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>는</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을(은/는) 시원해요." },
             { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>는</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 뛰고, 참새(은/는) 날아가요." },
-            { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>은</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 씩씩하고, 토끼(은/는) 귀여워요." },
+            { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>은</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 씩씩하고, 토끼는 귀여워요." },
             { visual: "🦒", full: "기린은 목이 길고, 코끼리는 코가 길어요.", target: "은", wrong: "는", fixDisplay: "기린<span style='color: #dc2626; text-decoration: underline;'>는</span> 목이 길고, 코끼리는 코가 길어요.", problemText: "기린(은/는) 목이 길고, 코끼리(은/는) 코가 길어요." },
             { visual: "🐧", full: "펭귄은 날지 못해요.", target: "은", wrong: "는", fixDisplay: "펭귄<span style='color: #dc2626; text-decoration: underline;'>는</span> 날지 못해요.", problemText: "펭귄(은/는) 날지 못해요." },
             { visual: "🐯", full: "호랑이는 무섭게 생겼어요.", target: "는", wrong: "은", fixDisplay: "호랑이<span style='color: #dc2626; text-decoration: underline;'>은</span> 무섭게 생겼어요.", problemText: "호랑이(은/는) 무섭게 생겼어요." },
@@ -763,7 +800,7 @@
             { visual: "🐵", full: "원숭이가 바나나를 먹어요.", blankFull: "원숭이( ① ) 바나나( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "원숭이(이/가) 바나나(을/를) 먹어요." },
             { visual: "🐿️", full: "다람쥐가 도토리를 주워요.", blankFull: "다람쥐( ① ) 도토리( ② ) 주워요.", q1Target: "가", q2Target: "를", problemText: "다람쥐(이/가) 도토리(을/를) 주워요." },
             { visual: "👶", full: "아이가 그림책을 봐요.", blankFull: "아이( ① ) 그림책( ② ) 봐요.", q1Target: "가", q2Target: "을", problemText: "아이(이/가) 그림책(을/를) 봐요." },
-            { visual: "🦁", full: "사자가 고기를 먹어요.", blankFull: "사자( ① ) 고기( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "사자(이/가) 고기(을/를) 먹어요." }
+            { visual: "🦁", full: "사자가 고기를 먹어요.", blankFull: "사자( ① ) 고기( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "사자(이/가) 고기(을/를) 물어요." }
         ];
 
         function shuffleArray(array) {
@@ -828,8 +865,10 @@
 
         function selectActivity(num) {
             if (num === 1) {
+                isActivity1Mode = true;
                 showCard('screen-activity1');
             } else if (num === 2) {
+                isActivity1Mode = false;
                 updateLevelSelectUI();
                 showCard('screen-level-select');
             } else {
@@ -838,8 +877,12 @@
         }
 
         function goToLevelSelect() {
-            updateLevelSelectUI();
-            showCard('screen-level-select');
+            if (isActivity1Mode) {
+                showCard('screen-activity1');
+            } else {
+                updateLevelSelectUI();
+                showCard('screen-level-select');
+            }
         }
 
         function updateLevelSelectUI() {
@@ -886,6 +929,35 @@
             document.getElementById('cert-modal').style.display = 'none';
         }
 
+        // 활동 1 전용 퀴즈 시작 함수
+        function startAct1Quiz(lvl) {
+            currentLevel = lvl;
+            currentQuizIndex = 0;
+            score = 0;
+            wrongList = [];
+            
+            if (lvl === 1) {
+                let blinks = shuffleArray(rawSentenceData).slice(0, 5).map(item => ({
+                    type: "blank", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
+                }));
+                let matches = shuffleArray(matchVisualBank).slice(0, 5).map(item => ({
+                    type: "match-visual", text: item.text.replace(item.answer, "______"), visualOptions: item.visualOptions, answer: item.answer, problemText: item.text + " (그림 찾기)"
+                }));
+                activeQuizList = shuffleArray([...blinks, ...matches]);
+            } else if (lvl === 2) {
+                activeQuizList = shuffleArray(matchVisualBank).map(item => ({
+                    type: "match-visual", text: item.text.replace(item.answer, "______"), visualOptions: item.visualOptions, answer: item.answer, problemText: item.text + " (그림 찾기)"
+                }));
+            } else {
+                activeQuizList = shuffleArray(rawSentenceData).map(item => ({
+                    type: "blank", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
+                }));
+            }
+
+            showCard('screen-quiz');
+            loadQuiz();
+        }
+
         function startQuiz(lvl) {
             currentLevel = lvl;
             currentQuizIndex = 0;
@@ -910,9 +982,11 @@
         function loadQuiz() {
             attemptCount = 0;
             const quizArea = document.getElementById('quiz-area');
-            let totalCount = isSlowMode ? 5 : 10;
-            const levelNames = { 1: "1단계: 주인공 문장고리 (이/가)", 2: "2단계: 목적 문장고리 (을/를)", 3: "3단계: 비교/강조 문장고리 (은/는)", 4: "4단계: 종합 문장고리 (이/가 + 을/를)" };
-            document.getElementById('quiz-level-title').innerText = `[ ${levelNames[currentLevel]} ]`;
+            let totalCount = isActivity1Mode ? activeQuizList.length : (isSlowMode ? 5 : 10);
+            
+            let titleText = isActivity1Mode ? `[ 활동1 - ${currentLevel}단계 복습 ]` : `[ ${ {1: "1단계: 주인공 문장고리 (이/가)", 2: "2단계: 목적 문장고리 (을/를)", 3: "3단계: 비교/강조 문장고리 (은/는)", 4: "4단계: 종합 문장고리 (이/가 + 을/를)" }[currentLevel] } ]`;
+            
+            document.getElementById('quiz-level-title').innerText = titleText;
             document.getElementById('quiz-progress').innerText = `문제 ${currentQuizIndex + 1} / ${totalCount}`;
             
             if (currentQuizIndex >= totalCount) {
@@ -923,7 +997,21 @@
             const qData = activeQuizList[currentQuizIndex];
             let visualHtml = qData.visual ? `<div class="quiz-visual">${qData.visual}</div>` : "";
 
-            if (currentLevel <= 3) {
+            if (isActivity1Mode && qData.type === "match-visual") {
+                let shuffledVisuals = shuffleArray(qData.visualOptions);
+                quizArea.innerHTML = `
+                    <div class="quiz-box">
+                        <div style="font-size: 1.1rem; color: #4b5563; margin-bottom: 12px; font-weight: bold;">문장을 읽고 알맞은 그림을 고르세요!</div>
+                        <div class="sentence-box" style="font-size: 1.3rem;">${qData.text}</div>
+                        <div class="options-grid">
+                            <button class="option-btn" style="font-size:3rem; padding:15px;" onclick="checkVisualChoice('${shuffledVisuals[0]}', '${qData.answer}', '${qData.problemText}')">${shuffledVisuals[0]}</button>
+                            <button class="option-btn" style="font-size:3rem; padding:15px;" onclick="checkVisualChoice('${shuffledVisuals[1]}', '${qData.answer}', '${qData.problemText}')">${shuffledVisuals[1]}</button>
+                            <button class="option-btn" style="font-size:3rem; padding:15px;" onclick="checkVisualChoice('${shuffledVisuals[2]}', '${qData.answer}', '${qData.problemText}')">${shuffledVisuals[2]}</button>
+                            <button class="option-btn" style="font-size:3rem; padding:15px;" onclick="checkVisualChoice('${shuffledVisuals[3]}', '${qData.answer}', '${qData.problemText}')">${shuffledVisuals[3]}</button>
+                        </div>
+                    </div>
+                `;
+            } else if (currentLevel <= 3 && !isActivity1Mode) {
                 let isFixType = (currentQuizIndex % 2 === 1);
                 let promptText = isFixType ? "문장에서 잘못 쓰인 문장고리를 바르게 고쳐보세요!" : "알맞은 문장고리를 골라보세요!";
                 
@@ -950,6 +1038,19 @@
                         <div class="options-grid">
                             <button class="option-btn" onclick="checkChoice('${options[0]}', '${correctOpt}', '${qData.problemText}')">${options[0]}</button>
                             <button class="option-btn" onclick="checkChoice('${options[1]}', '${correctOpt}', '${qData.problemText}')">${options[1]}</button>
+                        </div>
+                    </div>
+                `;
+            } else if (isActivity1Mode) {
+                quizArea.innerHTML = `
+                    <div class="quiz-box">
+                        ${visualHtml}
+                        <div class="sentence-box">${qData.sentence}</div>
+                        <div class="options-grid">
+                            <button class="option-btn" onclick="checkChoice('${qData.options[0]}', '${qData.answer}', '${qData.problemText}')">${qData.options[0]}</button>
+                            <button class="option-btn" onclick="checkChoice('${qData.options[1]}', '${qData.answer}', '${qData.problemText}')">${qData.options[1]}</button>
+                            <button class="option-btn" onclick="checkChoice('${qData.options[2]}', '${qData.answer}', '${qData.problemText}')">${qData.options[2]}</button>
+                            <button class="option-btn" onclick="checkChoice('${qData.options[3]}', '${qData.answer}', '${qData.problemText}')">${qData.options[3]}</button>
                         </div>
                     </div>
                 `;
@@ -1019,6 +1120,27 @@
             }
         }
 
+        function checkVisualChoice(selectedVisual, answerVisual, problemText) {
+            if (selectedVisual === answerVisual) {
+                playSound('correct');
+                if (attemptCount === 0) score++;
+                currentQuizIndex++;
+                loadQuiz();
+            } else {
+                playSound('wrong');
+                if (attemptCount === 0) {
+                    attemptCount = 1;
+                    wrongList.push({ problem: problemText, user: "틀린 그림 선택", correct: "정답 그림(" + answerVisual + ")" });
+                    document.getElementById('modal-icon').innerText = "🤔";
+                    document.getElementById('modal-msg').innerText = "다시 한번 생각해 볼까?";
+                    document.getElementById('custom-modal').style.display = 'flex';
+                } else {
+                    currentQuizIndex++;
+                    loadQuiz();
+                }
+            }
+        }
+
         function checkChoice(selected, answer, problemText) {
             if (selected === answer) {
                 playSound('correct');
@@ -1047,58 +1169,40 @@
         function showResult() {
             showCard('screen-result');
             
-            if (studentRecords[currentLevel] === null || score > studentRecords[currentLevel]) {
-                studentRecords[currentLevel] = score;
+            if (!isActivity1Mode) {
+                if (studentRecords[currentLevel] === null || score > studentRecords[currentLevel]) {
+                    studentRecords[currentLevel] = score;
+                }
             }
 
-            let passCutoff = isSlowMode ? 4 : 7;
-            let totalCount = isSlowMode ? 5 : 10;
+            let passCutoff = isActivity1Mode ? 3 : (isSlowMode ? 4 : 7);
+            let totalCount = isActivity1Mode ? activeQuizList.length : (isSlowMode ? 5 : 10);
             let stageBadge = "";
 
-            if (currentLevel === 1) {
-                if (score >= passCutoff) {
-                    levelUnlocked[2] = true;
-                    stageBadge = `⭐ [1단계 완료!] (2단계 해금 완료)`;
-                    playSound('success');
-                } else {
-                    stageBadge = `🔒 1단계 점수 미달 (${passCutoff}점 이상 필요)`;
-                    playSound('wrong');
-                }
-            } else if (currentLevel === 2) {
-                if (score >= passCutoff) {
-                    levelUnlocked[3] = true;
-                    stageBadge = `⭐⭐ [2단계 완료!] (3단계 해금 완료)`;
-                    playSound('success');
-                } else {
-                    stageBadge = `🔒 2단계 점수 미달 (${passCutoff}점 이상 필요)`;
-                    playSound('wrong');
-                }
-            } else if (currentLevel === 3) {
-                if (score >= passCutoff) {
-                    levelUnlocked[4] = true;
-                    stageBadge = `⭐⭐⭐ [3단계 완료!] (4단계 해금 완료)`;
-                    playSound('success');
-                } else {
-                    stageBadge = `🔒 3단계 점수 미달 (${passCutoff}점 이상 필요)`;
-                    playSound('wrong');
-                }
+            if (isActivity1Mode) {
+                stageBadge = `🌟 활동1 (${currentLevel}단계) 복습 완료!`;
+                playSound('success');
             } else {
-                if (score >= passCutoff) {
-                    hasWonCertificate = true;
-                    stageBadge = `⭐⭐⭐⭐ [4단계 및 상장 획득!] 🏆`;
-                    playSound('cert');
+                if (currentLevel === 1) {
+                    if (score >= passCutoff) { levelUnlocked[2] = true; stageBadge = `⭐ [1단계 완료!] (2단계 해금 완료)`; playSound('success'); }
+                    else { stageBadge = `🔒 1단계 점수 미달 (${passCutoff}점 이상 필요)`; playSound('wrong'); }
+                } else if (currentLevel === 2) {
+                    if (score >= passCutoff) { levelUnlocked[3] = true; stageBadge = `⭐⭐ [2단계 완료!] (3단계 해금 완료)`; playSound('success'); }
+                    else { stageBadge = `🔒 2단계 점수 미달 (${passCutoff}점 이상 필요)`; playSound('wrong'); }
+                } else if (currentLevel === 3) {
+                    if (score >= passCutoff) { levelUnlocked[4] = true; stageBadge = `⭐⭐⭐ [3단계 완료!] (4단계 해금 완료)`; playSound('success'); }
+                    else { stageBadge = `🔒 3단계 점수 미달 (${passCutoff}점 이상 필요)`; playSound('wrong'); }
                 } else {
-                    stageBadge = `🌟 4단계 도전 완료!`;
-                    playSound('success');
+                    if (score >= passCutoff) { hasWonCertificate = true; stageBadge = `⭐⭐⭐⭐ [4단계 및 상장 획득!] 🏆`; playSound('cert'); }
+                    else { stageBadge = `🌟 4단계 도전 완료!`; playSound('success'); }
                 }
             }
 
             let contentHtml = `
                 <div class="result-detail">
                     <strong>👤 학습자:</strong> ${studentName} ${isSlowMode ? "(🐢 천천히 모드)" : ""}<br>
-                    <strong>🏆 도전 단계:</strong> ${currentLevel}단계<br>
+                    <strong>🏆 도전 영역:</strong> ${isActivity1Mode ? "활동 1 (꾸며주는 말)" : `활동 2 (${currentLevel}단계)`}<br>
                     <strong>🌟 이번 점수:</strong> ${score} / ${totalCount} 점<br>
-                    <strong>📌 저장된 최고 기록:</strong> ${studentRecords[currentLevel]}점<br>
                     <strong>🏅 업적 결과:</strong> ${stageBadge}
                 </div>
             `;
@@ -1116,7 +1220,7 @@
                 contentHtml += `
                     <div class="result-detail" style="border-left: 5px solid #10b981;">
                         <strong>💡 피드백:</strong><br>
-                        틀린 문제가 하나도 없어요! 문장고리를 완벽하게 이해했답니다! 🎉
+                        틀린 문제가 하나도 없어요! 아주 멋지게 해냈답니다! 🎉
                     </div>
                 `;
             }
