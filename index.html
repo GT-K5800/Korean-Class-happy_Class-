@@ -139,25 +139,35 @@
         .level-card-btn:hover:not(:disabled) { background: #d1fae5; border-color: #10b981; }
         .level-card-btn:disabled { background: #f1f5f9; color: #94a3b8; border-color: #cbd5e1; cursor: not-allowed; }
 
-        /* 활동 3 스테이지 카드 스타일 */
-        .stage-card {
+        /* 활동 3 세로 나열 정사각형 스타일 카드 */
+        .stage-vertical-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .stage-square-card {
             background: linear-gradient(135deg, #ffffff, #f8fafc);
             border: 3px solid #cbd5e1;
             border-radius: 20px;
+            width: 100%;
+            max-width: 420px;
+            aspect-ratio: 2.2 / 1;
             padding: 20px;
-            margin-bottom: 15px;
             cursor: pointer;
             transition: 0.2s;
-            text-align: left;
+            text-align: center;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-        .stage-card:hover:not(.cleared) { transform: translateY(-3px); border-color: #10b981; background: #f0fdf4; }
-        .stage-card.cleared { background: #e2e8f0; border-color: #94a3b8; opacity: 0.8; cursor: default; }
+        .stage-square-card:hover:not(.cleared) { transform: translateY(-3px); border-color: #10b981; background: #f0fdf4; }
+        .stage-square-card.cleared { background: #e2e8f0; border-color: #94a3b8; opacity: 0.85; }
 
-        /* 동물 구조대 다리 놓기 시각적 연출 스타일 */
+        /* 동물 구조대 다리 놓기 시각적 연출 스타일 (섬 포함) */
         .rescue-scene {
             background: linear-gradient(180deg, #e0f2fe, #bae6fd);
             border: 4px solid #0284c7;
@@ -177,8 +187,8 @@
             padding: 0 10px;
         }
         .island {
-            width: 65px;
-            height: 65px;
+            width: 60px;
+            height: 60px;
             background: #fef08a;
             border: 3px solid #ca8a04;
             border-radius: 50%;
@@ -186,16 +196,16 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             position: relative;
             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
         .island-label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: bold;
             color: #713f12;
             position: absolute;
-            bottom: -16px;
+            bottom: -15px;
             white-space: nowrap;
             background: rgba(255,255,255,0.9);
             padding: 1px 4px;
@@ -268,7 +278,7 @@
         <div id="custom-modal" class="modal-overlay">
             <div class="modal-content">
                 <div style="font-size: 3.5rem; margin-bottom: 10px;" id="modal-icon">🤔</div>
-                <div style="font-size: 1.3rem; font-weight: bold; color: #047857; margin-bottom: 20px;" id="modal-msg">다시 한번 생각해 볼까?</div>
+                <div style="font-size: 1.3rem; font-weight: bold; color: #047857; margin-bottom: 20px;" id="modal-msg">틀렸어요. 다시 한 번 생각해 볼까요?</div>
                 <button class="role-btn role-student" style="padding: 10px 25px; font-size: 1.1rem; margin: 0 auto; width: auto;" onclick="closeModal()">확인</button>
             </div>
         </div>
@@ -459,65 +469,57 @@
             <button class="back-btn" onclick="enterMenu()">활동 메뉴로 돌아가기</button>
         </div>
 
-        <!-- [화면 3-3] 활동 3 지역 선택 화면 -->
+        <!-- [화면 3-3] 활동 3 지역 선택 화면 (세로 나열 정사각형 버튼) -->
         <div id="screen-act3-select" class="card">
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 style="color: #047857; font-size: 1.8rem; margin-bottom: 5px;">🐾 출동! 동물 구조대! 🐾</h2>
-                <p style="color: #4b5563; font-size: 1.1rem;">구조할 지역을 먼저 선택해주세요!</p>
+                <p style="color: #4b5563; font-size: 1.1rem;">구조할 지역을 선택해 주세요!</p>
             </div>
 
-            <div class="level-grid">
-                <div id="stage-card-1" class="stage-card" onclick="selectStage(1)">
-                    <div>
-                        <div style="font-size: 1.3rem; color: #047857; font-weight: bold;">🌴 1단계: 밀림 지역 (코흥이 구조 작전)</div>
-                        <div style="font-size: 0.95rem; color: #4b5563; margin-top: 5px;">난이도: ⭐ | 울고 있는 코흥이를 구출하기 위해 다리를 놓아요!</div>
-                    </div>
-                    <div id="stage-badge-1" style="font-size: 1.1rem; font-weight: bold; color: #10b981;">선택하기 👉</div>
+            <div class="stage-vertical-container">
+                <div id="stage-square-1" class="stage-square-card" onclick="selectStage(1)">
+                    <div style="font-size: 2.2rem; margin-bottom: 5px;">🌴</div>
+                    <div style="font-size: 1.25rem; color: #047857; font-weight: bold;">1단계: 밀림 지역</div>
+                    <div style="font-size: 0.9rem; color: #64748b; margin-top: 3px;" id="badge-text-1">코흥이 구출 작전</div>
                 </div>
 
-                <div id="stage-card-2" class="stage-card" onclick="selectStage(2)">
-                    <div>
-                        <div style="font-size: 1.3rem; color: #d97706; font-weight: bold;">🏜️ 2단계: 사막 지역 (낙타 구출 작전)</div>
-                        <div style="font-size: 0.95rem; color: #4b5563; margin-top: 5px;">난이도: ⭐⭐ | 뜨거운 사막에 갇힌 낙타를 구출해요!</div>
-                    </div>
-                    <div id="stage-badge-2" style="font-size: 1.1rem; font-weight: bold; color: #10b981;">선택하기 👉</div>
+                <div id="stage-square-2" class="stage-square-card" onclick="selectStage(2)">
+                    <div style="font-size: 2.2rem; margin-bottom: 5px;">🏜️</div>
+                    <div style="font-size: 1.25rem; color: #d97706; font-weight: bold;">2단계: 사막 지역</div>
+                    <div style="font-size: 0.9rem; color: #64748b; margin-top: 3px;" id="badge-text-2">낙타 구출 작전</div>
                 </div>
 
-                <div id="stage-card-3" class="stage-card" onclick="selectStage(3)">
-                    <div>
-                        <div style="font-size: 1.3rem; color: #2563eb; font-weight: bold;">🧊 3단계: 남극 지역 (아기 펭귄 구출 작전)</div>
-                        <div style="font-size: 0.95rem; color: #4b5563; margin-top: 5px;">난이도: ⭐⭐⭐ | 얼어붙은 남극의 아기 펭귄을 구출해요!</div>
-                    </div>
-                    <div id="stage-badge-3" style="font-size: 1.1rem; font-weight: bold; color: #10b981;">선택하기 👉</div>
+                <div id="stage-square-3" class="stage-square-card" onclick="selectStage(3)">
+                    <div style="font-size: 2.2rem; margin-bottom: 5px;">🧊</div>
+                    <div style="font-size: 1.25rem; color: #2563eb; font-weight: bold;">3단계: 남극 지역</div>
+                    <div style="font-size: 0.9rem; color: #64748b; margin-top: 3px;" id="badge-text-3">아기 펭귄 구출 작전</div>
                 </div>
             </div>
-            <button class="back-btn" onclick="enterMenu()">활동 메뉴로 돌아가기</button>
+            <button class="back-btn" onclick="enterMenu()" style="display: block; margin: 20px auto 0 auto;">활동 메뉴로 돌아가기</button>
         </div>
 
-        <!-- [화면 3-4] 활동 3 난이도 선택 화면 -->
+        <!-- [화면 3-4] 활동 3 난이도(별) 선택 화면 -->
         <div id="screen-act3-diff" class="card">
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 style="color: #047857; font-size: 1.8rem; margin-bottom: 5px;" id="act3-diff-header">🌴 밀림 지역</h2>
-                <p style="color: #4b5563; font-size: 1.1rem;">도전할 난이도를 선택해 주세요!</p>
+                <p style="color: #4b5563; font-size: 1.1rem;">도전할 난이도(별점)를 선택해 주세요!</p>
             </div>
 
-            <div class="level-grid">
-                <div class="stage-card" onclick="selectDifficulty('normal')">
-                    <div>
-                        <div style="font-size: 1.3rem; color: #047857; font-weight: bold;">🌟 기본 모드 (정규 문제)</div>
-                        <div style="font-size: 0.95rem; color: #4b5563; margin-top: 5px;">해당 지역의 모든 미션 문제를 순서대로 풀며 다리를 완성합니다.</div>
-                    </div>
-                    <div style="font-size: 1.1rem; font-weight: bold; color: #10b981;">출동하기 👉</div>
+            <div class="stage-vertical-container">
+                <div class="stage-square-card" onclick="selectDifficulty(1)" style="aspect-ratio: 3/1; max-width: 450px;">
+                    <div style="font-size: 1.3rem; color: #ca8a04; font-weight: bold;">⭐ 별 1개 (기본 미션)</div>
+                    <div style="font-size: 0.9rem; color: #64748b; margin-top: 3px;">기본적인 문장고리와 꾸며주는 말 미션</div>
                 </div>
-                <div class="stage-card" onclick="selectDifficulty('easy')">
-                    <div>
-                        <div style="font-size: 1.3rem; color: #d97706; font-weight: bold;">🐢 이지 모드 (천천히)</div>
-                        <div style="font-size: 0.95rem; color: #4b5563; margin-top: 5px;">핵심 문제만 골라 가볍게 도전하는 완화 모드입니다.</div>
-                    </div>
-                    <div style="font-size: 1.1rem; font-weight: bold; color: #10b981;">출동하기 👉</div>
+                <div class="stage-square-card" onclick="selectDifficulty(2)" style="aspect-ratio: 3/1; max-width: 450px;">
+                    <div style="font-size: 1.3rem; color: #ca8a04; font-weight: bold;">⭐⭐ 별 2개 (도전 미션)</div>
+                    <div style="font-size: 0.9rem; color: #64748b; margin-top: 3px;">조금 더 까다로운 응용 미션</div>
+                </div>
+                <div class="stage-square-card" onclick="selectDifficulty(3)" style="aspect-ratio: 3/1; max-width: 450px;">
+                    <div style="font-size: 1.3rem; color: #ca8a04; font-weight: bold;">⭐⭐⭐ 별 3개 (마스터 미션)</div>
+                    <div style="font-size: 0.9rem; color: #64748b; margin-top: 3px;">타이핑 및 복합 종합 미션</div>
                 </div>
             </div>
-            <button class="back-btn" onclick="showCard('screen-act3-select')">지역 다시 고르기</button>
+            <button class="back-btn" onclick="showCard('screen-act3-select')" style="display: block; margin: 20px auto 0 auto;">지역 다시 고르기</button>
         </div>
 
         <!-- [화면 3-5] 활동 3 참가자 이름 입력 화면 -->
@@ -553,7 +555,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.19. 01:50:00 (v.2.0.52)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.19. 02:30:00 (v.2.0.53)</div>
         </footer>
     </div>
 
@@ -642,9 +644,10 @@
 
         // 활동 3 상태 변수
         let selectedStage = 1;
-        let selectedDifficulty = 'normal';
+        let selectedDifficultyStar = 1;
         let act3PlayerName = "";
         let act3ClearedStages = { 1: false, 2: false, 3: false };
+        let act3ClearedStudent = { 1: "", 2: "", 3: "" };
 
         function toggleSlowMode(actNum) {
             if (actNum === 1) {
@@ -726,21 +729,21 @@
             { visual: "🐻", full: "곰이 꿀을 맛있게 먹어요.", blankFull: "곰( ① ) 꿀( ② ) 맛있게 먹어요.", q1Target: "이", q2Target: "을", problemText: "곰(이/가) 꿀(을/를) 맛있게 먹어요." },
             { visual: "🐰", full: "토끼가 당근을 먹어요.", blankFull: "토끼( ① ) 당근( ② ) 먹어요.", q1Target: "가", q2Target: "을", problemText: "토끼(이/가) 당근(을/를) 먹어요." },
             { visual: "🐵", full: "원숭이가 바나나를 먹어요.", blankFull: "원숭이( ① ) 바나나( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "원숭이(이/가) 바나나(을/를) 먹어요." },
-            { visual: "🐿️", full: "다람쥐가 도토리를 주워요.", blankFull: "다람쥐( ① ) 도토리( ② ) 주워요.", q1Target: "가", q2Target: "을", problemText: "다람쥐(이/가) 도토리(을/를) 주워요." },
+            { visual: "🐿️", full: "다람쥐가 도토리를 주워요.", blankFull: "다람쥐( ① ) 도토리( ② ) 주워요.", q1Target: "가", q2Target: "를", problemText: "다람쥐(이/가) 도토리(을/를) 주워요." },
             { visual: "👶", full: "아이가 그림책을 봐요.", blankFull: "아이( ① ) 그림책( ② ) 봐요.", q1Target: "가", q2Target: "을", problemText: "아이(이/가) 그림책(을/를) 봐요." },
             { visual: "🦁", full: "사자가 고기를 먹어요.", blankFull: "사자( ① ) 고기( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "사자(이/가) 고기(을/를) 먹어요." }
         ];
 
-        // 활동 3 동물 구조대 지역별 맞춤형 문제셋 (이름 빠진 포맷 적용)
+        // 활동 3 동물 구조대 지역별 맞춤형 문제셋 (이름 빠진 포맷 및 정확한 문장 제시)
         const stageData = {
             1: { // 밀림 (총 3문제)
-                title: "🌴 1단계: 밀림 지역 (코흥이 구조 작전)",
+                title: "🌴 1단계: 밀림 지역 (코끼리 구조 작전)",
                 icon: "🌴",
                 animal: "🐘",
                 questions: [
-                    { type: "choice", full: "예쁜 꽃이 피었어요.", target: "예쁜", wrong: "뚱뚱한", problemText: "꾸며주는 말 고르기", format: "_________사자{blank}____ 고기____ 먹습니다." },
-                    { type: "choice", full: "오리가 꽥꽥 울어요.", target: "가", wrong: "이", problemText: "주인공 문장고리 고르기", format: "_________오리{blank}____ 꽥꽥 울어요." },
-                    { type: "choice", full: "우유를 맛있게 마셔요.", target: "를", wrong: "을", problemText: "목적 문장고리 고르기", format: "_________우유{blank}____ 맛있게 마셔요." }
+                    { type: "choice", full: "예쁜 꽃이 피었어요.", target: "예쁜", wrong: "뚱뚱한", problemText: "알맞은 꾸며주는 말 고르기", format: "______ 꽃이 피었어요." },
+                    { type: "choice", full: "오리가 꽥꽥 울어요.", target: "가", wrong: "이", problemText: "알맞은 주인공 문장고리 고르기", format: "오리{blank} 꽥꽥 울어요." },
+                    { type: "choice", full: "우유를 맛있게 마셔요.", target: "를", wrong: "을", problemText: "알맞은 목적 문장고리 고르기", format: "우유{blank} 맛있게 마셔요." }
                 ]
             },
             2: { // 사막 (총 3문제)
@@ -748,9 +751,9 @@
                 icon: "🏜️",
                 animal: "🐪",
                 questions: [
-                    { type: "fix-word", full: "차가운 사막에 가요.", wrongTarget: "뜨거운", target: "차가운", options: ["차가운", "네모난", "신나는"], problemText: "잘못된 꾸며주는 말 고치기", format: "_________사막____ 가요." },
-                    { type: "dual", full: "원숭이가 바나나를 먹어요.", q1Target: "가", q2Target: "를", blankFull: "원숭이( ① ) 바나나( ② ) 먹어요.", problemText: "이/가 + 을/를 종합", format: "_________원숭이( ① )____ 바나나( ② )____ 먹어요." },
-                    { type: "choice", full: "호랑이는 무섭게 생겼어요.", target: "는", wrong: "은", problemText: "비교/강조 문장고리 고르기", format: "_________호랑이{blank}____ 무섭게 생겼어요." }
+                    { type: "fix-word", full: "차가운 사막에 가요.", wrongTarget: "뜨거운", target: "차가운", options: ["차가운", "네모난", "신나는"], problemText: "잘못된 꾸며주는 말 고치기", format: "<span style='color: #dc2626; text-decoration: underline;'>뜨거운</span> 사막에 가요." },
+                    { type: "dual", full: "원숭이가 바나나를 먹어요.", q1Target: "가", q2Target: "를", blankFull: "원숭이( ① ) 바나나( ② ) 먹어요.", problemText: "이/가 + 을/를 종합 고르기", format: "원숭이( ① ) 바나나( ② ) 먹어요." },
+                    { type: "choice", full: "호랑이는 무섭게 생겼어요.", target: "는", wrong: "은", problemText: "알맞은 비교/강조 문장고리 고르기", format: "호랑이{blank} 무섭게 생겼어요." }
                 ]
             },
             3: { // 남극 (총 5문제)
@@ -758,11 +761,11 @@
                 icon: "🧊",
                 animal: "🐧",
                 questions: [
-                    { type: "typing-fix", full: "하얀 눈이 내려요.", wrongTarget: "까만", target: "하얀", problemText: "틀린 꾸며주는 말 타이핑 고치기", format: "_________눈____ 내려요." },
-                    { type: "dual", full: "강아지가 뼈다귀를 물어요.", q1Target: "가", q2Target: "를", blankFull: "강아지( ① ) 뼈다귀( ② ) 물어요.", problemText: "이/가 + 을/를 종합 1", format: "_________강아지( ① )____ 뼈다귀( ② )____ 물어요." },
-                    { type: "dual", full: "아기가 우유를 마셔요.", q1Target: "가", q2Target: "를", blankFull: "아기( ① ) 우유( ② ) 마셔요.", problemText: "이/가 + 을/를 종합 2", format: "_________아기( ① )____ 우유( ② )____ 마셔요." },
-                    { type: "choice", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", problemText: "비교 문장고리 1", format: "_________겨울{blank}____ 춥고, 여름은 더워요." },
-                    { type: "choice", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", problemText: "비교 문장고리 2", format: "_________봄{blank}____ 따뜻하고, 가을은 시원해요." }
+                    { type: "typing-fix", full: "하얀 눈이 내려요.", wrongTarget: "까만", target: "하얀", problemText: "틀린 꾸며주는 말 타이핑 고치기", format: "<span style='color: #dc2626; text-decoration: underline;'>까만</span> 눈이 내려요." },
+                    { type: "dual", full: "강아지가 뼈다귀를 물어요.", q1Target: "가", q2Target: "를", blankFull: "강아지( ① ) 뼈다귀( ② ) 물어요.", problemText: "이/가 + 을/를 종합 1", format: "강아지( ① ) 뼈다귀( ② ) 물어요." },
+                    { type: "dual", full: "아기가 우유를 마셔요.", q1Target: "가", q2Target: "를", blankFull: "아기( ① ) 우유( ② ) 마셔요.", problemText: "이/가 + 을/를 종합 2", format: "아기( ① ) 우유( ② ) 마셔요." },
+                    { type: "choice", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", problemText: "비교 문장고리 1", format: "겨울{blank} 춥고, 여름은 더워요." },
+                    { type: "choice", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", problemText: "비교 문장고리 2", format: "봄{blank} 따뜻하고, 가을은 시원해요." }
                 ]
             }
         };
@@ -802,6 +805,7 @@
                 act1Unlocked[2] = true; act1Unlocked[3] = true;
                 levelUnlocked[2] = true; levelUnlocked[3] = true; levelUnlocked[4] = true;
                 act3ClearedStages = { 1: true, 2: true, 3: true };
+                act3ClearedStudent = { 1: "선생님", 2: "선생님", 3: "선생님" };
                 hasWonCertificate = true;
                 playSound('success');
                 enterMenu();
@@ -907,33 +911,42 @@
         }
 
         function updateAct3SelectUI() {
+            const stageNames = { 1: "밀림 지역", 2: "사막 지역", 3: "남극 지역" };
             for (let i = 1; i <= 3; i++) {
-                const card = document.getElementById(`stage-card-${i}`);
-                const badge = document.getElementById(`stage-badge-${i}`);
+                const card = document.getElementById(`stage-square-${i}`);
+                const badgeText = document.getElementById(`badge-text-${i}`);
                 if (act3ClearedStages[i] || isTeacherMode) {
                     card.classList.add('cleared');
-                    badge.innerHTML = "구조 성공! 🐾";
-                    badge.style.color = "#2563eb";
+                    badgeText.innerHTML = "구조 성공! 🐾";
+                    badgeText.style.color = "#2563eb";
                 } else {
                     card.classList.remove('cleared');
-                    badge.innerHTML = "선택하기 👉";
-                    badge.style.color = "#10b981";
+                    badgeText.innerHTML = (i === 1 ? "코끼리 구출 작전" : (i === 2 ? "낙타 구출 작전" : "아기 펭귄 구출 작전"));
+                    badgeText.style.color = "#64748b";
                 }
             }
         }
 
         function selectStage(stageNum) {
+            if ((act3ClearedStages[stageNum] || isTeacherMode) && !isTeacherMode) {
+                const stageNames = { 1: "밀림 지역", 2: "사막 지역", 3: "남극 지역" };
+                const clearer = act3ClearedStudent[stageNum] || "어떤";
+                document.getElementById('modal-icon').innerText = "🏆";
+                document.getElementById('modal-msg').innerText = `${stageNames[stageNum]}은 ${clearer} 학생이 구조에 성공한 지역이에요!\n다른 지역을 골라볼까요?`;
+                document.getElementById('custom-modal').style.display = 'flex';
+                return;
+            }
             selectedStage = stageNum;
             const st = stageData[stageNum];
             document.getElementById('act3-diff-header').innerText = st.title;
             showCard('screen-act3-diff');
         }
 
-        function selectDifficulty(diff) {
-            selectedDifficulty = diff;
+        function selectDifficulty(starNum) {
+            selectedDifficultyStar = starNum;
             const st = stageData[selectedStage];
             document.getElementById('act3-stage-icon').innerText = st.icon;
-            document.getElementById('act3-stage-title').innerText = st.title + (diff === 'easy' ? " (이지 모드)" : " (기본 모드)");
+            document.getElementById('act3-stage-title').innerText = st.title + ` (별 ${starNum}개)`;
             document.getElementById('act3-player-input').value = isTeacherMode ? "선생님" : (studentName || "");
             showCard('screen-act3-login');
         }
@@ -950,10 +963,12 @@
             wrongList = [];
             
             let fullList = stageData[selectedStage].questions;
-            if (selectedDifficulty === 'easy') {
-                activeQuizList = fullList.slice(0, 2); // 이지 모드 시 2문제만 출제
+            if (selectedDifficultyStar === 1) {
+                activeQuizList = fullList.slice(0, 2); // 별 1개: 2문제
+            } else if (selectedDifficultyStar === 2) {
+                activeQuizList = fullList.slice(0, Math.min(3, fullList.length)); // 별 2개: 3문제
             } else {
-                activeQuizList = fullList;
+                activeQuizList = fullList; // 별 3개: 전체 문제
             }
 
             showCard('screen-quiz');
@@ -1077,7 +1092,7 @@
                         <div class="rescue-track">
                             <div class="island">👦<div class="island-label">${act3PlayerName}</div></div>
                             ${bridgesHtml}
-                            <div class="island">${stageData[currentLevel].animal}<div class="island-label">구조할 동물</div></div>
+                            <div class="island">${stageData[currentLevel].animal}<div class="island-label">구조동물</div></div>
                         </div>
                     </div>
                 `;
@@ -1099,8 +1114,8 @@
                     </div>
                 `;
             } else if (currentMode === 3 && qData.type === "fix-word") {
-                let formattedProblem = qData.format.replace("____", `<span style='color: #dc2626; text-decoration: underline;'>${qData.wrongTarget}</span>`);
-                let options = shuffleArray([qData.target, qData.wrongTarget, "이상한"]);
+                let formattedProblem = qData.format;
+                let options = shuffleArray([qData.target, qData.wrongTarget, "신나는", "예쁜"]);
                 quizArea.innerHTML = `
                     ${rescueSceneHtml}
                     <div class="quiz-box">
@@ -1109,11 +1124,13 @@
                         <div class="options-grid">
                             <button class="option-btn" onclick="checkChoice('${options[0]}', '${qData.target}', '${qData.full}')">${options[0]}</button>
                             <button class="option-btn" onclick="checkChoice('${options[1]}', '${qData.target}', '${qData.full}')">${options[1]}</button>
+                            <button class="option-btn" onclick="checkChoice('${options[2]}', '${qData.target}', '${qData.full}')">${options[2]}</button>
+                            <button class="option-btn" onclick="checkChoice('${options[3]}', '${qData.target}', '${qData.full}')">${options[3]}</button>
                         </div>
                     </div>
                 `;
             } else if (currentMode === 3 && qData.type === "typing-fix") {
-                let formattedProblem = qData.format.replace("눈", `<span style='color: #dc2626; text-decoration: underline;'>까만 눈</span>`);
+                let formattedProblem = qData.format;
                 quizArea.innerHTML = `
                     ${rescueSceneHtml}
                     <div class="quiz-box">
@@ -1274,7 +1291,7 @@
                 playSound('wrong');
                 if (attemptCount === 0) {
                     attemptCount = 1; wrongList.push({ problem: "선긋기 매칭 문제", user: "선긋기 오답", correct: "올바른 짝 연결" });
-                    document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "다시 한번 생각해 볼까?"; document.getElementById('custom-modal').style.display = 'flex';
+                    document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
                 } else { currentQuizIndex++; loadQuiz(); }
             }
         }
@@ -1323,7 +1340,7 @@
                     if (attemptCount === 0) {
                         attemptCount = 1;
                         wrongList.push({ problem: qData.problemText, user: `①:${q4Selected1}, ②:${q4Selected2}`, correct: `①:${qData.q1Target}, ②:${qData.q2Target}` });
-                        document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "다시 한번 생각해 볼까?"; document.getElementById('custom-modal').style.display = 'flex';
+                        document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
                     } else { q4Selected1 = null; q4Selected2 = null; currentQuizIndex++; loadQuiz(); }
                 }
             }
@@ -1337,6 +1354,7 @@
                 } else {
                     playSound('wrong');
                     wrongList.push({ problem: qData.problemText, user: `①:${q4Selected1}, ②:${q4Selected2}`, correct: `①:${qData.q1Target}, ②:${qData.q2Target}` });
+                    document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
                     q4Selected1 = null; q4Selected2 = null; currentQuizIndex++; loadQuiz();
                 }
             }
@@ -1349,7 +1367,7 @@
                 playSound('wrong');
                 if (attemptCount === 0) {
                     attemptCount = 1; wrongList.push({ problem: problemText, user: "틀린 그림 선택", correct: "정답 그림(" + answerVisual + ")" });
-                    document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "다시 한번 생각해 볼까?"; document.getElementById('custom-modal').style.display = 'flex';
+                    document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
                 } else { currentQuizIndex++; loadQuiz(); }
             }
         }
@@ -1360,6 +1378,7 @@
             } else {
                 playSound('wrong');
                 wrongList.push({ problem: problemText, user: selected, correct: answer });
+                document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
                 currentQuizIndex++; loadQuiz();
             }
         }
@@ -1373,6 +1392,7 @@
             } else {
                 playSound('wrong');
                 wrongList.push({ problem: problemText, user: inputVal, correct: answer });
+                document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
                 currentQuizIndex++; loadQuiz();
             }
         }
@@ -1385,8 +1405,9 @@
 
             if (currentMode === 3) {
                 act3ClearedStages[currentLevel] = true;
-                stageBadge = `🐾 [활동3 - ${stageData[currentLevel].title} 구조 성공! 동물 구출 완료 🏆]`;
-                playSound('cert'); // 3초 팡파레 효과음 재생
+                act3ClearedStudent[currentLevel] = act3PlayerName;
+                stageBadge = `🐾 [활동3 - ${stageData[currentLevel].title} 동물 구출 성공! 🏆]`;
+                playSound('cert'); // 3초간 팡파레 효과음 재생
             } else {
                 let isSlow = (currentMode === 1) ? isSlowModeAct1 : isSlowModeAct2;
                 let passCutoff = isSlow ? 4 : 7;
