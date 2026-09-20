@@ -220,28 +220,28 @@
         }
         .stage-square-card:hover { transform: translateY(-3px); border-color: #10b981; background: #f0fdf4; }
 
-        /* 현황판 (이름 크기 축소 및 다리 연결 오류 수정) */
+        /* 대형 현황판 (세로폭 확대, 아치형 휘어진 다리 적용) */
         .rescue-scene-large {
             background: linear-gradient(180deg, #e0f2fe, #bae6fd);
             border: 4px solid #0284c7;
-            border-radius: 22px;
-            padding: 16px 12px;
-            margin-bottom: 20px;
+            border-radius: 24px;
+            padding: 24px 15px;
+            margin-bottom: 22px;
             text-align: center;
             position: relative;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
         .rescue-track-large {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 12px;
+            margin-top: 20px;
             position: relative;
-            padding: 0 5px;
+            padding: 0 10px;
         }
         .island-circle {
-            width: 55px;
-            height: 55px;
+            width: 60px;
+            height: 60px;
             background: #fef08a;
             border: 3px solid #ca8a04;
             border-radius: 50%;
@@ -249,31 +249,33 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             position: relative;
             box-shadow: 0 4px 10px rgba(0,0,0,0.12);
         }
         .island-circle-label {
-            font-size: 0.55rem; /* 이름 크기 축소 */
+            font-size: 0.55rem; /* 글자 크기 축소 */
             font-weight: bold;
             color: #713f12;
             position: absolute;
-            bottom: -15px;
+            bottom: -16px;
             white-space: nowrap;
             background: rgba(255,255,255,0.95);
-            padding: 1px 3px;
+            padding: 1px 4px;
             border-radius: 4px;
             border: 1px solid #ca8a04;
         }
+        /* 위쪽으로 살짝 휘어진 아치형 다리 디자인 */
         .bridge-bar {
             flex: 1;
-            height: 20px;
+            height: 24px;
             background: #cbd5e1;
-            margin: 0 3px;
-            border-radius: 10px;
+            margin: 0 4px;
+            border-radius: 12px 12px 4px 4px;
             position: relative;
             overflow: hidden;
             border: 2px dashed #94a3b8;
+            transform: translateY(-4px); /* 아치형 느낌 연출 */
         }
         .bridge-bar.connected {
             background: #b45309;
@@ -528,7 +530,7 @@
             <button class="back-btn" onclick="enterMenu()">활동 메뉴로 돌아가기</button>
         </div>
 
-        <!-- [화면 3-3] 활동 3 지역 선택 화면 (지역 이름만 표시) -->
+        <!-- [화면 3-3] 활동 3 지역 선택 화면 (지역 이름만 표시 및 완료 시 설명 텍스트 변경) -->
         <div id="screen-act3-select" class="card">
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 style="color: #047857; font-size: 1.8rem; margin-bottom: 5px;">🐾 출동! 동물 구조대! 🐾</h2>
@@ -538,20 +540,20 @@
             <div class="stage-horizontal-container">
                 <div id="stage-square-1" class="stage-square-large" onclick="selectStage(1)">
                     <div style="font-size: 2.8rem; margin-bottom: 8px;">🌴</div>
-                    <div style="font-size: 1.3rem; color: #047857; font-weight: bold;" id="title-text-1">밀림지역</div>
-                    <div style="font-size: 0.8rem; color: #64748b; margin-top: 5px; line-height: 1.3;" id="badge-text-1">코끼리 구출 작전</div>
+                    <div style="font-size: 1.3rem; color: #047857; font-weight: bold;">밀림지역</div>
+                    <div style="font-size: 0.75rem; color: #64748b; margin-top: 5px; line-height: 1.3;" id="badge-text-1">코끼리 구출 작전</div>
                 </div>
 
                 <div id="stage-square-2" class="stage-square-large" onclick="selectStage(2)">
                     <div style="font-size: 2.8rem; margin-bottom: 8px;">🏜️</div>
-                    <div style="font-size: 1.3rem; color: #d97706; font-weight: bold;" id="title-text-2">사막지역</div>
-                    <div style="font-size: 0.8rem; color: #64748b; margin-top: 5px; line-height: 1.3;" id="badge-text-2">낙타 구출 작전</div>
+                    <div style="font-size: 1.3rem; color: #d97706; font-weight: bold;">사막지역</div>
+                    <div style="font-size: 0.75rem; color: #64748b; margin-top: 5px; line-height: 1.3;" id="badge-text-2">낙타 구출 작전</div>
                 </div>
 
                 <div id="stage-square-3" class="stage-square-large" onclick="selectStage(3)">
                     <div style="font-size: 2.8rem; margin-bottom: 8px;">🧊</div>
-                    <div style="font-size: 1.3rem; color: #2563eb; font-weight: bold;" id="title-text-3">남극지역</div>
-                    <div style="font-size: 0.8rem; color: #64748b; margin-top: 5px; line-height: 1.3;" id="badge-text-3">아기 펭귄 구출 작전</div>
+                    <div style="font-size: 1.3rem; color: #2563eb; font-weight: bold;">남극지역</div>
+                    <div style="font-size: 0.75rem; color: #64748b; margin-top: 5px; line-height: 1.3;" id="badge-text-3">아기 펭귄 구출 작전</div>
                 </div>
             </div>
             <button class="back-btn" onclick="enterMenu()" style="display: block; margin: 25px auto 0 auto;">활동 메뉴로 돌아가기</button>
@@ -567,11 +569,11 @@
             <div class="stage-vertical-container">
                 <div class="stage-square-card" onclick="selectDifficulty(1)">
                     <div style="font-size: 1.3rem; color: #ca8a04; font-weight: bold;">⭐ 별 1개 (기본 미션)</div>
-                    <div style="font-size: 0.9rem; color: #64748b; margin-top: 3px;">기본적인 문장고리와 꾸며주는 말 미션 (총 3문제)</div>
+                    <div style="font-size: 0.9rem; color: #64748b; margin-top: 3px;">기본 문장고리 및 꾸며주는 말 미션 (총 3문제)</div>
                 </div>
                 <div class="stage-square-card" onclick="selectDifficulty(2)">
                     <div style="font-size: 1.3rem; color: #ca8a04; font-weight: bold;">⭐⭐ 별 2개 (도전 미션)</div>
-                    <div style="font-size: 0.9rem; color: #64748b; margin-top: 3px;">조금 더 까다로운 응용 미션 (총 3문제)</div>
+                    <div style="font-size: 0.9rem; color: #64748b; margin-top: 3px;">응용 문장 미션 (총 3문제)</div>
                 </div>
                 <div class="stage-square-card" onclick="selectDifficulty(3)">
                     <div style="font-size: 1.3rem; color: #ca8a04; font-weight: bold;">⭐⭐⭐ 별 3개 (마스터 미션)</div>
@@ -614,7 +616,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.19. 18:30:00 (v.2.0.57)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.19. 18:30:00 (v.2.0.58)</div>
         </footer>
     </div>
 
@@ -768,7 +770,7 @@
 
         const level3Data = [
             { visual: "❄️", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", fixDisplay: "겨울<span style='color: #dc2626; text-decoration: underline;'>는</span> 춥고, 여름은 더워요.", problemText: "겨울(은/는) 춥고, 여름(은/는) 더워요." },
-            { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>는</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을은 시원해요." },
+            { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>는</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을(은/는) 시원해요." },
             { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>는</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 뛰고, 참새는 날아가요." },
             { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>은</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 씩씩하고, 토끼는 귀여워요." },
             { visual: "🦒", full: "기린은 목이 길고, 코끼리는 코가 길어요.", target: "은", wrong: "는", fixDisplay: "기린<span style='color: #dc2626; text-decoration: underline;'>는</span> 목이 길고, 코끼리는 코가 길어요.", problemText: "기린(은/는) 목이 길고, 코끼리(은/는) 코가 길어요." },
@@ -792,7 +794,7 @@
             { visual: "🦁", full: "사자가 고기를 먹어요.", blankFull: "사자( ① ) 고기( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "사자(이/가) 고기(을/를) 먹어요." }
         ];
 
-        // 활동 3 단계별 정확한 문항 구성 반영 (문장목록 내 문장만 엄선 사용, 별 3개 타이핑 마지막 배치)
+        // 활동 3 단계별 정확한 문항 구성 반영
         const stageData = {
             1: { // 밀림 (총 3문제)
                 title: "🌴 1단계: 밀림 지역 (코끼리 구조 작전)",
@@ -805,7 +807,7 @@
                     { type: "choice", full: "우유를 맛있게 마셔요.", target: "를", wrong: "을", problemText: "알맞은 목적 문장고리 고르기", format: "우유{blank} 맛있게 마셔요." }
                 ]
             },
-            2: { // 사막 (총 3문제 - 비문장 삭제 완료)
+            2: { // 사막 (총 3문제)
                 title: "🏜️ 2단계: 사막 지역 (낙타 구출 작전)",
                 icon: "🏜️",
                 animal: "🐪",
@@ -992,6 +994,14 @@
         }
 
         function selectStage(stageNum) {
+            if ((act3ClearedStages[stageNum] || isTeacherMode) && !isTeacherMode) {
+                const stageNames = { 1: "밀림지역", 2: "사막지역", 3: "남극지역" };
+                const clearer = act3ClearedStudent[stageNum] || "어떤";
+                document.getElementById('modal-icon').innerText = "🏆";
+                document.getElementById('modal-msg').innerText = `${stageNames[stageNum]}은 ${clearer}학생이 동물구조를 성공했어요!\n다른 지역을 골라볼까요?`;
+                document.getElementById('custom-modal').style.display = 'flex';
+                return;
+            }
             selectedStage = stageNum;
             const st = stageData[stageNum];
             document.getElementById('act3-diff-header').innerText = st.title;
@@ -1020,11 +1030,11 @@
             
             let fullList = stageData[selectedStage].questions;
             if (selectedDifficultyStar === 1) {
-                activeQuizList = fullList.slice(0, 3); // 별 1개: 3문제
+                activeQuizList = shuffleArray(fullList).slice(0, 3); // 별 1개: 무작위 3문제
             } else if (selectedDifficultyStar === 2) {
-                activeQuizList = fullList.slice(0, Math.min(3, fullList.length)); // 별 2개: 3문제
+                activeQuizList = shuffleArray(fullList).slice(0, Math.min(3, fullList.length));
             } else {
-                activeQuizList = fullList; // 별 3개: 전체 문제
+                activeQuizList = fullList; // 별 3개: 전체 문제 (타이핑 마지막 배치)
             }
 
             showCard('screen-quiz');
@@ -1133,7 +1143,7 @@
             const qData = activeQuizList[currentQuizIndex];
             let visualHtml = qData.visual ? `<div class="quiz-visual">${qData.visual}</div>` : "";
 
-            // 현황판: 섬 아이콘 제거 및 사람 아이콘 이동 정확히 반영
+            // 현황판 렌더링 (다리 연결 및 사람 아이콘 이동 정확히 반영)
             let rescueSceneHtml = "";
             if (currentMode === 3) {
                 let totalQ = activeQuizList.length;
