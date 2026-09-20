@@ -20,7 +20,7 @@
         }
         .container {
             width: 100%;
-            max-width: 780px;
+            max-width: 820px;
             background: white;
             padding: 35px;
             border-radius: 28px;
@@ -94,14 +94,8 @@
             border-radius: 8px;
             border: 2px solid #cbd5e1;
         }
-        #qrcode:hover {
-            transform: scale(1.05);
-            border-color: #10b981;
-        }
-        #qrcode img {
-            margin: 0 auto;
-            border-radius: 6px;
-        }
+        #qrcode:hover { transform: scale(1.05); border-color: #10b981; }
+        #qrcode img { margin: 0 auto; border-radius: 6px; }
 
         .name-input {
             width: 85%;
@@ -142,295 +136,122 @@
             align-items: center;
             justify-content: space-between;
         }
-        .level-card-btn:hover:not(:disabled) {
-            background: #d1fae5;
-            border-color: #10b981;
-        }
-        .level-card-btn:disabled {
-            background: #f1f5f9;
-            color: #94a3b8;
-            border-color: #cbd5e1;
-            cursor: not-allowed;
-        }
+        .level-card-btn:hover:not(:disabled) { background: #d1fae5; border-color: #10b981; }
+        .level-card-btn:disabled { background: #f1f5f9; color: #94a3b8; border-color: #cbd5e1; cursor: not-allowed; }
 
-        .record-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        /* 활동 3 스테이지 카드 스타일 */
+        .stage-card {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border: 3px solid #cbd5e1;
+            border-radius: 20px;
+            padding: 20px;
             margin-bottom: 15px;
-        }
-        .record-box {
-            background: #f8fafc;
-            border: 2px solid #cbd5e1;
-            padding: 15px 20px;
-            border-radius: 14px;
-            font-size: 1.05rem;
-            color: #334155;
-        }
-        
-        .controls-row {
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: left;
             display: flex;
-            gap: 10px;
-            align-items: stretch;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-        .slow-mode-box {
-            background: #f0fdf4;
-            border: 2px solid #10b981;
-            padding: 12px 18px;
-            border-radius: 14px;
+        .stage-card:hover:not(.cleared) { transform: translateY(-3px); border-color: #10b981; background: #f0fdf4; }
+        .stage-card.cleared { background: #e2e8f0; border-color: #94a3b8; opacity: 0.8; cursor: default; }
+
+        /* 동물 구조대 시각적 연출 스테이지 영역 스타일 */
+        .rescue-scene {
+            background: linear-gradient(180deg, #e0f2fe, #bae6fd);
+            border: 4px solid #0284c7;
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: inset 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .rescue-track {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 10px;
+            position: relative;
+        }
+        .island {
+            width: 75px;
+            height: 75px;
+            background: #fef08a;
+            border: 3px solid #ca8a04;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            flex: 1;
-        }
-        .switch {
+            justify-content: center;
+            font-size: 2rem;
             position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 28px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
+        .bridge {
+            flex: 1;
+            height: 18px;
+            background: #cbd5e1;
+            margin: 0 5px;
+            border-radius: 9px;
+            position: relative;
+            overflow: hidden;
+            border: 2px dashed #94a3b8;
+        }
+        .bridge.connected {
+            background: #b45309;
+            border: 2px solid #78350f;
+            background-image: repeating-linear-gradient(90deg, transparent, transparent 10px, #78350f 10px, #78350f 14px);
+        }
+        .character-avatar {
+            position: absolute;
+            top: -35px;
+            font-size: 2.2rem;
+            transition: 0.5s ease-in-out;
+            filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2));
+        }
+
+        .record-wrapper { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+        .record-box { background: #f8fafc; border: 2px solid #cbd5e1; padding: 15px 20px; border-radius: 14px; font-size: 1.05rem; color: #334155; }
+        .controls-row { display: flex; gap: 10px; align-items: stretch; }
+        .slow-mode-box { background: #f0fdf4; border: 2px solid #10b981; padding: 12px 18px; border-radius: 14px; display: flex; align-items: center; justify-content: space-between; flex: 1; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #cbd5e1; transition: .3s; border-radius: 34px;
-        }
-        .slider:before {
-            position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px;
-            background-color: white; transition: .3s; border-radius: 50%;
-        }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
         input:checked + .slider { background-color: #10b981; }
         input:checked + .slider:before { transform: translateX(22px); }
 
-        .cert-btn {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            padding: 0 20px;
-            font-weight: bold;
-            font-size: 1.05rem;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 6px 15px rgba(245, 158, 11, 0.4);
-            transition: 0.2s;
-        }
+        .cert-btn { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; border-radius: 14px; padding: 0 20px; font-weight: bold; font-size: 1.05rem; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 6px 15px rgba(245, 158, 11, 0.4); transition: 0.2s; }
         .cert-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(245, 158, 11, 0.6); }
-        .cert-btn:disabled {
-            background: #e2e8f0;
-            color: #94a3b8;
-            cursor: not-allowed;
-            box-shadow: none;
-            transform: none;
-        }
+        .cert-btn:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; box-shadow: none; transform: none; }
 
-        .quiz-box {
-            background: #f8fafc;
-            border: 3px solid #e2e8f0;
-            padding: 25px;
-            border-radius: 20px;
-            margin-bottom: 15px;
-            text-align: center;
-            position: relative;
-        }
-        .quiz-visual {
-            font-size: 8.5rem;
-            background: linear-gradient(135deg, #ffffff, #f1f5f9);
-            width: 180px;
-            height: 180px;
-            margin: 0 auto 20px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 32px;
-            border: 4px solid #10b981;
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
-        }
+        .quiz-box { background: #f8fafc; border: 3px solid #e2e8f0; padding: 25px; border-radius: 20px; margin-bottom: 15px; text-align: center; position: relative; }
+        .quiz-visual { font-size: 8.5rem; background: linear-gradient(135deg, #ffffff, #f1f5f9); width: 180px; height: 180px; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; border-radius: 32px; border: 4px solid #10b981; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2); }
 
-        .sentence-box {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #1f2937;
-            margin-bottom: 20px;
-            background: #ffffff;
-            padding: 18px;
-            border-radius: 16px;
-            border: 2px solid #cbd5e1;
-            word-break: keep-all;
-        }
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-        .option-btn {
-            padding: 18px;
-            font-size: 1.25rem;
-            border: 3px solid #cbd5e1;
-            border-radius: 16px;
-            background: white;
-            cursor: pointer;
-            font-weight: bold;
-            color: #334155;
-            transition: 0.1s;
-        }
+        .sentence-box { font-size: 1.5rem; font-weight: bold; color: #1f2937; margin-bottom: 20px; background: #ffffff; padding: 18px; border-radius: 16px; border: 2px solid #cbd5e1; word-break: keep-all; }
+        .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .option-btn { padding: 18px; font-size: 1.25rem; border: 3px solid #cbd5e1; border-radius: 16px; background: white; cursor: pointer; font-weight: bold; color: #334155; transition: 0.1s; }
         .option-btn:hover { border-color: #10b981; background: #f0fdf4; color: #047857; }
 
-        .typing-input {
-            width: 80%;
-            padding: 16px;
-            font-size: 1.3rem;
-            border: 3px solid #10b981;
-            border-radius: 14px;
-            text-align: center;
-            margin-bottom: 15px;
-            outline: none;
-        }
+        .typing-input { width: 80%; padding: 16px; font-size: 1.3rem; border: 3px solid #10b981; border-radius: 14px; text-align: center; margin-bottom: 15px; outline: none; }
 
-        /* 선긋기(매칭) 스타일 */
-        .match-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 30px;
-            margin: 20px 10px;
-            position: relative;
-        }
-        .match-col {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            width: 45%;
-            z-index: 2;
-        }
-        .match-item {
-            padding: 14px 10px;
-            background: white;
-            border: 3px solid #cbd5e1;
-            border-radius: 14px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            text-align: center;
-            color: #334155;
-            transition: 0.2s;
-        }
-        .match-item.selected {
-            border-color: #10b981;
-            background: #d1fae5;
-            color: #047857;
-            transform: scale(1.03);
-        }
-        .match-item.matched {
-            border-color: #3b82f6;
-            background: #eff6ff;
-            color: #1d4ed8;
-            cursor: default;
-        }
-        svg.line-svg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
+        .modal-overlay { display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); border-radius: 28px; justify-content: center; align-items: center; z-index: 10; }
+        .modal-content { background: white; padding: 35px 45px; border-radius: 24px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.25); animation: popUp 0.2s ease-in-out; max-width: 90%; }
+        @keyframes popUp { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
-        .modal-overlay {
-            display: none;
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            border-radius: 28px;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
-        .modal-content {
-            background: white;
-            padding: 35px 45px;
-            border-radius: 24px;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
-            animation: popUp 0.2s ease-in-out;
-            max-width: 90%;
-        }
-        @keyframes popUp {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        .certificate-box { border: 12px double #d97706; background: linear-gradient(135deg, #fffbeb, #fef3c7); padding: 40px 30px; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(217, 119, 6, 0.2); position: relative; }
+        .cert-badge { font-size: 3.5rem; margin-bottom: 5px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+        .cert-title { font-size: 2.5rem; color: #92400e; font-weight: 900; letter-spacing: 8px; margin-bottom: 15px; font-family: 'Georgia', serif; }
+        .cert-text { font-size: 1.15rem; color: #78350f; line-height: 1.6; margin: 15px 0; word-break: keep-all; }
+        .cert-name { font-size: 1.8rem; color: #1e3a8a; font-weight: bold; margin: 20px 0; border-bottom: 3px solid #f59e0b; display: inline-block; padding: 0 30px; }
 
-        .certificate-box {
-            border: 12px double #d97706;
-            background: linear-gradient(135deg, #fffbeb, #fef3c7);
-            padding: 40px 30px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(217, 119, 6, 0.2);
-            position: relative;
-        }
-        .cert-badge {
-            font-size: 3.5rem;
-            margin-bottom: 5px;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-        }
-        .cert-title { 
-            font-size: 2.5rem; 
-            color: #92400e; 
-            font-weight: 900; 
-            letter-spacing: 8px; 
-            margin-bottom: 15px; 
-            font-family: 'Georgia', serif;
-        }
-        .cert-text {
-            font-size: 1.15rem; 
-            color: #78350f; 
-            line-height: 1.6; 
-            margin: 15px 0; 
-            word-break: keep-all;
-        }
-        .cert-name { 
-            font-size: 1.8rem; 
-            color: #1e3a8a; 
-            font-weight: bold; 
-            margin: 20px 0; 
-            border-bottom: 3px solid #f59e0b; 
-            display: inline-block; 
-            padding: 0 30px; 
-        }
-
-        .result-box {
-            text-align: center;
-            padding: 20px;
-            background: #f0fdf4;
-            border-radius: 20px;
-            border: 3px solid #6ee7b7;
-        }
+        .result-box { text-align: center; padding: 20px; background: #f0fdf4; border-radius: 20px; border: 3px solid #6ee7b7; }
         .result-title { font-size: 1.5rem; color: #047857; font-weight: bold; margin-bottom: 12px; }
         .result-detail { font-size: 1.1rem; color: #1f2937; margin-bottom: 12px; text-align: left; background: white; padding: 15px; border-radius: 14px; line-height: 1.4; max-height: 200px; overflow-y: auto; }
 
-        .back-btn {
-            background: #e2e8f0;
-            color: #334155;
-            border: none;
-            padding: 12px 22px;
-            border-radius: 14px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-top: 15px;
-        }
-
-        footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: #4b5563;
-            font-weight: bold;
-            border-top: 2px solid #e2e8f0;
-            padding-top: 12px;
-        }
+        .back-btn { background: #e2e8f0; color: #334155; border: none; padding: 12px 22px; border-radius: 14px; cursor: pointer; font-weight: bold; font-size: 1.1rem; margin-top: 15px; }
+        footer { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; font-size: 0.9rem; color: #4b5563; font-weight: bold; border-top: 2px solid #e2e8f0; padding-top: 12px; }
     </style>
 </head>
 <body>
@@ -505,8 +326,8 @@
         <!-- [화면 1] 학생 이름 입력 -->
         <div id="screen-login" class="card">
             <div class="role-select-box">
-                <div class="cheer-text">✨ 열심히 공부해요! 화이팅! ✨</div>
-                <p style="margin-bottom: 18px; color: #374151; font-weight: bold; font-size: 1.2rem;">이름을 입력하고 시작해볼까요?</p>
+                <div class="cheer-text" id="login-cheer-text">✨ 열심히 공부해요! 화이팅! ✨</div>
+                <p style="margin-bottom: 18px; color: #374151; font-weight: bold; font-size: 1.2rem;" id="login-desc-text">이름을 입력하고 시작해볼까요?</p>
                 <input type="text" id="student-name-input" class="name-input" placeholder="이름을 적어주세요 (예: 김경탁)">
                 <button class="role-btn role-student" onclick="startApp()">공부 시작하기 🚀</button>
                 <button class="back-btn" onclick="showCard('screen-role')">돌아가기</button>
@@ -631,6 +452,56 @@
             <button class="back-btn" onclick="enterMenu()">활동 메뉴로 돌아가기</button>
         </div>
 
+        <!-- [화면 3-3] 활동 3 스테이지 선택 화면 -->
+        <div id="screen-act3-select" class="card">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="color: #047857; font-size: 1.8rem; margin-bottom: 5px;">🐾 출동! 동물 구조대! 🐾</h2>
+                <p style="color: #4b5563; font-size: 1.1rem;">구조할 지역과 난이도를 선택하고 친구들과 함께 동물을 구해주세요!</p>
+            </div>
+
+            <div class="level-grid">
+                <!-- 1단계: 밀림 -->
+                <div id="stage-card-1" class="stage-card" onclick="selectStage(1)">
+                    <div>
+                        <div style="font-size: 1.3rem; color: #047857; font-weight: bold;">🌴 1단계: 밀림 지역 (코흥이 구조 작전)</div>
+                        <div style="font-size: 0.95rem; color: #4b5563; margin-top: 5px;">난이도: ⭐ | 꾸며주는 말, 이/가, 을/를 기본 문제 (3문제)</div>
+                    </div>
+                    <div id="stage-badge-1" style="font-size: 1.1rem; font-weight: bold; color: #10b981;">도전하기 👉</div>
+                </div>
+
+                <!-- 2단계: 사막 -->
+                <div id="stage-card-2" class="stage-card" onclick="selectStage(2)">
+                    <div>
+                        <div style="font-size: 1.3rem; color: #d97706; font-weight: bold;">🏜️ 2단계: 사막 지역 (낙타 구출 작전)</div>
+                        <div style="font-size: 0.95rem; color: #4b5563; margin-top: 5px;">난이도: ⭐⭐ | 꾸며주는 말 고치기, 이/가+을/를, 은/는 (3문제)</div>
+                    </div>
+                    <div id="stage-badge-2" style="font-size: 1.1rem; font-weight: bold; color: #10b981;">도전하기 👉</div>
+                </div>
+
+                <!-- 3단계: 남극 -->
+                <div id="stage-card-3" class="stage-card" onclick="selectStage(3)">
+                    <div>
+                        <div style="font-size: 1.3rem; color: #2563eb; font-weight: bold;">🧊 3단계: 남극 지역 (아기 펭귄 구출 작전)</div>
+                        <div style="font-size: 0.95rem; color: #4b5563; margin-top: 5px;">난이도: ⭐⭐⭐ | 타이핑 고치기, 이/가+을/를, 은/는 심화 (5문제)</div>
+                    </div>
+                    <div id="stage-badge-3" style="font-size: 1.1rem; font-weight: bold; color: #10b981;">도전하기 👉</div>
+                </div>
+            </div>
+            <button class="back-btn" onclick="enterMenu()">활동 메뉴로 돌아가기</button>
+        </div>
+
+        <!-- [화면 3-4] 활동 3 참가자 이름 입력 화면 -->
+        <div id="screen-act3-login" class="card">
+            <div class="role-select-box">
+                <div style="font-size: 3.5rem; margin-bottom: 10px;" id="act3-stage-icon">🌴</div>
+                <h2 style="color: #047857; font-size: 1.6rem; margin-bottom: 10px;" id="act3-stage-title">밀림 지역 출동 준비!</h2>
+                <p style="margin-bottom: 18px; color: #374151; font-weight: bold; font-size: 1.2rem;">전자칠판 앞에 나온 참가 학생 이름을 적어주세요!</p>
+                <input type="text" id="act3-player-input" class="name-input" placeholder="참가 학생 이름 (예: 김경탁)">
+                <button class="role-btn role-student" onclick="startAct3Mission()">구조 작전 시작하기 🚁</button>
+                <button class="back-btn" onclick="showCard('screen-act3-select')">지역 다시 고르기</button>
+            </div>
+        </div>
+
         <!-- [화면 4] 퀴즈 풀이 화면 -->
         <div id="screen-quiz" class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
@@ -639,23 +510,6 @@
             </div>
             <div id="quiz-area"></div>
             <button class="back-btn" onclick="goToLevelSelect()">단계 선택으로 가기</button>
-        </div>
-
-        <!-- [화면 5] 활동 3 (동물 구조대 안내 화면) -->
-        <div id="screen-activity3" class="card" style="text-align: center; justify-content: center; padding: 40px 0;">
-            <div style="font-size: 4rem; margin-bottom: 15px;">🐾</div>
-            <h2 style="color: #047857; font-size: 1.6rem; margin-bottom: 10px;">활동 3: 출동! 동물 구조대!</h2>
-            <p style="color: #4b5563; font-size: 1.1rem; margin-bottom: 15px; line-height: 1.6;">
-                밀림, 사막, 남극에 갇힌 동물들을 구출하기 위해<br>알맞은 문장고리와 꾸며주는 말을 찾아 다리를 놓아주세요!
-            </p>
-            <div style="background: #f8fafc; border: 2px dashed #cbd5e1; padding: 15px; border-radius: 14px; margin-bottom: 25px; font-size: 0.95rem; color: #334155; text-align: left; display: inline-block;">
-                📍 <strong>미션 포맷 예시:</strong><br>
-                [김경탁] _________사자____ 고기____ 먹습니다.<br>
-                🌉 <i>정답을 맞히면 다리가 놓아져 동물을 구하러 갑니다!</i>
-            </div>
-            <br>
-            <button class="role-btn role-student" style="padding: 14px; font-size: 1.15rem; width: 60%; margin: 0 auto; display: block;" onclick="alert('동물 구조대 미션 스테이지가 곧 열립니다!')">동물 구조대 준비중 🚀</button>
-            <button class="back-btn" onclick="enterMenu()">활동 메뉴로 돌아가기</button>
         </div>
 
         <!-- [화면 6] 결과지 -->
@@ -669,7 +523,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.19. 00:30:00 (v.2.0.50)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.19. 01:15:00 (v.2.0.51)</div>
         </footer>
     </div>
 
@@ -737,7 +591,7 @@
 
         let studentName = "";
         let isTeacherMode = false;
-        let currentMode = 1; 
+        let currentMode = 1; // 1: 활동1, 2: 활동2, 3: 활동3
         let currentLevel = 1;
         let currentQuizIndex = 0;
         let score = 0;
@@ -755,6 +609,11 @@
         let studentRecords = { 1: null, 2: null, 3: null, 4: null };
         let levelUnlocked = { 2: false, 3: false, 4: false };
 
+        // 활동 3 상태 변수
+        let selectedStage = 1;
+        let act3PlayerName = "";
+        let act3ClearedStages = { 1: false, 2: false, 3: false };
+
         function toggleSlowMode(actNum) {
             if (actNum === 1) {
                 isSlowModeAct1 = document.getElementById('act1-slow-toggle').checked;
@@ -767,7 +626,7 @@
             }
         }
 
-        // ================= 전체 원본 데이터 ('푸른' ➔ '파란' 적용 완료) =================
+        // 데이터셋 ('푸른' ➔ '파란' 적용 완료)
         const rawSentenceData = [
             { visual: "🌷", full: "예쁜 꽃이 피었어요.", target: "예쁜", options: ["뚱뚱한", "차가운", "빠른", "예쁜"] },
             { visual: "🎤", full: "신나는 노래를 불러요.", target: "신나는", options: ["파란", "딱딱한", "신나는", "동그란"] },
@@ -789,7 +648,6 @@
             { text: "맛있는 라면을 먹어요.", visualOptions: ["🍜", "🍎", "🍌", "📦"], answer: "🍜" }
         ];
 
-        // 활동 2 데이터셋
         const level1Data = [
             { visual: "🦆", full: "오리가 꽥꽥 울어요.", target: "가", wrong: "이", problemText: "오리(이/가) 꽥꽥 울어요." },
             { visual: "🐓", full: "닭이 꼬끼오 울어요.", target: "이", wrong: "가", problemText: "닭(이/가) 꼬끼오 울어요." },
@@ -842,6 +700,42 @@
             { visual: "🦁", full: "사자가 고기를 먹어요.", blankFull: "사자( ① ) 고기( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "사자(이/가) 고기(을/를) 먹어요." }
         ];
 
+        // ================= 활동 3 전용 구조대 미션 데이터셋 =================
+        const stageData = {
+            1: { // 밀림 (총 3문제)
+                title: "🌴 1단계: 밀림 지역 (코흥이 구조 작전)",
+                icon: "🌴",
+                animal: "🐘",
+                questions: [
+                    { type: "choice", full: "예쁜 꽃이 피었어요.", target: "예쁜", wrong: "뚱뚱한", problemText: "꾸며주는 말 고르기", format: "[{player}] _________{blank}____ 꽃____ 피었어요." },
+                    { type: "choice", full: "오리가 꽥꽥 울어요.", target: "가", wrong: "이", problemText: "주인공 문장고리 고르기", format: "[{player}] _________오리{blank}____ 꽥꽥 울어요." },
+                    { type: "choice", full: "우유를 맛있게 마셔요.", target: "를", wrong: "을", problemText: "목적 문장고리 고르기", format: "[{player}] _________우유{blank}____ 맛있게 마셔요." }
+                ]
+            },
+            2: { // 사막 (총 3문제)
+                title: "🏜️ 2단계: 사막 지역 (낙타 구출 작전)",
+                icon: "🏜️",
+                animal: "🐪",
+                questions: [
+                    { type: "fix-word", full: "차가운 사막에 가요.", wrongTarget: "뜨거운", target: "차가운", options: ["차가운", "네모난", "신나는"], problemText: "잘못된 꾸며주는 말 고치기", format: "[{player}] _________사막____ 가요." },
+                    { type: "dual", full: "원숭이가 바나나를 먹어요.", q1Target: "가", q2Target: "를", blankFull: "원숭이( ① ) 바나나( ② ) 먹어요.", problemText: "이/가 + 을/를 종합", format: "[{player}] _________원숭이( ① )____ 바나나( ② )____ 먹어요." },
+                    { type: "choice", full: "호랑이는 무섭게 생겼어요.", target: "는", wrong: "은", problemText: "비교/강조 문장고리 고르기", format: "[{player}] _________호랑이{blank}____ 무섭게 생겼어요." }
+                ]
+            },
+            3: { // 남극 (총 5문제)
+                title: "🧊 3단계: 남극 지역 (아기 펭귄 구출 작전)",
+                icon: "🧊",
+                animal: "🐧",
+                questions: [
+                    { type: "typing-fix", full: "하얀 눈이 내려요.", wrongTarget: "까만", target: "하얀", problemText: "틀린 꾸며주는 말 타이핑 고치기", format: "[{player}] _________눈____ 내려요." },
+                    { type: "dual", full: "강아지가 뼈다귀를 물어요.", q1Target: "가", q2Target: "를", blankFull: "강아지( ① ) 뼈다귀( ② ) 물어요.", problemText: "이/가 + 을/를 종합 1", format: "[{player}] _________강아지( ① )____ 뼈다귀( ② )____ 물어요." },
+                    { type: "dual", full: "아기가 우유를 마셔요.", q1Target: "가", q2Target: "를", blankFull: "아기( ① ) 우유( ② ) 마셔요.", problemText: "이/가 + 을/를 종합 2", format: "[{player}] _________아기( ① )____ 우유( ② )____ 마셔요." },
+                    { type: "choice", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", problemText: "비교 문장고리 1", format: "[{player}] _________겨울{blank}____ 춥고, 여름은 더워요." },
+                    { type: "choice", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", problemText: "비교 문장고리 2", format: "[{player}] _________봄{blank}____ 따뜻하고, 가을은 시원해요." }
+                ]
+            }
+        };
+
         function shuffleArray(array) {
             let arr = [...array];
             for (let i = arr.length - 1; i > 0; i--) {
@@ -860,9 +754,13 @@
             if (role === 'teacher') {
                 document.getElementById('pw-input').value = "";
                 showCard('screen-password');
+                // 선생님 모드 안내 문구 반영
+                document.getElementById('welcome-msg').innerText = "어서오세요 선생님! 어떤 활동을 살펴볼까요?";
             } else {
                 isTeacherMode = false;
                 showCard('screen-login');
+                document.getElementById('login-cheer-text').innerText = "✨ 열심히 공부해요! 화이팅! ✨";
+                document.getElementById('login-desc-text').innerText = "이름을 입력하고 시작해볼까요?";
             }
         }
 
@@ -873,6 +771,7 @@
                 studentName = "선생님";
                 act1Unlocked[2] = true; act1Unlocked[3] = true;
                 levelUnlocked[2] = true; levelUnlocked[3] = true; levelUnlocked[4] = true;
+                act3ClearedStages = { 1: true, 2: true, 3: true }; // 선생님 모드 시 모두 해금
                 hasWonCertificate = true;
                 playSound('success');
                 enterMenu();
@@ -894,7 +793,11 @@
         }
 
         function enterMenu() {
-            document.getElementById('welcome-msg').innerText = `어서와요 ${studentName} 학생! 반가워요!`;
+            if (isTeacherMode) {
+                document.getElementById('welcome-msg').innerText = "어서오세요 선생님! 어떤 활동을 살펴볼까요?";
+            } else {
+                document.getElementById('welcome-msg').innerText = `어서와요 ${studentName} 학생! 반가워요!`;
+            }
             showCard('screen-menu');
         }
 
@@ -907,7 +810,8 @@
                 updateLevelSelectUI();
                 showCard('screen-level-select');
             } else {
-                showCard('screen-activity3');
+                updateAct3SelectUI();
+                showCard('screen-act3-select');
             }
         }
 
@@ -915,9 +819,12 @@
             if (currentMode === 1) {
                 updateAct1SelectUI();
                 showCard('screen-act1-select');
-            } else {
+            } else if (currentMode === 2) {
                 updateLevelSelectUI();
                 showCard('screen-level-select');
+            } else {
+                updateAct3SelectUI();
+                showCard('screen-act3-select');
             }
         }
 
@@ -969,13 +876,53 @@
             }
         }
 
+        function updateAct3SelectUI() {
+            for (let i = 1; i <= 3; i++) {
+                const card = document.getElementById(`stage-card-${i}`);
+                const badge = document.getElementById(`stage-badge-${i}`);
+                if (act3ClearedStages[i] || isTeacherMode) {
+                    card.classList.add('cleared');
+                    badge.innerHTML = "구조 성공! 🐾";
+                    badge.style.color = "#2563eb";
+                } else {
+                    card.classList.remove('cleared');
+                    badge.innerHTML = "도전하기 👉";
+                    badge.style.color = "#10b981";
+                }
+            }
+        }
+
+        function selectStage(stageNum) {
+            selectedStage = stageNum;
+            const st = stageData[stageNum];
+            document.getElementById('act3-stage-icon').innerText = st.icon;
+            document.getElementById('act3-stage-title').innerText = st.title;
+            document.getElementById('act3-player-input').value = isTeacherMode ? "선생님" : (studentName || "");
+            showCard('screen-act3-login');
+        }
+
+        function startAct3Mission() {
+            const inputVal = document.getElementById('act3-player-input').value.trim();
+            if (!inputVal) { alert("참가 학생 이름을 입력해 주세요!"); return; }
+            act3PlayerName = inputVal;
+
+            currentMode = 3;
+            currentLevel = selectedStage;
+            currentQuizIndex = 0;
+            score = 0;
+            wrongList = [];
+            activeQuizList = stageData[selectedStage].questions;
+
+            showCard('screen-quiz');
+            loadQuiz();
+        }
+
         function openCertModal() {
             document.getElementById('cert-student-name').innerText = isTeacherMode ? "모범 학생 (예시)" : `${studentName} 학생`;
             document.getElementById('cert-modal').style.display = 'flex';
         }
         function closeCertModal() { document.getElementById('cert-modal').style.display = 'none'; }
 
-        // ================= 활동 1 단계별 맞춤형 퀴즈 생성 =================
         function startAct1Quiz(lvl) {
             currentLevel = lvl; currentQuizIndex = 0; score = 0; wrongList = [];
             let targetCount = isSlowModeAct1 ? 5 : 10;
@@ -983,7 +930,6 @@
             let remCount = targetCount - halfCount;
 
             if (lvl === 1) {
-                // 1단계: 알맞은 꾸며주는 말 고르기 5문제 + 그림 찾기 5문제 (중복 방지)
                 let blanks = shuffleArray(rawSentenceData).slice(0, halfCount).map(item => ({
                     type: "blank", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
                 }));
@@ -992,7 +938,6 @@
                 }));
                 activeQuizList = shuffleArray([...blanks, ...matches]);
             } else if (lvl === 2) {
-                // 2단계: 잘못된 꾸며주는 말 고치기(객관식) + 선긋기 매칭 (교차 구성)
                 let wrongWordMap = { "예쁜": "미운", "신나는": "지루한", "동그란": "네모난", "귀여운": "무서운", "맛있는": "맛없는", "기다란": "짧은", "파란": "누런", "네모난": "동그란", "달콤한": "쓴" };
                 let fixChoice = shuffleArray(rawSentenceData).slice(0, halfCount).map(item => {
                     let wrongW = wrongWordMap[item.target] || "다른말";
@@ -1000,7 +945,6 @@
                     return { type: "blank", visual: item.visual, sentence: badSentence, options: shuffleArray([item.target, wrongW, "이상한", "바른말"]), answer: item.target, problemText: item.full.replace(item.target, wrongW) };
                 });
                 
-                // 선긋기 데이터 생성 (Line Match)
                 let lineMatchList = [];
                 for(let i=0; i<remCount; i++) {
                     let subArr = shuffleArray(rawSentenceData).slice(0, 3);
@@ -1014,7 +958,6 @@
                 }
                 activeQuizList = shuffleArray([...fixChoice, ...lineMatchList]);
             } else {
-                // 3단계: 타이핑 빈칸 채우기(70%) + 타이핑 잘못된 부분 고치기(30%)
                 let baseItems = shuffleArray(rawSentenceData).slice(0, targetCount);
                 let wrongWordMap = { "예쁜": "미운", "신나는": "지루한", "동그란": "네모난", "귀여운": "무서운", "맛있는": "맛없는", "기다란": "짧은", "파란": "누런", "네모난": "동그란", "달콤한": "쓴" };
                 
@@ -1033,7 +976,6 @@
             loadQuiz();
         }
 
-        // 활동 2 퀴즈 시작
         function startQuiz(lvl) {
             currentLevel = lvl; currentQuizIndex = 0; score = 0; wrongList = [];
             let targetCount = isSlowModeAct2 ? 5 : 10;
@@ -1053,10 +995,21 @@
             matchedPairsCount = 0;
 
             const quizArea = document.getElementById('quiz-area');
-            let isSlow = (currentMode === 1) ? isSlowModeAct1 : isSlowModeAct2;
-            let totalCount = isSlow ? 5 : 10;
-            
-            let titleText = (currentMode === 1) ? `[ 활동1 - ${currentLevel}단계 복습 ]` : `[ 활동2 - ${ {1: "1단계: 주인공 문장고리 (이/가)", 2: "2단계: 목적 문장고리 (을/를)", 3: "3단계: 비교/강조 문장고리 (은/는)", 4: "4단계: 종합 문장고리 (이/가 + 을/를)" }[currentLevel] } ]`;
+            let totalCount = 10;
+            let titleText = "";
+
+            if (currentMode === 1) {
+                let isSlow = isSlowModeAct1;
+                totalCount = isSlow ? 5 : 10;
+                titleText = `[ 활동1 - ${currentLevel}단계 복습 ]`;
+            } else if (currentMode === 2) {
+                let isSlow = isSlowModeAct2;
+                totalCount = isSlow ? 5 : 10;
+                titleText = `[ 활동2 - ${ {1: "1단계", 2: "2단계", 3: "3단계", 4: "4단계"}[currentLevel] } ]`;
+            } else {
+                totalCount = activeQuizList.length;
+                titleText = `[ 활동3 - ${stageData[currentLevel].title} ]`;
+            }
             
             document.getElementById('quiz-level-title').innerText = titleText;
             document.getElementById('quiz-progress').innerText = `문제 ${currentQuizIndex + 1} / ${totalCount}`;
@@ -1066,7 +1019,80 @@
             const qData = activeQuizList[currentQuizIndex];
             let visualHtml = qData.visual ? `<div class="quiz-visual">${qData.visual}</div>` : "";
 
-            if (currentMode === 1 && qData.type === "match-visual") {
+            // 활동 3 애니메이션 시각적 연출 포맷 삽입
+            let rescueSceneHtml = "";
+            if (currentMode === 3) {
+                let totalQ = activeQuizList.length;
+                let bridgesHtml = "";
+                for(let i=0; i<totalQ; i++) {
+                    let isConn = (i < currentQuizIndex) ? "connected" : "";
+                    bridgesHtml += `<div class="bridge ${isConn}"></div>`;
+                    let avatarPos = i === currentQuizIndex ? `<div class="character-avatar" style="left: ${ (i / totalQ) * 80 }%;">🧑‍🤝‍🧑</div>` : "";
+                    if(i === 0) { rescueSceneHtml = `<div class="rescue-scene"><div style="font-size:0.9rem; font-weight:bold; color:#0369a1; margin-bottom:5px;">🌉 [${act3PlayerName}] 학생이 동물을 구하러 다리를 놓는 중!</div><div class="rescue-track"><div class="island">👦</div>${bridgesHtml}<div class="island">${stageData[currentLevel].animal}</div></div></div>`; }
+                }
+            }
+
+            if (currentMode === 3 && qData.type === "choice") {
+                let formattedProblem = qData.format.replace("{player}", act3PlayerName).replace("{blank}", "______");
+                let correctOpt = qData.target;
+                let options = shuffleArray([correctOpt, qData.wrong]);
+                quizArea.innerHTML = `
+                    ${rescueSceneHtml}
+                    <div class="quiz-box">
+                        <div style="font-size: 1.1rem; color: #4b5563; margin-bottom: 12px; font-weight: bold;">${qData.problemText}</div>
+                        <div class="sentence-box">${formattedProblem}</div>
+                        <div class="options-grid">
+                            <button class="option-btn" onclick="checkChoice('${options[0]}', '${correctOpt}', '${qData.full}')">${options[0]}</button>
+                            <button class="option-btn" onclick="checkChoice('${options[1]}', '${correctOpt}', '${qData.full}')">${options[1]}</button>
+                        </div>
+                    </div>
+                `;
+            } else if (currentMode === 3 && qData.type === "fix-word") {
+                let formattedProblem = qData.format.replace("{player}", act3PlayerName).replace("____", `<span style='color: #dc2626; text-decoration: underline;'>${qData.wrongTarget}</span>`);
+                let options = shuffleArray([qData.target, qData.wrongTarget, "이상한"]);
+                quizArea.innerHTML = `
+                    ${rescueSceneHtml}
+                    <div class="quiz-box">
+                        <div style="font-size: 1.1rem; color: #4b5563; margin-bottom: 12px; font-weight: bold;">${qData.problemText}</div>
+                        <div class="sentence-box">${formattedProblem}</div>
+                        <div class="options-grid">
+                            <button class="option-btn" onclick="checkChoice('${options[0]}', '${qData.target}', '${qData.full}')">${options[0]}</button>
+                            <button class="option-btn" onclick="checkChoice('${options[1]}', '${qData.target}', '${qData.full}')">${options[1]}</button>
+                        </div>
+                    </div>
+                `;
+            } else if (currentMode === 3 && qData.type === "typing-fix") {
+                let formattedProblem = qData.format.replace("{player}", act3PlayerName).replace("눈", `<span style='color: #dc2626; text-decoration: underline;'>까만 눈</span>`);
+                quizArea.innerHTML = `
+                    ${rescueSceneHtml}
+                    <div class="quiz-box">
+                        <div style="font-size: 1.1rem; color: #4b5563; margin-bottom: 12px; font-weight: bold;">${qData.problemText} (올바른 꾸며주는 말을 타이핑하세요)</div>
+                        <div class="sentence-box">${formattedProblem}</div>
+                        <input type="text" id="typing-input" class="typing-input" placeholder="여기에 적어주세요">
+                        <br>
+                        <button class="role-btn role-student" style="padding: 12px; font-size: 1.1rem; width: 60%; margin: 0 auto;" onclick="checkTypingAnswer('${qData.target}', '${qData.full}')">정답 확인하기 ✔️</button>
+                    </div>
+                `;
+            } else if (currentMode === 3 && qData.type === "dual") {
+                let formattedProblem = qData.format.replace("{player}", act3PlayerName);
+                quizArea.innerHTML = `
+                    ${rescueSceneHtml}
+                    <div class="quiz-box">
+                        <div style="font-size: 1.1rem; color: #4b5563; margin-bottom: 10px; font-weight: bold;">${qData.problemText}</div>
+                        <div class="sentence-box" style="font-size: 1.3rem;">${formattedProblem}</div>
+                        <div style="margin-bottom: 8px; font-weight: bold; color: #047857;">① 주인공 문장고리 선택:</div>
+                        <div class="options-grid" style="margin-bottom: 12px;">
+                            <button class="option-btn" id="btn-q1-이" onclick="selectQ4Part1('이', '${qData.q1Target}')">이</button>
+                            <button class="option-btn" id="btn-q1-가" onclick="selectQ4Part1('가', '${qData.q1Target}')">가</button>
+                        </div>
+                        <div style="margin-bottom: 8px; font-weight: bold; color: #047857;">② 목적 문장고리 선택:</div>
+                        <div class="options-grid">
+                            <button class="option-btn" id="btn-q2-을" onclick="selectQ4Part2('을', '${qData.q2Target}')">을</button>
+                            <button class="option-btn" id="btn-q2-를" onclick="selectQ4Part2('를', '${qData.q2Target}')">를</button>
+                        </div>
+                    </div>
+                `;
+            } else if (currentMode === 1 && qData.type === "match-visual") {
                 let shuffledVisuals = shuffleArray(qData.visualOptions);
                 quizArea.innerHTML = `
                     <div class="quiz-box">
@@ -1116,7 +1142,6 @@
                 let promptText = isFixType ? "문장에서 잘못 쓰인 문장고리를 바르게 고쳐보세요!" : "알맞은 문장고리를 골라보세요!";
                 let correctOpt = qData.target;
                 let options = shuffleArray([correctOpt, qData.wrong]);
-
                 let displaySentence = (isFixType && currentLevel === 3 && qData.fixDisplay) ? qData.fixDisplay : (isFixType ? qData.full.replace(qData.target, `<span style="color: #dc2626; text-decoration: underline;">${qData.wrong}</span>`) : qData.full.replace(qData.target, "______"));
 
                 quizArea.innerHTML = `
@@ -1220,15 +1245,21 @@
         let q4Selected2 = null;
         function selectQ4Part1(selected, correct) {
             q4Selected1 = selected;
-            document.getElementById('btn-q1-이').style.background = (selected === '이') ? '#d1fae5' : 'white';
-            document.getElementById('btn-q1-가').style.background = (selected === '가') ? '#d1fae5' : 'white';
-            checkQ4Complete();
+            if(document.getElementById('btn-q1-이')) {
+                document.getElementById('btn-q1-이').style.background = (selected === '이') ? '#d1fae5' : 'white';
+                document.getElementById('btn-q1-가').style.background = (selected === '가') ? '#d1fae5' : 'white';
+            }
+            if(currentMode === 2) checkQ4Complete();
+            else checkAct3DualComplete();
         }
         function selectQ4Part2(selected, correct) {
             q4Selected2 = selected;
-            document.getElementById('btn-q2-을').style.background = (selected === '을') ? '#d1fae5' : 'white';
-            document.getElementById('btn-q2-를').style.background = (selected === '를') ? '#d1fae5' : 'white';
-            checkQ4Complete();
+            if(document.getElementById('btn-q2-을')) {
+                document.getElementById('btn-q2-을').style.background = (selected === '을') ? '#d1fae5' : 'white';
+                document.getElementById('btn-q2-를').style.background = (selected === '를') ? '#d1fae5' : 'white';
+            }
+            if(currentMode === 2) checkQ4Complete();
+            else checkAct3DualComplete();
         }
         function checkQ4Complete() {
             const qData = activeQuizList[currentQuizIndex];
@@ -1243,6 +1274,19 @@
                         wrongList.push({ problem: qData.problemText, user: `①:${q4Selected1}, ②:${q4Selected2}`, correct: `①:${qData.q1Target}, ②:${qData.q2Target}` });
                         document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "다시 한번 생각해 볼까?"; document.getElementById('custom-modal').style.display = 'flex';
                     } else { q4Selected1 = null; q4Selected2 = null; currentQuizIndex++; loadQuiz(); }
+                }
+            }
+        }
+        function checkAct3DualComplete() {
+            const qData = activeQuizList[currentQuizIndex];
+            if (q4Selected1 !== null && q4Selected2 !== null) {
+                if (q4Selected1 === qData.q1Target && q4Selected2 === qData.q2Target) {
+                    playSound('correct'); score++;
+                    q4Selected1 = null; q4Selected2 = null; currentQuizIndex++; loadQuiz();
+                } else {
+                    playSound('wrong');
+                    wrongList.push({ problem: qData.problemText, user: `①:${q4Selected1}, ②:${q4Selected2}`, correct: `①:${qData.q1Target}, ②:${qData.q2Target}` });
+                    q4Selected1 = null; q4Selected2 = null; currentQuizIndex++; loadQuiz();
                 }
             }
         }
@@ -1261,13 +1305,11 @@
 
         function checkChoice(selected, answer, problemText) {
             if (selected === answer) {
-                playSound('correct'); if (attemptCount === 0) score++; currentQuizIndex++; loadQuiz();
+                playSound('correct'); score++; currentQuizIndex++; loadQuiz();
             } else {
                 playSound('wrong');
-                if (attemptCount === 0) {
-                    attemptCount = 1; wrongList.push({ problem: problemText, user: selected, correct: answer });
-                    document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "다시 한번 생각해 볼까?"; document.getElementById('custom-modal').style.display = 'flex';
-                } else { currentQuizIndex++; loadQuiz(); }
+                wrongList.push({ problem: problemText, user: selected, correct: answer });
+                currentQuizIndex++; loadQuiz();
             }
         }
 
@@ -1276,13 +1318,11 @@
             if (!inputVal) { alert("답을 입력해 주세요!"); return; }
 
             if (inputVal === answer) {
-                playSound('correct'); if (attemptCount === 0) score++; currentQuizIndex++; loadQuiz();
+                playSound('correct'); score++; currentQuizIndex++; loadQuiz();
             } else {
                 playSound('wrong');
-                if (attemptCount === 0) {
-                    attemptCount = 1; wrongList.push({ problem: problemText, user: inputVal, correct: answer });
-                    document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "다시 한번 생각해 볼까?"; document.getElementById('custom-modal').style.display = 'flex';
-                } else { currentQuizIndex++; loadQuiz(); }
+                wrongList.push({ problem: problemText, user: inputVal, correct: answer });
+                currentQuizIndex++; loadQuiz();
             }
         }
 
@@ -1290,31 +1330,40 @@
 
         function showResult() {
             showCard('screen-result');
-            let isSlow = (currentMode === 1) ? isSlowModeAct1 : isSlowModeAct2;
-            let passCutoff = isSlow ? 4 : 7;
-            let totalCount = isSlow ? 5 : 10;
             let stageBadge = "";
 
-            if (currentMode === 1) {
-                if (act1Records[currentLevel] === null || score > act1Records[currentLevel]) { act1Records[currentLevel] = score; }
-                if (score >= passCutoff) {
-                    if (currentLevel < 3) act1Unlocked[currentLevel + 1] = true;
-                    stageBadge = `⭐ [활동1 - ${currentLevel}단계 완료!]`; playSound('success');
-                } else { stageBadge = `🔒 점수 미달 (${passCutoff}점 이상 필요)`; playSound('wrong'); }
+            if (currentMode === 3) {
+                act3ClearedStages[currentLevel] = true;
+                stageBadge = `🐾 [활동3 - ${stageData[currentLevel].title} 구조 성공!] 🏆`;
+                playSound('cert');
             } else {
-                if (studentRecords[currentLevel] === null || score > studentRecords[currentLevel]) { studentRecords[currentLevel] = score; }
-                if (currentLevel === 4 && score >= passCutoff) { hasWonCertificate = true; stageBadge = `⭐⭐⭐⭐ [4단계 및 상장 획득!] 🏆`; playSound('cert'); }
-                else if (score >= passCutoff) {
-                    if (currentLevel < 4) levelUnlocked[currentLevel + 1] = true;
-                    stageBadge = `⭐ [활동2 - ${currentLevel}단계 완료!]`; playSound('success');
-                } else { stageBadge = `🔒 점수 미달 (${passCutoff}점 이상 필요)`; playSound('wrong'); }
+                let isSlow = (currentMode === 1) ? isSlowModeAct1 : isSlowModeAct2;
+                let passCutoff = isSlow ? 4 : 7;
+                let totalCount = isSlow ? 5 : 10;
+
+                if (currentMode === 1) {
+                    if (act1Records[currentLevel] === null || score > act1Records[currentLevel]) { act1Records[currentLevel] = score; }
+                    if (score >= passCutoff) {
+                        if (currentLevel < 3) act1Unlocked[currentLevel + 1] = true;
+                        stageBadge = `⭐ [활동1 - ${currentLevel}단계 완료!]`; playSound('success');
+                    } else { stageBadge = `🔒 점수 미달 (${passCutoff}점 이상 필요)`; playSound('wrong'); }
+                } else {
+                    if (studentRecords[currentLevel] === null || score > studentRecords[currentLevel]) { studentRecords[currentLevel] = score; }
+                    if (currentLevel === 4 && score >= passCutoff) { hasWonCertificate = true; stageBadge = `⭐⭐⭐⭐ [4단계 및 상장 획득!] 🏆`; playSound('cert'); }
+                    else if (score >= passCutoff) {
+                        if (currentLevel < 4) levelUnlocked[currentLevel + 1] = true;
+                        stageBadge = `⭐ [활동2 - ${currentLevel}단계 완료!]`; playSound('success');
+                    } else { stageBadge = `🔒 점수 미달 (${passCutoff}점 이상 필요)`; playSound('wrong'); }
+                }
             }
+
+            let totalQ = (currentMode === 3) ? stageData[currentLevel].questions.length : ((currentMode === 1 ? isSlowModeAct1 : isSlowModeAct2) ? 5 : 10);
 
             let contentHtml = `
                 <div class="result-detail">
-                    <strong>👤 학습자:</strong> ${studentName} ${isSlow ? "(🐢 천천히 모드)" : ""}<br>
-                    <strong>🏆 도전 영역:</strong> 활동 ${currentMode} (${currentLevel}단계)<br>
-                    <strong>🌟 이번 점수:</strong> ${score} / ${totalCount} 점<br>
+                    <strong>👤 학습자:</strong> ${currentMode === 3 ? act3PlayerName : studentName}<br>
+                    <strong>🏆 도전 영역:</strong> ${currentMode === 3 ? "활동 3 (" + stageData[currentLevel].title + ")" : "활동 " + currentMode + " (" + currentLevel + "단계)"}<br>
+                    <strong>🌟 이번 점수:</strong> ${score} / ${totalQ} 점<br>
                     <strong>🏅 업적 결과:</strong> ${stageBadge}
                 </div>
             `;
