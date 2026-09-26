@@ -607,7 +607,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.26. 11:10:00 (v.2.0.66)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.26. 11:20:00 (v.2.0.67)</div>
         </footer>
     </div>
 
@@ -711,7 +711,7 @@
             }
         }
 
-        // 사용자가 제공한 원본 꾸며주는 말 문장 목록 (인위적 변환 제거)
+        // 사용자가 제공한 원본 꾸며주는 말 문장 목록
         const rawSentenceData = [
             { visual: "🌷", full: "예쁜 꽃이 피었어요.", target: "예쁜", options: ["뚱뚱한", "차가운", "빠른", "예쁜"] },
             { visual: "🎤", full: "신나는 노래를 불러요.", target: "신나는", options: ["파란", "딱딱한", "신나는", "동그란"] },
@@ -763,7 +763,7 @@
             { visual: "❄️", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", fixDisplay: "겨울<span style='color: #dc2626; text-decoration: underline;'>은</span> 춥고, 여름은 더워요.", problemText: "겨울(은/는) 춥고, 여름(은/는) 더워요." },
             { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>은</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을(은/는) 시원해요." },
             { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>은</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 뛰고, 참새(은/는) 날아가요." },
-            { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>는</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 씩씩하고, 토끼(은/는) 귀여워요." },
+            { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>은</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 토끼(은/는) 귀여워요." },
             { visual: "🦒", full: "기린은 목이 길고, 코끼리는 코가 길어요.", target: "은", wrong: "는", fixDisplay: "기린<span style='color: #dc2626; text-decoration: underline;'>은</span> 목이 길고, 코끼리는 코가 길어요.", problemText: "기린(은/는) 목이 길고, 코끼리(은/는) 코가 길어요." },
             { visual: "🐧", full: "펭귄은 날지 못해요.", target: "은", wrong: "는", fixDisplay: "펭귄<span style='color: #dc2626; text-decoration: underline;'>은</span> 날지 못해요.", problemText: "펭귄(은/는) 날지 못해요." },
             { visual: "🐯", full: "호랑이는 무섭게 생겼어요.", target: "는", wrong: "은", fixDisplay: "호랑이<span style='color: #dc2626; text-decoration: underline;'>은</span> 무섭게 생겼어요.", problemText: "호랑이(은/는) 무섭게 생겼어요." },
@@ -781,7 +781,7 @@
             { visual: "🐰", full: "토끼가 당근을 먹어요.", blankFull: "토끼( ① ) 당근( ② ) 먹어요.", q1Target: "가", q2Target: "을", problemText: "토끼(이/가) 당근(을/를) 먹어요." },
             { visual: "🐵", full: "원숭이가 바나나를 먹어요.", blankFull: "원숭이( ① ) 바나나( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "원숭이(이/가) 바나나(을/를) 먹어요." },
             { visual: "🐿️", full: "다람쥐가 도토리를 주워요.", blankFull: "다람쥐( ① ) 도토리( ② ) 주워요.", q1Target: "가", q2Target: "를", problemText: "다람쥐(이/가) 도토리(을/를) 주워요." },
-            { visual: "👶", full: "아이 그림책을 봐요.", blankFull: "아이( ① ) 그림책( ② ) 봐요.", q1Target: "가", q2Target: "을", problemText: "아이(이/가) 그림책(을/를) 봐요." },
+            { visual: "👶", full: "아이가 그림책을 봐요.", blankFull: "아이( ① ) 그림책( ② ) 봐요.", q1Target: "가", q2Target: "을", problemText: "아이(이/가) 그림책(을/를) 봐요." },
             { visual: "🦁", full: "사자가 고기를 먹어요.", blankFull: "사자( ① ) 고기( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "사자(이/가) 고기(을/를) 먹어요." }
         ];
 
@@ -1011,7 +1011,6 @@
             score = 0;
             wrongList = [];
             
-            // 활동 3도 문제은행식으로 섞어서 출제
             activeQuizList = shuffleArray(stageData[selectedDifficultyStar].questions);
 
             showCard('screen-quiz');
@@ -1024,7 +1023,7 @@
         }
         function closeCertModal() { document.getElementById('cert-modal').style.display = 'none'; }
 
-        // 활동 1: 문제은행식 셔플 적용 완료
+        // 활동 1: 2단계 수정 (오직 rawSentenceData 목록 내에서만 단어 추출 및 오답 치환)
         function startAct1Quiz(lvl) {
             currentLevel = lvl; currentQuizIndex = 0; score = 0; wrongList = [];
             let targetCount = isSlowModeAct1 ? 5 : 10;
@@ -1040,10 +1039,17 @@
                 }));
                 activeQuizList = shuffleArray([...blanks, ...matches]);
             } else if (lvl === 2) {
-                // 사용자가 입력한 목록 내에서만 단어 고르기 (인위적 변환 제거)
+                // 원본 목록 중에서 무작위 문장을 뽑고, 꾸며주는 말만 다른 원본 단어로 교체하여 잘못된 문장 구성
+                let allTargets = rawSentenceData.map(s => s.target);
                 let fixChoice = shuffleArray(rawSentenceData).slice(0, halfCount).map(item => {
-                    let badSentence = item.full.replace(item.target, `<span style="color: #dc2626; text-decoration: underline;">틀린말</span>`);
-                    return { type: "blank", visual: item.visual, sentence: badSentence, options: shuffleArray([item.target, "다른말", "이상한", "바른말"]), answer: item.target, problemText: item.full };
+                    let otherTargets = allTargets.filter(t => t !== item.target);
+                    let wrongTarget = otherTargets[Math.floor(Math.random() * otherTargets.length)];
+                    let badSentenceFull = item.full.replace(item.target, wrongTarget);
+                    let displayBadSentence = badSentenceFull.replace(wrongTarget, `<span style="color: #dc2626; text-decoration: underline;">${wrongTarget}</span>`);
+                    
+                    // 보기는 원본 target과 오답 target, 그리고 다른 랜덤 2개로 구성
+                    let optionSet = shuffleArray([item.target, wrongTarget, otherTargets[0] || "예쁜", otherTargets[1] || "신나는"]);
+                    return { type: "blank", visual: item.visual, sentence: displayBadSentence, options: optionSet, answer: item.target, problemText: item.full };
                 });
                 
                 let lineMatchList = [];
@@ -1059,13 +1065,17 @@
                 }
                 activeQuizList = shuffleArray([...fixChoice, ...lineMatchList]);
             } else {
+                let allTargets = rawSentenceData.map(s => s.target);
                 let baseItems = shuffleArray(rawSentenceData).slice(0, targetCount);
                 activeQuizList = baseItems.map((item, idx) => {
                     if (idx < targetCount - 3) {
                         return { type: "typing", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full };
                     } else {
-                        let badSentence = item.full.replace(item.target, `<span style="color: #dc2626; text-decoration: underline;'>틀린말</span>`);
-                        return { type: "typing", visual: item.visual, sentence: badSentence, options: shuffleArray([item.target, "다른말"]), answer: item.target, problemText: item.full };
+                        let otherTargets = allTargets.filter(t => t !== item.target);
+                        let wrongTarget = otherTargets[Math.floor(Math.random() * otherTargets.length)];
+                        let badSentenceFull = item.full.replace(item.target, wrongTarget);
+                        let displayBadSentence = badSentenceFull.replace(wrongTarget, `<span style="color: #dc2626; text-decoration: underline;">${wrongTarget}</span>`);
+                        return { type: "typing", visual: item.visual, sentence: displayBadSentence, options: shuffleArray([item.target, wrongTarget]), answer: item.target, problemText: item.full };
                     }
                 });
             }
@@ -1074,7 +1084,6 @@
             loadQuiz();
         }
 
-        // 활동 2: 문제은행식 셔플 적용 완료 (매번 섞여서 출제)
         function startQuiz(lvl) {
             currentLevel = lvl; currentQuizIndex = 0; score = 0; wrongList = [];
             let targetCount = isSlowModeAct2 ? 5 : 10;
