@@ -309,6 +309,10 @@
         .cert-text { font-size: 1.15rem; color: #78350f; line-height: 1.6; margin: 15px 0; word-break: keep-all; }
         .cert-name { font-size: 1.8rem; color: #1e3a8a; font-weight: bold; margin: 20px 0; border-bottom: 3px solid #f59e0b; display: inline-block; padding: 0 30px; }
 
+        /* 동물 구조대 전용 상장 스타일 */
+        .rescue-cert-box { border: 12px double #0284c7; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 40px 30px; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(2, 132, 199, 0.25); position: relative; }
+        .rescue-cert-title { font-size: 2.4rem; color: #0369a1; font-weight: 900; letter-spacing: 6px; margin-bottom: 12px; font-family: 'Georgia', serif; }
+
         .result-box { text-align: center; padding: 20px; background: #f0fdf4; border-radius: 20px; border: 3px solid #6ee7b7; }
         .result-title { font-size: 1.5rem; color: #047857; font-weight: bold; margin-bottom: 12px; }
         .result-detail { font-size: 1.1rem; color: #1f2937; margin-bottom: 12px; text-align: left; background: white; padding: 15px; border-radius: 14px; line-height: 1.4; max-height: 200px; overflow-y: auto; }
@@ -339,7 +343,7 @@
             </div>
         </div>
 
-        <!-- 상장 모달창 -->
+        <!-- 활동 2 상장 모달창 -->
         <div id="cert-modal" class="modal-overlay">
             <div class="modal-content" style="background: transparent; width: 92%; max-width: 520px; padding: 0; box-shadow: none;">
                 <div class="certificate-box">
@@ -350,6 +354,34 @@
                     <div style="font-size: 1.0rem; color: #92400e; font-weight: bold; margin-top: 15px;">2026년 묘량중앙초등학교</div>
                 </div>
                 <button class="role-btn role-student" style="margin-top: 20px; width: 100%; padding: 14px; border-radius: 16px;" onclick="closeCertModal()">상장 닫기 🏆</button>
+            </div>
+        </div>
+
+        <!-- 활동 1 상장 모달창 -->
+        <div id="cert-act1-modal" class="modal-overlay">
+            <div class="modal-content" style="background: transparent; width: 92%; max-width: 520px; padding: 0; box-shadow: none;">
+                <div class="certificate-box" style="border-color: #059669; background: linear-gradient(135deg, #ecfdf5, #d1fae5);">
+                    <div class="cert-badge">🍎</div>
+                    <div class="cert-title" style="color: #047857;">상 장</div>
+                    <div class="cert-text" style="color: #065f46;">위 학생은 꾸며주는 말 활동을 훌륭하게 이해하고 완벽하게 마스터하였으므로 이 상장을 수여합니다!</div>
+                    <div class="cert-name" id="cert-act1-student-name" style="color: #047857; border-bottom-color: #10b981;">김경탁 학생 (예시)</div>
+                    <div style="font-size: 1.0rem; color: #047857; font-weight: bold; margin-top: 15px;">2026년 묘량중앙초등학교</div>
+                </div>
+                <button class="role-btn role-student" style="margin-top: 20px; width: 100%; padding: 14px; border-radius: 16px;" onclick="closeAct1CertModal()">상장 닫기 🏆</button>
+            </div>
+        </div>
+
+        <!-- 활동 3 동물 구조대 통합 상장 모달창 -->
+        <div id="cert-act3-modal" class="modal-overlay">
+            <div class="modal-content" style="background: transparent; width: 92%; max-width: 540px; padding: 0; box-shadow: none;">
+                <div class="rescue-cert-box">
+                    <div class="cert-badge">🐾🚁</div>
+                    <div class="rescue-cert-title">동물 구조대 명예 상장</div>
+                    <div class="cert-text" style="color: #0369a1; font-weight: bold;">밀림, 사막, 남극의 모든 동물 친구들을 안전하게 구출하고 문장 실력을 멋지게 뽐내었기에 이 상장을 수여합니다!</div>
+                    <div class="cert-name" id="cert-act3-names" style="color: #1e3a8a; border-bottom-color: #0284c7; font-size: 1.4rem;">구조대원들</div>
+                    <div style="font-size: 1.0rem; color: #0369a1; font-weight: bold; margin-top: 15px;">2026년 묘량중앙초등학교 동물 구조대</div>
+                </div>
+                <button class="role-btn role-student" style="margin-top: 20px; width: 100%; padding: 14px; border-radius: 16px; background-color: #0284c7;" onclick="closeAct3CertModal()">동물 구조대 상장 닫기 🚁</button>
             </div>
         </div>
 
@@ -449,6 +481,10 @@
                             </label>
                         </div>
                     </div>
+                    <button id="cert-act1-view-btn" class="cert-btn" onclick="openAct1CertModal()" disabled style="background: linear-gradient(135deg, #059669, #047857); box-shadow: 0 6px 15px rgba(5, 150, 105, 0.4);">
+                        <span style="font-size: 1.8rem;">🍎</span>
+                        <span style="font-size: 0.8rem; margin-top: 2px;">상장 보기</span>
+                    </button>
                 </div>
             </div>
 
@@ -526,6 +562,13 @@
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 style="color: #047857; font-size: 1.8rem; margin-bottom: 5px;">🐾 출동! 동물 구조대! 🐾</h2>
                 <p style="color: #4b5563; font-size: 1.1rem;">구조할 지역을 선택해 주세요!</p>
+            </div>
+
+            <!-- 동물 구조대 상장 확인 버튼 영역 (모든 지역 완료 시 활성화) -->
+            <div style="text-align: center; margin-bottom: 15px;">
+                <button id="act3-all-cert-btn" class="role-btn" onclick="openAct3AllCertModal()" disabled style="background: linear-gradient(135deg, #0284c7, #0369a1); font-size: 1.2rem; padding: 14px 28px; border-radius: 18px; box-shadow: 0 6px 15px rgba(2, 132, 199, 0.4); display: none;">
+                    🚁 🏆 [동물 구조대 명예 상장 보기] 🏆 🐾
+                </button>
             </div>
 
             <div class="stage-horizontal-container">
@@ -607,7 +650,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.26. 11:20:00 (v.2.0.67)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.26. 11:35:00 (v.2.0.68)</div>
         </footer>
     </div>
 
@@ -680,9 +723,10 @@
         let currentQuizIndex = 0;
         let score = 0;
         let wrongList = [];
-        let attemptCount = 0;
+        let attemptCount = 0; // 2회 이상 오답 체크용 변수
         let activeQuizList = [];
-        let hasWonCertificate = false;
+        let hasWonCertificate = false;      // 활동 2 상장 여부
+        let hasWonAct1Certificate = false;  // 활동 1 상장 여부
         
         let isSlowModeAct1 = false;
         let isSlowModeAct2 = false;
@@ -711,7 +755,6 @@
             }
         }
 
-        // 사용자가 제공한 원본 꾸며주는 말 문장 목록
         const rawSentenceData = [
             { visual: "🌷", full: "예쁜 꽃이 피었어요.", target: "예쁜", options: ["뚱뚱한", "차가운", "빠른", "예쁜"] },
             { visual: "🎤", full: "신나는 노래를 불러요.", target: "신나는", options: ["파란", "딱딱한", "신나는", "동그란"] },
@@ -861,6 +904,7 @@
                 act3ClearedStages = { 1: true, 2: true, 3: true };
                 act3ClearedStudent = { 1: "선생님", 2: "선생님", 3: "선생님" };
                 hasWonCertificate = true;
+                hasWonAct1Certificate = true;
                 playSound('success');
                 enterMenu();
             } else {
@@ -927,6 +971,10 @@
             if (recordHtml === "") { recordHtml = "아직 도전한 기록이 없어요! 첫 번째 단계를 시작해보세요."; }
             document.getElementById('act1-record-text').innerHTML = recordHtml;
 
+            const certAct1Btn = document.getElementById('cert-act1-view-btn');
+            if (hasWonAct1Certificate || isTeacherMode) { certAct1Btn.removeAttribute('disabled'); }
+            else { certAct1Btn.setAttribute('disabled', 'true'); }
+
             for (let i = 2; i <= 3; i++) {
                 const btn = document.getElementById(`act1-btn-lvl-${i}`);
                 const badge = document.getElementById(`act1-badge-${i}`);
@@ -966,6 +1014,7 @@
 
         function updateAct3SelectUI() {
             const stageNames = { 1: "밀림지역", 2: "사막지역", 3: "남극지역" };
+            let allCleared = true;
             for (let i = 1; i <= 3; i++) {
                 const card = document.getElementById(`stage-square-${i}`);
                 const badgeText = document.getElementById(`badge-text-${i}`);
@@ -976,11 +1025,21 @@
                     badgeText.style.color = "#2563eb";
                     badgeText.style.fontSize = "0.75rem";
                 } else {
+                    allCleared = false;
                     card.classList.remove('cleared');
                     badgeText.innerHTML = (i === 1 ? "코끼리 구출 작전" : (i === 2 ? "낙타 구출 작전" : "아기 펭귄 구출 작전"));
                     badgeText.style.color = "#64748b";
                     badgeText.style.fontSize = "0.8rem";
                 }
+            }
+
+            const allCertBtn = document.getElementById('act3-all-cert-btn');
+            if (allCleared || isTeacherMode) {
+                allCertBtn.style.display = "inline-block";
+                allCertBtn.removeAttribute('disabled');
+            } else {
+                allCertBtn.style.display = "none";
+                allCertBtn.setAttribute('disabled', 'true');
             }
         }
 
@@ -1023,7 +1082,20 @@
         }
         function closeCertModal() { document.getElementById('cert-modal').style.display = 'none'; }
 
-        // 활동 1: 2단계 수정 (오직 rawSentenceData 목록 내에서만 단어 추출 및 오답 치환)
+        function openAct1CertModal() {
+            document.getElementById('cert-act1-student-name').innerText = isTeacherMode ? "모범 학생 (예시)" : `${studentName} 학생`;
+            document.getElementById('cert-act1-modal').style.display = 'flex';
+        }
+        function closeAct1CertModal() { document.getElementById('cert-act1-modal').style.display = 'none'; }
+
+        function openAct3AllCertModal() {
+            let names = Object.values(act3ClearedStudent).filter(n => n).join(', ');
+            if (!names) names = isTeacherMode ? "선생님" : (studentName || "구조대원");
+            document.getElementById('cert-act3-names').innerText = `${names} 대원들`;
+            document.getElementById('cert-act3-modal').style.display = 'flex';
+        }
+        function closeAct3CertModal() { document.getElementById('cert-act3-modal').style.display = 'none'; }
+
         function startAct1Quiz(lvl) {
             currentLevel = lvl; currentQuizIndex = 0; score = 0; wrongList = [];
             let targetCount = isSlowModeAct1 ? 5 : 10;
@@ -1039,7 +1111,6 @@
                 }));
                 activeQuizList = shuffleArray([...blanks, ...matches]);
             } else if (lvl === 2) {
-                // 원본 목록 중에서 무작위 문장을 뽑고, 꾸며주는 말만 다른 원본 단어로 교체하여 잘못된 문장 구성
                 let allTargets = rawSentenceData.map(s => s.target);
                 let fixChoice = shuffleArray(rawSentenceData).slice(0, halfCount).map(item => {
                     let otherTargets = allTargets.filter(t => t !== item.target);
@@ -1047,7 +1118,6 @@
                     let badSentenceFull = item.full.replace(item.target, wrongTarget);
                     let displayBadSentence = badSentenceFull.replace(wrongTarget, `<span style="color: #dc2626; text-decoration: underline;">${wrongTarget}</span>`);
                     
-                    // 보기는 원본 target과 오답 target, 그리고 다른 랜덤 2개로 구성
                     let optionSet = shuffleArray([item.target, wrongTarget, otherTargets[0] || "예쁜", otherTargets[1] || "신나는"]);
                     return { type: "blank", visual: item.visual, sentence: displayBadSentence, options: optionSet, answer: item.target, problemText: item.full };
                 });
@@ -1075,7 +1145,8 @@
                         let wrongTarget = otherTargets[Math.floor(Math.random() * otherTargets.length)];
                         let badSentenceFull = item.full.replace(item.target, wrongTarget);
                         let displayBadSentence = badSentenceFull.replace(wrongTarget, `<span style="color: #dc2626; text-decoration: underline;">${wrongTarget}</span>`);
-                        return { type: "typing", visual: item.visual, sentence: displayBadSentence, options: shuffleArray([item.target, wrongTarget]), answer: item.target, problemText: item.full };
+                        // 문장목록의 풍부한 보기 옵션(4개) 활용
+                        return { type: "typing", visual: item.visual, sentence: displayBadSentence, options: shuffleArray(item.options), answer: item.target, problemText: item.full };
                     }
                 });
             }
@@ -1098,7 +1169,7 @@
         }
 
         function loadQuiz() {
-            attemptCount = 0;
+            attemptCount = 0; // 새 문제 진입 시 오답 카운트 초기화
             selectedModifier = null;
             matchedPairsCount = 0;
 
@@ -1243,11 +1314,11 @@
                             <svg class="line-svg" id="match-svg"></svg>
                             <div class="match-col">
                                 <div style="font-size: 0.9rem; color: #64748b; font-weight: bold;">꾸며주는 말</div>
-                                ${qData.modifiers.map(m => `<div class="match-item" id="mod-${m}" onclick="selectMod('${m}')">${m}</div>`).join('')}
+                                ${qData.modifiers.map(m => `<div class="match-item" id="mod-${m.replace(/[^가-힣a-zA-Z0-9]/g, '')}" onclick="selectMod('${m}')">${m}</div>`).join('')}
                             </div>
                             <div class="match-col">
                                 <div style="font-size: 0.9rem; color: #64748b; font-weight: bold;">문장 뒷부분</div>
-                                ${qData.sentences.map(s => `<div class="match-item" id="sent-${s}" onclick="selectSent('${s}')">${s}</div>`).join('')}
+                                ${qData.sentences.map(s => `<div class="match-item" id="sent-${s.replace(/[^가-힣a-zA-Z0-9]/g, '')}" onclick="selectSent('${s}')">${s}</div>`).join('')}
                             </div>
                         </div>
                         <div style="font-size: 1.0rem; color: #047857; font-weight: bold; margin-top:10px;" id="match-status">연결한 개수: 0 / 3</div>
@@ -1321,14 +1392,16 @@
         let selectedModifier = null;
         let matchedPairsCount = 0;
         function selectMod(mod) {
-            const el = document.getElementById('mod-' + mod);
-            if (el.classList.contains('matched')) return;
-            document.querySelectorAll('[id^="mod-"]').forEach(e => { if(!e.classList.contains('matched')) e.classList.remove('selected'); });
+            let safeId = 'mod-' + mod.replace(/[^가-힣a-zA-Z0-9]/g, '');
+            const el = document.getElementById(safeId);
+            if (!el || el.classList.contains('matched')) return;
+            document.querySelectorAll('.match-col .match-item').forEach(e => { if(!e.classList.contains('matched')) e.classList.remove('selected'); });
             el.classList.add('selected'); selectedModifier = mod;
         }
 
         function selectSent(sent) {
-            const sentEl = document.getElementById('sent-' + sent);
+            let safeSentId = 'sent-' + sent.replace(/[^가-힣a-zA-Z0-9]/g, '');
+            const sentEl = document.getElementById(safeSentId);
             if (!sentEl || sentEl.classList.contains('matched')) return;
             if (!selectedModifier) {
                 alert("먼저 왼쪽에서 꾸며주는 말을 선택해 주세요!");
@@ -1338,18 +1411,18 @@
             const qData = activeQuizList[currentQuizIndex];
             const correctSent = qData.pairs[selectedModifier];
 
-            document.querySelectorAll('[id^="sent-"]').forEach(e => {
+            document.querySelectorAll('.match-col .match-item').forEach(e => {
                 if(!e.classList.contains('matched')) e.style.borderColor = '#cbd5e1';
             });
 
             if (sent === correctSent) {
                 playSound('correct');
-                const modEl = document.getElementById('mod-' + selectedModifier);
-                modEl.classList.remove('selected'); 
-                modEl.classList.add('matched'); 
+                let safeModId = 'mod-' + selectedModifier.replace(/[^가-힣a-zA-Z0-9]/g, '');
+                const modEl = document.getElementById(safeModId);
+                if(modEl) { modEl.classList.remove('selected'); modEl.classList.add('matched'); }
                 sentEl.classList.add('matched');
                 
-                drawConnectingLine(modEl, sentEl);
+                if(modEl) drawConnectingLine(modEl, sentEl);
                 matchedPairsCount++;
                 document.getElementById('match-status').innerText = `연결한 개수: ${matchedPairsCount} / 3`;
                 selectedModifier = null;
@@ -1364,11 +1437,25 @@
                 }
             } else {
                 playSound('wrong');
+                attemptCount++;
                 sentEl.style.borderColor = '#ef4444';
                 wrongList.push({ problem: "선긋기 매칭 문제", user: "선긋기 오답", correct: "올바른 짝 연결" });
-                document.getElementById('modal-icon').innerText = "🤔"; 
-                document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; 
-                document.getElementById('custom-modal').style.display = 'flex';
+                
+                // 2번 이상 틀리면 오답 처리하고 자동 통과
+                if (attemptCount >= 2) {
+                    document.getElementById('modal-icon').innerText = "💡"; 
+                    document.getElementById('modal-msg').innerText = "2번 틀렸어요! 정답을 확인하고 다음 문제로 넘어갑니다."; 
+                    document.getElementById('custom-modal').style.display = 'flex';
+                    setTimeout(() => {
+                        closeModal();
+                        currentQuizIndex++;
+                        loadQuiz();
+                    }, 1200);
+                } else {
+                    document.getElementById('modal-icon').innerText = "🤔"; 
+                    document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요? (한 번 더 틀리면 다음으로 넘어가요)"; 
+                    document.getElementById('custom-modal').style.display = 'flex';
+                }
             }
         }
 
@@ -1423,9 +1510,21 @@
                     q4Selected1 = null; q4Selected2 = null; currentQuizIndex++; loadQuiz();
                 } else {
                     playSound('wrong');
+                    attemptCount++;
                     wrongList.push({ problem: qData.problemText, user: `①:${q4Selected1}, ②:${q4Selected2}`, correct: `①:${qData.q1Target}, ②:${qData.q2Target}` });
-                    document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
-                    q4Selected1 = null; q4Selected2 = null;
+                    
+                    if (attemptCount >= 2) {
+                        document.getElementById('modal-icon').innerText = "💡"; document.getElementById('modal-msg').innerText = "2번 틀렸어요! 정답으로 인정하고 다음 문제로 넘어갑니다."; document.getElementById('custom-modal').style.display = 'flex';
+                        q4Selected1 = null; q4Selected2 = null;
+                        setTimeout(() => {
+                            closeModal();
+                            currentQuizIndex++;
+                            loadQuiz();
+                        }, 1200);
+                    } else {
+                        document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 골라볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
+                        q4Selected1 = null; q4Selected2 = null;
+                    }
                     if(document.getElementById('btn-q1-이')) {
                         document.getElementById('btn-q1-이').style.background = 'white';
                         document.getElementById('btn-q1-가').style.background = 'white';
@@ -1443,9 +1542,21 @@
                     q4Selected1 = null; q4Selected2 = null; currentQuizIndex++; loadQuiz();
                 } else {
                     playSound('wrong');
+                    attemptCount++;
                     wrongList.push({ problem: qData.problemText, user: `①:${q4Selected1}, ②:${q4Selected2}`, correct: `①:${qData.q1Target}, ②:${qData.q2Target}` });
-                    document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
-                    q4Selected1 = null; q4Selected2 = null;
+                    
+                    if (attemptCount >= 2) {
+                        document.getElementById('modal-icon').innerText = "💡"; document.getElementById('modal-msg').innerText = "2번 틀렸어요! 정답 처리하고 넘어갑니다."; document.getElementById('custom-modal').style.display = 'flex';
+                        q4Selected1 = null; q4Selected2 = null;
+                        setTimeout(() => {
+                            closeModal();
+                            currentQuizIndex++;
+                            loadQuiz();
+                        }, 1200);
+                    } else {
+                        document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
+                        q4Selected1 = null; q4Selected2 = null;
+                    }
                     if(document.getElementById('btn-q1-이')) {
                         document.getElementById('btn-q1-이').style.background = 'white';
                         document.getElementById('btn-q1-가').style.background = 'white';
@@ -1461,8 +1572,19 @@
                 playSound('correct'); score++; currentQuizIndex++; loadQuiz();
             } else {
                 playSound('wrong');
+                attemptCount++;
                 wrongList.push({ problem: problemText, user: "틀린 그림 선택", correct: "정답 그림(" + answerVisual + ")" });
-                document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
+                
+                if (attemptCount >= 2) {
+                    document.getElementById('modal-icon').innerText = "💡"; document.getElementById('modal-msg').innerText = "2번 틀렸어요! 다음 문제로 넘어갑니다."; document.getElementById('custom-modal').style.display = 'flex';
+                    setTimeout(() => {
+                        closeModal();
+                        currentQuizIndex++;
+                        loadQuiz();
+                    }, 1200);
+                } else {
+                    document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
+                }
             }
         }
 
@@ -1471,8 +1593,19 @@
                 playSound('correct'); score++; currentQuizIndex++; loadQuiz();
             } else {
                 playSound('wrong');
+                attemptCount++;
                 wrongList.push({ problem: problemText, user: selected, correct: answer });
-                document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
+                
+                if (attemptCount >= 2) {
+                    document.getElementById('modal-icon').innerText = "💡"; document.getElementById('modal-msg').innerText = "2번 틀렸어요! 정답 확인 후 다음으로 넘어갑니다."; document.getElementById('custom-modal').style.display = 'flex';
+                    setTimeout(() => {
+                        closeModal();
+                        currentQuizIndex++;
+                        loadQuiz();
+                    }, 1200);
+                } else {
+                    document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
+                }
             }
         }
 
@@ -1484,8 +1617,19 @@
                 playSound('correct'); score++; currentQuizIndex++; loadQuiz();
             } else {
                 playSound('wrong');
+                attemptCount++;
                 wrongList.push({ problem: problemText, user: inputVal, correct: answer });
-                document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
+                
+                if (attemptCount >= 2) {
+                    document.getElementById('modal-icon').innerText = "💡"; document.getElementById('modal-msg').innerText = `2번 틀렸어요! 정답은 [${answer}] 입니다. 다음으로 넘어갑니다.`; document.getElementById('custom-modal').style.display = 'flex';
+                    setTimeout(() => {
+                        closeModal();
+                        currentQuizIndex++;
+                        loadQuiz();
+                    }, 1500);
+                } else {
+                    document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 적어볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
+                }
             }
         }
 
@@ -1507,7 +1651,8 @@
 
                 if (currentMode === 1) {
                     if (act1Records[currentLevel] === null || score > act1Records[currentLevel]) { act1Records[currentLevel] = score; }
-                    if (score >= passCutoff) {
+                    if (currentLevel === 3 && score >= passCutoff) { hasWonAct1Certificate = true; stageBadge = `⭐⭐⭐ [3단계 및 활동1 상장 획득!] 🍎`; playSound('cert'); }
+                    else if (score >= passCutoff) {
                         if (currentLevel < 3) act1Unlocked[currentLevel + 1] = true;
                         stageBadge = `⭐ [활동1 - ${currentLevel}단계 완료!]`; playSound('success');
                     } else { stageBadge = `🔒 점수 미달 (${passCutoff}점 이상 필요)`; playSound('wrong'); }
