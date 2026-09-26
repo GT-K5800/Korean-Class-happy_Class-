@@ -290,6 +290,15 @@
 
         .typing-input { width: 80%; padding: 16px; font-size: 1.3rem; border: 3px solid #10b981; border-radius: 14px; text-align: center; margin-bottom: 15px; outline: none; }
 
+        /* 선긋기 매칭 스타일 추가/보완 */
+        .match-container { display: flex; justify-content: space-between; position: relative; margin: 20px 0; gap: 40px; }
+        .match-col { display: flex; flex-direction: column; gap: 12px; flex: 1; z-index: 2; }
+        .match-item { background: white; border: 2px solid #cbd5e1; padding: 12px 15px; border-radius: 12px; cursor: pointer; font-weight: bold; text-align: center; transition: 0.1s; }
+        .match-item:hover { border-color: #10b981; background: #f0fdf4; }
+        .match-item.selected { border-color: #10b981; background: #d1fae5; color: #047857; }
+        .match-item.matched { background: #f1f5f9; color: #94a3b8; border-color: #cbd5e1; cursor: default; }
+        .line-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+
         .modal-overlay { display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); border-radius: 28px; justify-content: center; align-items: center; z-index: 10; }
         .modal-content { background: white; padding: 35px 45px; border-radius: 24px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.25); animation: popUp 0.2s ease-in-out; max-width: 90%; }
         @keyframes popUp { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
@@ -684,7 +693,6 @@
         let studentRecords = { 1: null, 2: null, 3: null, 4: null };
         let levelUnlocked = { 2: false, 3: false, 4: false };
 
-        // 활동 3 상태 변수
         let selectedStage = 1;
         let selectedDifficultyStar = 1;
         let act3PlayerName = "";
@@ -753,8 +761,8 @@
         const level3Data = [
             { visual: "❄️", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", fixDisplay: "겨울<span style='color: #dc2626; text-decoration: underline;'>는</span> 춥고, 여름은 더워요.", problemText: "겨울(은/는) 춥고, 여름(은/는) 더워요." },
             { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>는</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을(은/는) 시원해요." },
-            { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>는</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 뛰고, 참새는 날아가요." },
-            { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>은</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 씩씩하고, 토끼는 귀여워요." },
+            { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>는</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 뛰고, 참새(은/는) 날아가요." },
+            { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>은</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 씩씩하고, 토끼(은/는) 귀여워요." },
             { visual: "🦒", full: "기린은 목이 길고, 코끼리는 코가 길어요.", target: "은", wrong: "는", fixDisplay: "기린<span style='color: #dc2626; text-decoration: underline;'>는</span> 목이 길고, 코끼리는 코가 길어요.", problemText: "기린(은/는) 목이 길고, 코끼리(은/는) 코가 길어요." },
             { visual: "🐧", full: "펭귄은 날지 못해요.", target: "은", wrong: "는", fixDisplay: "펭귄<span style='color: #dc2626; text-decoration: underline;'>는</span> 날지 못해요.", problemText: "펭귄(은/는) 날지 못해요." },
             { visual: "🐯", full: "호랑이는 무섭게 생겼어요.", target: "는", wrong: "은", fixDisplay: "호랑이<span style='color: #dc2626; text-decoration: underline;'>은</span> 무섭게 생겼어요.", problemText: "호랑이(은/는) 무섭게 생겼어요." },
@@ -776,9 +784,8 @@
             { visual: "🦁", full: "사자가 고기를 먹어요.", blankFull: "사자( ① ) 고기( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "사자(이/가) 고기(을/를) 먹어요." }
         ];
 
-        // ================= 요청사항 반영: 지역과 무관하게 독립된 난이도별 정확한 문항 구성 =================
         const stageData = {
-            1: { // 별 1개 (기본 미션: 총 3문장)
+            1: {
                 title: "별 1개 (기본 미션)",
                 animalName: "코끼리",
                 icon: "🌴",
@@ -789,7 +796,7 @@
                     { type: "choice", full: "우유를 맛있게 마셔요.", target: "를", wrong: "을", problemText: "알맞은 목적 문장고리 고르기", format: "우유{blank} 맛있게 마셔요." }
                 ]
             },
-            2: { // 별 2개 (도전 미션: 총 4문장, 중복 없음)
+            2: {
                 title: "별 2개 (도전 미션)",
                 animalName: "낙타",
                 icon: "🏜️",
@@ -801,7 +808,7 @@
                     { type: "choice", full: "호랑이는 무섭게 생겼어요.", target: "는", wrong: "은", problemText: "알맞은 은/는 고르기", format: "호랑이{blank} 무섭게 생겼어요." }
                 ]
             },
-            3: { // 별 3개 (마스터 미션: 총 5문장, 마지막 입력 문제)
+            3: {
                 title: "별 3개 (마스터 미션)",
                 animalName: "아기 펭귄",
                 icon: "🧊",
@@ -998,7 +1005,7 @@
             act3PlayerName = inputVal;
 
             currentMode = 3;
-            currentLevel = selectedDifficultyStar; // 난이도(별1~3)에 따른 문제 세트 사용
+            currentLevel = selectedDifficultyStar;
             currentQuizIndex = 0;
             score = 0;
             wrongList = [];
@@ -1111,7 +1118,6 @@
             const qData = activeQuizList[currentQuizIndex];
             let visualHtml = qData.visual ? `<div class="quiz-visual">${qData.visual}</div>` : "";
 
-            // 활동 3 현황판 렌더링
             let rescueSceneHtml = "";
             if (currentMode === 3) {
                 let totalQ = activeQuizList.length;
@@ -1311,18 +1317,29 @@
             document.querySelectorAll('[id^="mod-"]').forEach(e => { if(!e.classList.contains('matched')) e.classList.remove('selected'); });
             el.classList.add('selected'); selectedModifier = mod;
         }
+
         function selectSent(sent) {
             const sentEl = document.getElementById('sent-' + sent);
-            if (sentEl.classList.contains('matched')) return;
-            if (!selectedModifier) { alert("먼저 왼쪽에서 꾸며주는 말을 선택해 주세요!"); return; }
+            if (!sentEl || sentEl.classList.contains('matched')) return;
+            if (!selectedModifier) {
+                alert("먼저 왼쪽에서 꾸며주는 말을 선택해 주세요!");
+                return;
+            }
 
             const qData = activeQuizList[currentQuizIndex];
             const correctSent = qData.pairs[selectedModifier];
 
+            document.querySelectorAll('[id^="sent-"]').forEach(e => {
+                if(!e.classList.contains('matched')) e.style.borderColor = '#cbd5e1';
+            });
+
             if (sent === correctSent) {
                 playSound('correct');
                 const modEl = document.getElementById('mod-' + selectedModifier);
-                modEl.classList.remove('selected'); modEl.classList.add('matched'); sentEl.classList.add('matched');
+                modEl.classList.remove('selected'); 
+                modEl.classList.add('matched'); 
+                sentEl.classList.add('matched');
+                
                 drawConnectingLine(modEl, sentEl);
                 matchedPairsCount++;
                 document.getElementById('match-status').innerText = `연결한 개수: ${matchedPairsCount} / 3`;
@@ -1331,25 +1348,41 @@
                 if (matchedPairsCount === 3) {
                     if (attemptCount === 0) score++;
                     playSound('success');
-                    setTimeout(() => { currentQuizIndex++; loadQuiz(); }, 800);
+                    setTimeout(() => { 
+                        currentQuizIndex++; 
+                        loadQuiz(); 
+                    }, 800);
                 }
             } else {
                 playSound('wrong');
+                sentEl.style.borderColor = '#ef4444';
                 wrongList.push({ problem: "선긋기 매칭 문제", user: "선긋기 오답", correct: "올바른 짝 연결" });
-                document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
+                document.getElementById('modal-icon').innerText = "🤔"; 
+                document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; 
+                document.getElementById('custom-modal').style.display = 'flex';
             }
         }
 
         function drawConnectingLine(el1, el2) {
             const svg = document.getElementById('match-svg');
             const box = document.getElementById('match-container-box').getBoundingClientRect();
-            const r1 = el1.getBoundingClientRect(); const r2 = el2.getBoundingClientRect();
-            const x1 = r1.right - box.left; const y1 = r1.top + r1.height / 2 - box.top;
-            const x2 = r2.left - box.left; const y2 = r2.top + r2.height / 2 - box.top;
+            
+            const r1 = el1.getBoundingClientRect(); 
+            const r2 = el2.getBoundingClientRect();
+            
+            const x1 = r1.right - box.left; 
+            const y1 = (r1.top + r1.height / 2) - box.top;
+            const x2 = r2.left - box.left; 
+            const y2 = (r2.top + r2.height / 2) - box.top;
 
             const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            line.setAttribute('x1', x1); line.setAttribute('y1', y1); line.setAttribute('x2', x2); line.setAttribute('y2', y2);
-            line.setAttribute('stroke', '#3b82f6'); line.setAttribute('stroke-width', '4'); line.setAttribute('stroke-dasharray', '5');
+            line.setAttribute('x1', x1); 
+            line.setAttribute('y1', y1); 
+            line.setAttribute('x2', x2); 
+            line.setAttribute('y2', y2);
+            line.setAttribute('stroke', '#10b981'); 
+            line.setAttribute('stroke-width', '4'); 
+            line.setAttribute('stroke-linecap', 'round');
             svg.appendChild(line);
         }
 
