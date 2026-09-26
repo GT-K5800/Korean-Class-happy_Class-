@@ -651,7 +651,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.26. 13:00:00 (v.2.0.72)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.26. 14:10:00 (v.2.0.73)</div>
         </footer>
     </div>
 
@@ -804,12 +804,12 @@
         ];
 
         const level3Data = [
-            { visual: "❄️", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", fixDisplay: "겨울<span style='color: #dc2626; text-decoration: underline;'>은</span> 춥고, 여름은 더워요.", problemText: "겨울(은/는) 춥고, 여름(은/는) 더워요." },
+            { visual: "❄️", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", fixDisplay: "겨울<span style='color: #dc2626; text-decoration: underline;'>는</span> 춥고, 여름은 더워요.", problemText: "겨울(은/는) 춥고, 여름(은/는) 더워요." },
             { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>은</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을(은/는) 시원해요." },
-            { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>은</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 뛰고, 참새(은/는) 날아가요." },
+            { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>은</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 참새(은/는) 날아가요." },
             { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>은</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 토끼(은/는) 귀여워요." },
             { visual: "🦒", full: "기린은 목이 길고, 코끼리는 코가 길어요.", target: "은", wrong: "는", fixDisplay: "기린<span style='color: #dc2626; text-decoration: underline;'>은</span> 목이 길고, 코끼리는 코가 길어요.", problemText: "기린(은/는) 목이 길고, 코끼리(은/는) 코가 길어요." },
-            { visual: "🐧", full: "펭귄은 날지 못해요.", target: "은", wrong: "는", fixDisplay: "펭귄<span style='color: #dc2626; text-decoration: underline;'>은</span> 날지 못해요.", problemText: "펭귄(은/는) 날지 못해요." },
+            { visual: "🐧", full: "펭귄은 날지 못해요.", target: "은", wrong: "는", fixDisplay: "펭귄<span style='color: #dc2626; text-decoration: underline;'>는</span> 날지 못해요.", problemText: "펭귄(은/는) 날지 못해요." },
             { visual: "🐯", full: "호랑이는 무섭게 생겼어요.", target: "는", wrong: "은", fixDisplay: "호랑이<span style='color: #dc2626; text-decoration: underline;'>은</span> 무섭게 생겼어요.", problemText: "호랑이(은/는) 무섭게 생겼어요." },
             { visual: "🐻", full: "곰은 겨울에 잠을 자요.", target: "은", wrong: "는", fixDisplay: "곰<span style='color: #dc2626; text-decoration: underline;'>은</span> 겨울에 잠을 자요.", problemText: "곰(은/는) 겨울에 잠을 자요." },
             { visual: "🐰", full: "토끼는 깡충깡충 뛰어요.", target: "는", wrong: "은", fixDisplay: "토끼<span style='color: #dc2626; text-decoration: underline;'>은</span> 깡충깡충 뛰어요.", problemText: "토끼(은/는) 깡충깡충 뛰어요." },
@@ -877,7 +877,6 @@
             return arr;
         }
 
-        // 동일 유형 연속 출제를 방지하며 지정 문항 수를 지키도록 섞는 인터리빙 함수
         function interleaveByType(groups) {
             let keys = Object.keys(groups);
             keys.forEach(k => { groups[k] = shuffleArray(groups[k]); });
@@ -1069,9 +1068,19 @@
         }
 
         function selectStage(stageNum) {
+            const stageNames = { 1: "밀림지역", 2: "사막지역", 3: "남극지역" };
+            // 이미 구조에 성공한 지역인 경우 진입을 막고 안내 팝업 출력
+            if (act3ClearedStages[stageNum] && !isTeacherMode) {
+                let clearer = act3ClearedStudent[stageNum] || "다른 친구";
+                document.getElementById('modal-icon').innerText = "🚫";
+                document.getElementById('modal-msg').innerText = `[${stageNames[stageNum]}]은(는) 이미 ${clearer} 학생이 동물 구조에 성공했어요! 다른 지역에 도전해 보세요!`;
+                document.getElementById('custom-modal').style.display = 'flex';
+                return;
+            }
+
             selectedStage = stageNum;
-            const stageNames = { 1: "밀림 지역 (코끼리 구출)", 2: "사막 지역 (낙타 구출)", 3: "남극 지역 (아기 펭귄 구출)" };
-            document.getElementById('act3-diff-header').innerText = stageNames[stageNum];
+            const titles = { 1: "밀림 지역 (코끼리 구출)", 2: "사막 지역 (낙타 구출)", 3: "남극 지역 (아기 펭귄 구출)" };
+            document.getElementById('act3-diff-header').innerText = titles[stageNum];
             showCard('screen-act3-diff');
         }
 
@@ -1138,7 +1147,6 @@
                 }));
                 activeQuizList = shuffleArray([...blanks, ...matches]);
             } else if (lvl === 2) {
-                // [활동1 - 2단계 세팅] 꾸며주는 말 고르기 3, 잘못된 말 고치기 5, 선긋기 매칭 2 (총 10문제 / 천천히 모드시 총 5문제)
                 let cChoice = isSlow ? 1 : 3;
                 let cFix = isSlow ? 2 : 5;
                 let cLine = isSlow ? 2 : 2;
@@ -1147,21 +1155,17 @@
                 let groupFix = [];
                 let groupLine = [];
 
-                // 1) 꾸며주는 말 고르기 (객관식)
                 shuffleArray(rawSentenceData).slice(0, cChoice).forEach(item => {
                     groupChoice.push({
                         type: "blank", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
                     });
                 });
 
-                // 2) 잘못된 말 고치기 (객관식) - 보기 중복 방지 철저 검증
                 shuffleArray(rawSentenceData).slice(0, cFix).forEach(item => {
                     let otherTargets = allTargets.filter(t => t !== item.target);
                     let wrongTarget = otherTargets[Math.floor(Math.random() * otherTargets.length)];
                     let badSentenceFull = item.full.replace(item.target, wrongTarget);
                     let displayBadSentence = badSentenceFull.replace(wrongTarget, `<span style="color: #dc2626; text-decoration: underline;">${wrongTarget}</span>`);
-                    
-                    // 정답과 오답이 겹치지 않도록 고유한 보기 구성
                     let distinctOthers = shuffleArray(otherTargets.filter(t => t !== wrongTarget));
                     let optionSet = shuffleArray([item.target, wrongTarget, distinctOthers[0] || "파란", distinctOthers[1] || "신나는"]);
                     
@@ -1170,7 +1174,6 @@
                     });
                 });
 
-                // 3) 선긋기 매칭
                 for(let i=0; i<cLine; i++) {
                     let subArr = shuffleArray(rawSentenceData).slice(0, 3);
                     groupLine.push({
@@ -1184,7 +1187,6 @@
 
                 activeQuizList = interleaveByType({ choice: groupChoice, fix: groupFix, line: groupLine });
             } else {
-                // [활동1 - 3단계 세팅] 빈칸 타이핑 3, 잘못된 부분 타이핑 고치기 2, 잘못된 말 고치기(객관식) 3, 선긋기 매칭 2 (총 10문제)
                 let cTyping = isSlow ? 1 : 3;
                 let cTypingFix = isSlow ? 1 : 2;
                 let cFixChoice = isSlow ? 2 : 3;
@@ -1195,14 +1197,12 @@
                 let groupFixChoice = [];
                 let groupLine = [];
 
-                // 1) 빈칸 타이핑 채우기
                 shuffleArray(rawSentenceData).slice(0, cTyping).forEach(item => {
                     groupTyping.push({
                         type: "typing", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
                     });
                 });
 
-                // 2) 잘못된 부분 타이핑 고치기 - 보기 중복 방지
                 shuffleArray(rawSentenceData).slice(0, cTypingFix).forEach(item => {
                     let otherTargets = allTargets.filter(t => t !== item.target);
                     let wrongTarget = otherTargets[Math.floor(Math.random() * otherTargets.length)];
@@ -1216,7 +1216,6 @@
                     });
                 });
 
-                // 3) 잘못된 말 고치기 (객관식) - 보기 중복 방지
                 shuffleArray(rawSentenceData).slice(0, cFixChoice).forEach(item => {
                     let otherTargets = allTargets.filter(t => t !== item.target);
                     let wrongTarget = otherTargets[Math.floor(Math.random() * otherTargets.length)];
@@ -1230,7 +1229,6 @@
                     });
                 });
 
-                // 4) 선긋기 매칭
                 for(let i=0; i<cLine; i++) {
                     let subArr = shuffleArray(rawSentenceData).slice(0, 3);
                     groupLine.push({
@@ -1739,7 +1737,6 @@
                 playSound('cert');
             } else {
                 let isSlow = (currentMode === 1) ? isSlowModeAct1 : isSlowModeAct2;
-                // 천천히 모드일 때 5문제 중 3문제 이상(60%)이면 합격, 일반 모드는 10문제 중 7문제 이상
                 let passCutoff = isSlow ? 3 : 7;
                 let totalCount = isSlow ? 5 : 10;
 
