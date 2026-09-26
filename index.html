@@ -303,6 +303,7 @@
         .modal-content { background: white; padding: 35px 45px; border-radius: 24px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.25); animation: popUp 0.2s ease-in-out; max-width: 90%; }
         @keyframes popUp { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
+        /* 공통 상장 디자인 */
         .certificate-box { border: 12px double #d97706; background: linear-gradient(135deg, #fffbeb, #fef3c7); padding: 40px 30px; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(217, 119, 6, 0.2); position: relative; }
         .cert-badge { font-size: 3.5rem; margin-bottom: 5px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
         .cert-title { font-size: 2.5rem; color: #92400e; font-weight: 900; letter-spacing: 8px; margin-bottom: 15px; font-family: 'Georgia', serif; }
@@ -357,15 +358,15 @@
             </div>
         </div>
 
-        <!-- 활동 1 상장 모달창 -->
+        <!-- 활동 1 상장 모달창 (활동 2와 동일한 골드 메달 및 상장 디자인 적용) -->
         <div id="cert-act1-modal" class="modal-overlay">
             <div class="modal-content" style="background: transparent; width: 92%; max-width: 520px; padding: 0; box-shadow: none;">
-                <div class="certificate-box" style="border-color: #059669; background: linear-gradient(135deg, #ecfdf5, #d1fae5);">
-                    <div class="cert-badge">🍎</div>
-                    <div class="cert-title" style="color: #047857;">상 장</div>
-                    <div class="cert-text" style="color: #065f46;">위 학생은 꾸며주는 말 활동을 훌륭하게 이해하고 완벽하게 마스터하였으므로 이 상장을 수여합니다!</div>
-                    <div class="cert-name" id="cert-act1-student-name" style="color: #047857; border-bottom-color: #10b981;">김경탁 학생 (예시)</div>
-                    <div style="font-size: 1.0rem; color: #047857; font-weight: bold; margin-top: 15px;">2026년 묘량중앙초등학교</div>
+                <div class="certificate-box">
+                    <div class="cert-badge">🏅</div>
+                    <div class="cert-title">상 장</div>
+                    <div class="cert-text">위 학생은 꾸며주는 말 활동을 훌륭하게 이해하고 멋지게 마스터하였으므로 이 상장을 수여합니다!</div>
+                    <div class="cert-name" id="cert-act1-student-name">김경탁 학생 (예시)</div>
+                    <div style="font-size: 1.0rem; color: #92400e; font-weight: bold; margin-top: 15px;">2026년 묘량중앙초등학교</div>
                 </div>
                 <button class="role-btn role-student" style="margin-top: 20px; width: 100%; padding: 14px; border-radius: 16px;" onclick="closeAct1CertModal()">상장 닫기 🏆</button>
             </div>
@@ -481,8 +482,9 @@
                             </label>
                         </div>
                     </div>
-                    <button id="cert-act1-view-btn" class="cert-btn" onclick="openAct1CertModal()" disabled style="background: linear-gradient(135deg, #059669, #047857); box-shadow: 0 6px 15px rgba(5, 150, 105, 0.4);">
-                        <span style="font-size: 1.8rem;">🍎</span>
+                    <!-- 활동 2와 완전히 동일한 상장 보기 버튼 적용 -->
+                    <button id="cert-act1-view-btn" class="cert-btn" onclick="openAct1CertModal()" disabled>
+                        <span style="font-size: 1.8rem;">🏅</span>
                         <span style="font-size: 0.8rem; margin-top: 2px;">상장 보기</span>
                     </button>
                 </div>
@@ -650,7 +652,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.26. 11:35:00 (v.2.0.68)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.26. 11:45:00 (v.2.0.69)</div>
         </footer>
     </div>
 
@@ -723,10 +725,10 @@
         let currentQuizIndex = 0;
         let score = 0;
         let wrongList = [];
-        let attemptCount = 0; // 2회 이상 오답 체크용 변수
+        let attemptCount = 0;
         let activeQuizList = [];
-        let hasWonCertificate = false;      // 활동 2 상장 여부
-        let hasWonAct1Certificate = false;  // 활동 1 상장 여부
+        let hasWonCertificate = false;
+        let hasWonAct1Certificate = false;
         
         let isSlowModeAct1 = false;
         let isSlowModeAct2 = false;
@@ -1135,8 +1137,10 @@
                 }
                 activeQuizList = shuffleArray([...fixChoice, ...lineMatchList]);
             } else {
-                let allTargets = rawSentenceData.map(s => s.target);
+                // 활동 1의 3단계: 오직 입력한 rawSentenceData 문장목록 내에서만 문제 출제 (인위적 가공 제거)
                 let baseItems = shuffleArray(rawSentenceData).slice(0, targetCount);
+                let allTargets = rawSentenceData.map(s => s.target);
+                
                 activeQuizList = baseItems.map((item, idx) => {
                     if (idx < targetCount - 3) {
                         return { type: "typing", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full };
@@ -1145,8 +1149,8 @@
                         let wrongTarget = otherTargets[Math.floor(Math.random() * otherTargets.length)];
                         let badSentenceFull = item.full.replace(item.target, wrongTarget);
                         let displayBadSentence = badSentenceFull.replace(wrongTarget, `<span style="color: #dc2626; text-decoration: underline;">${wrongTarget}</span>`);
-                        // 문장목록의 풍부한 보기 옵션(4개) 활용
-                        return { type: "typing", visual: item.visual, sentence: displayBadSentence, options: shuffleArray(item.options), answer: item.target, problemText: item.full };
+                        // 문장목록의 실제 존재하는 다른 정답 타겟들을 보기로 제공
+                        return { type: "typing", visual: item.visual, sentence: displayBadSentence, options: shuffleArray([item.target, wrongTarget, otherTargets[0] || "예쁜", otherTargets[1] || "신나는"]), answer: item.target, problemText: item.full };
                     }
                 });
             }
@@ -1169,7 +1173,7 @@
         }
 
         function loadQuiz() {
-            attemptCount = 0; // 새 문제 진입 시 오답 카운트 초기화
+            attemptCount = 0;
             selectedModifier = null;
             matchedPairsCount = 0;
 
@@ -1441,7 +1445,6 @@
                 sentEl.style.borderColor = '#ef4444';
                 wrongList.push({ problem: "선긋기 매칭 문제", user: "선긋기 오답", correct: "올바른 짝 연결" });
                 
-                // 2번 이상 틀리면 오답 처리하고 자동 통과
                 if (attemptCount >= 2) {
                     document.getElementById('modal-icon').innerText = "💡"; 
                     document.getElementById('modal-msg').innerText = "2번 틀렸어요! 정답을 확인하고 다음 문제로 넘어갑니다."; 
@@ -1651,7 +1654,7 @@
 
                 if (currentMode === 1) {
                     if (act1Records[currentLevel] === null || score > act1Records[currentLevel]) { act1Records[currentLevel] = score; }
-                    if (currentLevel === 3 && score >= passCutoff) { hasWonAct1Certificate = true; stageBadge = `⭐⭐⭐ [3단계 및 활동1 상장 획득!] 🍎`; playSound('cert'); }
+                    if (currentLevel === 3 && score >= passCutoff) { hasWonAct1Certificate = true; stageBadge = `⭐⭐⭐ [3단계 및 활동1 상장 획득!] 🏅`; playSound('cert'); }
                     else if (score >= passCutoff) {
                         if (currentLevel < 3) act1Unlocked[currentLevel + 1] = true;
                         stageBadge = `⭐ [활동1 - ${currentLevel}단계 완료!]`; playSound('success');
