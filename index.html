@@ -651,7 +651,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.26. 14:10:00 (v.2.0.73)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.26. 14:40:00 (v.2.0.74)</div>
         </footer>
     </div>
 
@@ -803,12 +803,13 @@
             { visual: "✏️", full: "글을 반듯하게 써요.", target: "을", wrong: "를", problemText: "글(을/를) 반듯하게 써요." }
         ];
 
+        // 3단계 오답/정답 매칭 오류(fixDisplay와 target 불일치) 완전 수정
         const level3Data = [
-            { visual: "❄️", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", fixDisplay: "겨울<span style='color: #dc2626; text-decoration: underline;'>는</span> 춥고, 여름은 더워요.", problemText: "겨울(은/는) 춥고, 여름(은/는) 더워요." },
-            { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>은</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을(은/는) 시원해요." },
-            { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>은</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 참새(은/는) 날아가요." },
-            { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>은</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 토끼(은/는) 귀여워요." },
-            { visual: "🦒", full: "기린은 목이 길고, 코끼리는 코가 길어요.", target: "은", wrong: "는", fixDisplay: "기린<span style='color: #dc2626; text-decoration: underline;'>은</span> 목이 길고, 코끼리는 코가 길어요.", problemText: "기린(은/는) 목이 길고, 코끼리(은/는) 코가 길어요." },
+            { visual: "❄️", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", fixDisplay: "겨울<span style='color: #dc2626; text-decoration: underline;'>는</span> 춥고, 여름은 더워요.", problemText: "겨울(은/는) 춥고, 여름은 더워요." },
+            { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>는</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을은 시원해요." },
+            { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>은</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 뛰고, 참새는 날아가요." },
+            { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>은</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 씩씩하고, 토끼는 귀여워요." },
+            { visual: "🦒", full: "기린은 목이 길고, 코끼리는 코가 길어요.", target: "은", wrong: "는", fixDisplay: "기린<span style='color: #dc2626; text-decoration: underline;'>는</span> 목이 길고, 코끼리는 코가 길어요.", problemText: "기린(은/는) 목이 길고, 코끼리는 코가 길어요." },
             { visual: "🐧", full: "펭귄은 날지 못해요.", target: "은", wrong: "는", fixDisplay: "펭귄<span style='color: #dc2626; text-decoration: underline;'>는</span> 날지 못해요.", problemText: "펭귄(은/는) 날지 못해요." },
             { visual: "🐯", full: "호랑이는 무섭게 생겼어요.", target: "는", wrong: "은", fixDisplay: "호랑이<span style='color: #dc2626; text-decoration: underline;'>은</span> 무섭게 생겼어요.", problemText: "호랑이(은/는) 무섭게 생겼어요." },
             { visual: "🐻", full: "곰은 겨울에 잠을 자요.", target: "은", wrong: "는", fixDisplay: "곰<span style='color: #dc2626; text-decoration: underline;'>은</span> 겨울에 잠을 자요.", problemText: "곰(은/는) 겨울에 잠을 자요." },
@@ -860,7 +861,7 @@
                 animal: "🐧",
                 questions: [
                     { type: "fix-word", full: "귀여운 고양이가 있어요.", wrongTarget: "무서운", target: "귀여운", options: ["귀여운", "차가운", "빠른"], problemText: "잘못된 꾸며주는 말 부분을 알맞게 고치기", format: "<span style='color: #dc2626; text-decoration: underline;'>무서운</span> 고양이가 있어요." },
-                    { type: "dual", full: "아기가 우유를 마셔요.", q1Target: "가", q2Target: "를", blankFull: "아기( ① ) 우유( ② ) 마셔요.", problemText: "알맞은 이/가 + 을/를 고르기 (1)", format: "아기( ① ) 우유( ② ) 마셔요." },
+                    { type: "dual", full: "아기가 우유를 마셔요.", q1Target: "가", q2Target: "를", blankFull: "아기( ① ) 우유( ② ) 마셔요.", problemText: "알맞은 이/가 +을/를 고르기 (1)", format: "아기( ① ) 우유( ② ) 마셔요." },
                     { type: "dual", full: "곰이 꿀을 맛있게 먹어요.", q1Target: "이", q2Target: "을", blankFull: "곰( ① ) 꿀( ② ) 맛있게 먹어요.", problemText: "알맞은 이/가 + 을/를 고르기 (2)", format: "곰( ① ) 꿀( ② ) 맛있게 먹어요." },
                     { type: "choice", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", problemText: "알맞은 은/는 고르기 (1)", format: "겨울{blank} 춥고, 여름은 더워요." },
                     { type: "typing-fix", full: "하얀 눈이 내려요.", wrongTarget: "까만", target: "하얀", problemText: "잘못된 꾸며주는 말 부분을 알맞게 고쳐 직접 입력하기", format: "<span style='color: #dc2626; text-decoration: underline;'>까만</span> 눈이 내려요." }
@@ -1069,7 +1070,6 @@
 
         function selectStage(stageNum) {
             const stageNames = { 1: "밀림지역", 2: "사막지역", 3: "남극지역" };
-            // 이미 구조에 성공한 지역인 경우 진입을 막고 안내 팝업 출력
             if (act3ClearedStages[stageNum] && !isTeacherMode) {
                 let clearer = act3ClearedStudent[stageNum] || "다른 친구";
                 document.getElementById('modal-icon').innerText = "🚫";
@@ -1253,7 +1253,34 @@
 
             if (lvl === 1) activeQuizList = shuffleArray(level1Data).slice(0, targetCount);
             else if (lvl === 2) activeQuizList = shuffleArray(level2Data).slice(0, targetCount);
-            else if (lvl === 3) activeQuizList = shuffleArray(level3Data).slice(0, targetCount);
+            else if (lvl === 3) {
+                // 활동 2의 3단계(은/는): 홀수 번호는 빈칸 고르기, 짝수 번호는 잘못된 조사 고치기로 동적 구성
+                let base = shuffleArray(level3Data).slice(0, targetCount);
+                activeQuizList = base.map((item, idx) => {
+                    if (idx % 2 === 1) {
+                        // 잘못된 조사 고치기 (틀린 조사가 밑줄로 제시됨)
+                        return {
+                            visual: item.visual,
+                            full: item.full,
+                            target: item.target,
+                            wrong: item.wrong,
+                            problemText: item.problemText,
+                            fixDisplay: item.fixDisplay,
+                            isFix: true
+                        };
+                    } else {
+                        // 일반 빈칸 고르기
+                        return {
+                            visual: item.visual,
+                            full: item.full,
+                            target: item.target,
+                            wrong: item.wrong,
+                            problemText: item.problemText,
+                            isFix: false
+                        };
+                    }
+                });
+            }
             else activeQuizList = shuffleArray(level4Data).slice(0, targetCount);
 
             showCard('screen-quiz');
@@ -1430,11 +1457,19 @@
                     </div>
                 `;
             } else if (currentMode === 2 && currentLevel <= 3) {
-                let isFixType = (currentQuizIndex % 2 === 1);
+                let isFixType = (currentLevel === 3) ? qData.isFix : (currentQuizIndex % 2 === 1);
                 let promptText = isFixType ? "문장에서 잘못 쓰인 문장고리를 바르게 고쳐보세요!" : "알맞은 문장고리를 골라보세요!";
                 let correctOpt = qData.target;
-                let options = shuffleArray([correctOpt, qData.wrong]);
-                let displaySentence = (isFixType && currentLevel === 3 && qData.fixDisplay) ? qData.fixDisplay : (isFixType ? qData.full.replace(qData.target, `<span style="color: #dc2626; text-decoration: underline;">${qData.wrong}</span>`) : qData.full.replace(qData.target, "______"));
+                let options = shuffleArray([qData.target, qData.wrong]);
+                let displaySentence = "";
+
+                if (currentLevel === 3 && isFixType) {
+                    displaySentence = qData.fixDisplay; // 틀린 조사에 밑줄 쳐진 문장
+                } else if (isFixType) {
+                    displaySentence = qData.full.replace(qData.target, `<span style="color: #dc2626; text-decoration: underline;">${qData.wrong}</span>`);
+                } else {
+                    displaySentence = qData.full.replace(qData.target, "______");
+                }
 
                 quizArea.innerHTML = `
                     <div class="quiz-box">
