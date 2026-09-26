@@ -215,54 +215,39 @@
         }
         .stage-square-card:hover { transform: translateY(-3px); border-color: #10b981; background: #f0fdf4; }
 
+        /* 활동 3 프로그레스 바 현황판 스타일 */
         .rescue-scene-large {
             background: linear-gradient(180deg, #e0f2fe, #bae6fd);
             border: 4px solid #0284c7;
-            border-radius: 24px;
-            padding: 28px 15px;
+            border-radius: 20px;
+            padding: 20px 15px;
             margin-bottom: 22px;
             text-align: center;
-            position: relative;
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
-        .rescue-track-large {
+        .rescue-progress-bar-container {
+            background: #cbd5e1;
+            height: 24px;
+            border-radius: 12px;
+            position: relative;
+            margin: 15px 10px 5px 10px;
+            overflow: hidden;
+            border: 2px solid #94a3b8;
+        }
+        .rescue-progress-fill {
+            background: linear-gradient(90deg, #38bdf8, #0284c7);
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+            border-radius: 10px 0 0 10px;
+        }
+        .rescue-icons-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 15px;
-            position: relative;
-            padding: 0 10px;
-        }
-        .island-circle {
-            width: 75px;
-            height: 75px;
-            background: #fef08a;
-            border: 3px solid #ca8a04;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.2rem;
-            position: relative;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-        }
-        .bridge-bar {
-            flex: 1;
-            height: 28px;
-            background: #cbd5e1;
-            margin: 0 4px;
-            border-radius: 25px 25px 4px 4px;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid #94a3b8;
-            transform: translateY(-4px);
-            box-shadow: inset 0 3px 5px rgba(0,0,0,0.15);
-        }
-        .bridge-bar.connected {
-            background: #a16207;
-            border: 2px solid #78350f;
-            background-image: radial-gradient(circle, #ca8a04 10%, transparent 11%), repeating-linear-gradient(0deg, transparent, transparent 5px, #78350f 5px, #78350f 7px);
+            font-size: 1.8rem;
+            padding: 0 5px;
+            margin-top: 5px;
         }
 
         .record-wrapper { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
@@ -651,7 +636,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.26. 14:40:00 (v.2.0.74)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.26. 14:55:00 (v.2.0.75)</div>
         </footer>
     </div>
 
@@ -803,14 +788,13 @@
             { visual: "✏️", full: "글을 반듯하게 써요.", target: "을", wrong: "를", problemText: "글(을/를) 반듯하게 써요." }
         ];
 
-        // 3단계 오답/정답 매칭 오류(fixDisplay와 target 불일치) 완전 수정
         const level3Data = [
             { visual: "❄️", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", fixDisplay: "겨울<span style='color: #dc2626; text-decoration: underline;'>는</span> 춥고, 여름은 더워요.", problemText: "겨울(은/는) 춥고, 여름은 더워요." },
             { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>는</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을은 시원해요." },
-            { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>은</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 뛰고, 참새는 날아가요." },
+            { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>은</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 참새(은/는) 날아가요." },
             { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>은</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 씩씩하고, 토끼는 귀여워요." },
-            { visual: "🦒", full: "기린은 목이 길고, 코끼리는 코가 길어요.", target: "은", wrong: "는", fixDisplay: "기린<span style='color: #dc2626; text-decoration: underline;'>는</span> 목이 길고, 코끼리는 코가 길어요.", problemText: "기린(은/는) 목이 길고, 코끼리는 코가 길어요." },
-            { visual: "🐧", full: "펭귄은 날지 못해요.", target: "은", wrong: "는", fixDisplay: "펭귄<span style='color: #dc2626; text-decoration: underline;'>는</span> 날지 못해요.", problemText: "펭귄(은/는) 날지 못해요." },
+            { visual: "🦒", full: "기린은 목이 길고, 코끼리는 코가 길어요.", target: "은", wrong: "는", fixDisplay: "기린<span style='color: #dc2626; text-decoration: underline;'>은</span> 목이 길고, 코끼리는 코가 길어요.", problemText: "기린(은/는) 목이 길고, 코끼리는 코가 길어요." },
+            { visual: "🐧", full: "펭귄은 날지 못해요.", target: "은", wrong: "는", fixDisplay: "펭귄<span style='color: #dc2626; text-decoration: underline;'>은</span> 날지 못해요.", problemText: "펭귄(은/는) 날지 못해요." },
             { visual: "🐯", full: "호랑이는 무섭게 생겼어요.", target: "는", wrong: "은", fixDisplay: "호랑이<span style='color: #dc2626; text-decoration: underline;'>은</span> 무섭게 생겼어요.", problemText: "호랑이(은/는) 무섭게 생겼어요." },
             { visual: "🐻", full: "곰은 겨울에 잠을 자요.", target: "은", wrong: "는", fixDisplay: "곰<span style='color: #dc2626; text-decoration: underline;'>은</span> 겨울에 잠을 자요.", problemText: "곰(은/는) 겨울에 잠을 자요." },
             { visual: "🐰", full: "토끼는 깡충깡충 뛰어요.", target: "는", wrong: "은", fixDisplay: "토끼<span style='color: #dc2626; text-decoration: underline;'>은</span> 깡충깡충 뛰어요.", problemText: "토끼(은/는) 깡충깡충 뛰어요." },
@@ -861,7 +845,7 @@
                 animal: "🐧",
                 questions: [
                     { type: "fix-word", full: "귀여운 고양이가 있어요.", wrongTarget: "무서운", target: "귀여운", options: ["귀여운", "차가운", "빠른"], problemText: "잘못된 꾸며주는 말 부분을 알맞게 고치기", format: "<span style='color: #dc2626; text-decoration: underline;'>무서운</span> 고양이가 있어요." },
-                    { type: "dual", full: "아기가 우유를 마셔요.", q1Target: "가", q2Target: "를", blankFull: "아기( ① ) 우유( ② ) 마셔요.", problemText: "알맞은 이/가 +을/를 고르기 (1)", format: "아기( ① ) 우유( ② ) 마셔요." },
+                    { type: "dual", full: "아기가 우유를 마셔요.", q1Target: "가", q2Target: "를", blankFull: "아기( ① ) 우유( ② ) 마셔요.", problemText: "알맞은 이/가 + 을/를 고르기 (1)", format: "아기( ① ) 우유( ② ) 마셔요." },
                     { type: "dual", full: "곰이 꿀을 맛있게 먹어요.", q1Target: "이", q2Target: "을", blankFull: "곰( ① ) 꿀( ② ) 맛있게 먹어요.", problemText: "알맞은 이/가 + 을/를 고르기 (2)", format: "곰( ① ) 꿀( ② ) 맛있게 먹어요." },
                     { type: "choice", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", problemText: "알맞은 은/는 고르기 (1)", format: "겨울{blank} 춥고, 여름은 더워요." },
                     { type: "typing-fix", full: "하얀 눈이 내려요.", wrongTarget: "까만", target: "하얀", problemText: "잘못된 꾸며주는 말 부분을 알맞게 고쳐 직접 입력하기", format: "<span style='color: #dc2626; text-decoration: underline;'>까만</span> 눈이 내려요." }
@@ -1254,11 +1238,9 @@
             if (lvl === 1) activeQuizList = shuffleArray(level1Data).slice(0, targetCount);
             else if (lvl === 2) activeQuizList = shuffleArray(level2Data).slice(0, targetCount);
             else if (lvl === 3) {
-                // 활동 2의 3단계(은/는): 홀수 번호는 빈칸 고르기, 짝수 번호는 잘못된 조사 고치기로 동적 구성
                 let base = shuffleArray(level3Data).slice(0, targetCount);
                 activeQuizList = base.map((item, idx) => {
                     if (idx % 2 === 1) {
-                        // 잘못된 조사 고치기 (틀린 조사가 밑줄로 제시됨)
                         return {
                             visual: item.visual,
                             full: item.full,
@@ -1269,7 +1251,6 @@
                             isFix: true
                         };
                     } else {
-                        // 일반 빈칸 고르기
                         return {
                             visual: item.visual,
                             full: item.full,
@@ -1320,28 +1301,19 @@
             let rescueSceneHtml = "";
             if (currentMode === 3) {
                 let totalQ = activeQuizList.length;
-                let trackHtml = "";
+                // 로딩바처럼 이동한 만큼 채워지는 퍼센트 계산
+                let progressPercent = Math.round((currentQuizIndex / totalQ) * 100);
                 
-                for(let i=0; i<totalQ; i++) {
-                    let isConn = (i < currentQuizIndex) ? "connected" : "";
-                    if (i > 0) { trackHtml += `<div class="bridge-bar ${isConn}"></div>`; }
-                    
-                    if (i === currentQuizIndex) {
-                        trackHtml += `<div class="island-circle" style="background:#fde047;">👦</div>`;
-                    } else {
-                        trackHtml += `<div class="island-circle" style="background:#fef08a;">🏝️</div>`;
-                    }
-                }
-                
-                let lastConn = (currentQuizIndex >= totalQ) ? "connected" : "";
-                trackHtml += `<div class="bridge-bar ${lastConn}"></div>`;
-                trackHtml += `<div class="island-circle">${stageData[currentLevel].animal}</div>`;
-
                 rescueSceneHtml = `
                     <div class="rescue-scene-large">
-                        <div style="font-size:0.95rem; font-weight:bold; color:#0369a1; margin-bottom:8px;">🌉 [${act3PlayerName}] 학생이 다리를 놓아 동물을 구하는 중!</div>
-                        <div class="rescue-track-large">
-                            ${trackHtml}
+                        <div style="font-size:0.95rem; font-weight:bold; color:#0369a1; margin-bottom:5px;">🚁 [${act3PlayerName}] 구조대원의 동물 구출 작전 진행 중!</div>
+                        <div class="rescue-progress-bar-container">
+                            <div class="rescue-progress-fill" style="width: ${progressPercent}%;"></div>
+                        </div>
+                        <div class="rescue-icons-row">
+                            <span>🏕️</span>
+                            <span style="font-size: 1.5rem; transform: translateX(-50%);">👦🚁</span>
+                            <span>${stageData[currentLevel].animal}</span>
                         </div>
                     </div>
                 `;
@@ -1464,7 +1436,7 @@
                 let displaySentence = "";
 
                 if (currentLevel === 3 && isFixType) {
-                    displaySentence = qData.fixDisplay; // 틀린 조사에 밑줄 쳐진 문장
+                    displaySentence = qData.fixDisplay;
                 } else if (isFixType) {
                     displaySentence = qData.full.replace(qData.target, `<span style="color: #dc2626; text-decoration: underline;">${qData.wrong}</span>`);
                 } else {
@@ -1568,19 +1540,10 @@
                 sentEl.style.borderColor = '#ef4444';
                 wrongList.push({ problem: "선긋기 매칭 문제", user: "선긋기 오답", correct: "올바른 짝 연결" });
                 
+                // 2번 이상 틀리면 팝업 없이 오답으로 기록하고 다음으로 바로 진행
                 if (attemptCount >= 2) {
-                    document.getElementById('modal-icon').innerText = "💡"; 
-                    document.getElementById('modal-msg').innerText = "2번 틀렸어요! 정답을 확인하고 다음 문제로 넘어갑니다."; 
-                    document.getElementById('custom-modal').style.display = 'flex';
-                    setTimeout(() => {
-                        closeModal();
-                        currentQuizIndex++;
-                        loadQuiz();
-                    }, 1200);
-                } else {
-                    document.getElementById('modal-icon').innerText = "🤔"; 
-                    document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요? (한 번 더 틀리면 다음으로 넘어가요)"; 
-                    document.getElementById('custom-modal').style.display = 'flex';
+                    currentQuizIndex++;
+                    loadQuiz();
                 }
             }
         }
@@ -1639,23 +1602,17 @@
                     attemptCount++;
                     wrongList.push({ problem: qData.problemText, user: `①:${q4Selected1}, ②:${q4Selected2}`, correct: `①:${qData.q1Target}, ②:${qData.q2Target}` });
                     
-                    if (attemptCount >= 2) {
-                        document.getElementById('modal-icon').innerText = "💡"; document.getElementById('modal-msg').innerText = "2번 틀렸어요! 정답으로 인정하고 다음 문제로 넘어갑니다."; document.getElementById('custom-modal').style.display = 'flex';
-                        q4Selected1 = null; q4Selected2 = null;
-                        setTimeout(() => {
-                            closeModal();
-                            currentQuizIndex++;
-                            loadQuiz();
-                        }, 1200);
-                    } else {
-                        document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 골라볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
-                        q4Selected1 = null; q4Selected2 = null;
-                    }
+                    q4Selected1 = null; q4Selected2 = null;
                     if(document.getElementById('btn-q1-이')) {
                         document.getElementById('btn-q1-이').style.background = 'white';
                         document.getElementById('btn-q1-가').style.background = 'white';
                         document.getElementById('btn-q2-을').style.background = 'white';
                         document.getElementById('btn-q2-를').style.background = 'white';
+                    }
+
+                    if (attemptCount >= 2) {
+                        currentQuizIndex++;
+                        loadQuiz();
                     }
                 }
             }
@@ -1671,23 +1628,17 @@
                     attemptCount++;
                     wrongList.push({ problem: qData.problemText, user: `①:${q4Selected1}, ②:${q4Selected2}`, correct: `①:${qData.q1Target}, ②:${qData.q2Target}` });
                     
-                    if (attemptCount >= 2) {
-                        document.getElementById('modal-icon').innerText = "💡"; document.getElementById('modal-msg').innerText = "2번 틀렸어요! 정답 처리하고 넘어갑니다."; document.getElementById('custom-modal').style.display = 'flex';
-                        q4Selected1 = null; q4Selected2 = null;
-                        setTimeout(() => {
-                            closeModal();
-                            currentQuizIndex++;
-                            loadQuiz();
-                        }, 1200);
-                    } else {
-                        document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
-                        q4Selected1 = null; q4Selected2 = null;
-                    }
+                    q4Selected1 = null; q4Selected2 = null;
                     if(document.getElementById('btn-q1-이')) {
                         document.getElementById('btn-q1-이').style.background = 'white';
                         document.getElementById('btn-q1-가').style.background = 'white';
                         document.getElementById('btn-q2-을').style.background = 'white';
                         document.getElementById('btn-q2-를').style.background = 'white';
+                    }
+
+                    if (attemptCount >= 2) {
+                        currentQuizIndex++;
+                        loadQuiz();
                     }
                 }
             }
@@ -1702,14 +1653,8 @@
                 wrongList.push({ problem: problemText, user: "틀린 그림 선택", correct: "정답 그림(" + answerVisual + ")" });
                 
                 if (attemptCount >= 2) {
-                    document.getElementById('modal-icon').innerText = "💡"; document.getElementById('modal-msg').innerText = "2번 틀렸어요! 다음 문제로 넘어갑니다."; document.getElementById('custom-modal').style.display = 'flex';
-                    setTimeout(() => {
-                        closeModal();
-                        currentQuizIndex++;
-                        loadQuiz();
-                    }, 1200);
-                } else {
-                    document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
+                    currentQuizIndex++;
+                    loadQuiz();
                 }
             }
         }
@@ -1723,14 +1668,8 @@
                 wrongList.push({ problem: problemText, user: selected, correct: answer });
                 
                 if (attemptCount >= 2) {
-                    document.getElementById('modal-icon').innerText = "💡"; document.getElementById('modal-msg').innerText = "2번 틀렸어요! 정답 확인 후 다음으로 넘어갑니다."; document.getElementById('custom-modal').style.display = 'flex';
-                    setTimeout(() => {
-                        closeModal();
-                        currentQuizIndex++;
-                        loadQuiz();
-                    }, 1200);
-                } else {
-                    document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 생각해 볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
+                    currentQuizIndex++;
+                    loadQuiz();
                 }
             }
         }
@@ -1747,14 +1686,8 @@
                 wrongList.push({ problem: problemText, user: inputVal, correct: answer });
                 
                 if (attemptCount >= 2) {
-                    document.getElementById('modal-icon').innerText = "💡"; document.getElementById('modal-msg').innerText = `2번 틀렸어요! 정답은 [${answer}] 입니다. 다음으로 넘어갑니다.`; document.getElementById('custom-modal').style.display = 'flex';
-                    setTimeout(() => {
-                        closeModal();
-                        currentQuizIndex++;
-                        loadQuiz();
-                    }, 1500);
-                } else {
-                    document.getElementById('modal-icon').innerText = "🤔"; document.getElementById('modal-msg').innerText = "틀렸어요. 다시 한 번 적어볼까요?"; document.getElementById('custom-modal').style.display = 'flex';
+                    currentQuizIndex++;
+                    loadQuiz();
                 }
             }
         }
