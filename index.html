@@ -651,7 +651,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.26. 11:55:00 (v.2.0.70)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.26. 12:50:00 (v.2.0.71)</div>
         </footer>
     </div>
 
@@ -877,6 +877,34 @@
             return arr;
         }
 
+        // 동일 유형 연속 출제를 방지하며 지정 문항 수를 지키도록 섞는 인터리빙 함수
+        function interleaveByType(groups) {
+            // groups는 { typeA: [...], typeB: [...] } 형태
+            let keys = Object.keys(groups);
+            // 각 그룹 내부를 먼저 랜덤 셔플
+            keys.forEach(k => { groups[k] = shuffleArray(groups[k]); });
+            
+            let result = [];
+            let lastType = null;
+            
+            while (true) {
+                let availableKeys = keys.filter(k => groups[k].length > 0 && k !== lastType);
+                if (availableKeys.length === 0) {
+                    // 남은 것 중 아무거나 가져옴
+                    availableKeys = keys.filter(k => groups[k].length > 0);
+                    if (availableKeys.length === 0) break;
+                }
+                // 남은 개수가 많은 유형을 우선적으로 선택하여 편중 방지
+                availableKeys.sort((a, b) => groups[b].length - groups[a].length);
+                let chosenKey = availableKeys[0];
+                
+                let item = groups[chosenKey].shift();
+                result.push(item);
+                lastType = chosenKey;
+            }
+            return result;
+        }
+
         function showCard(cardId) {
             document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
             document.getElementById(cardId).classList.add('active');
@@ -1100,10 +1128,10 @@
         function startAct1Quiz(lvl) {
             currentLevel = lvl; currentQuizIndex = 0; score = 0; wrongList = [];
             let isSlow = isSlowModeAct1;
-            let totalCount = isSlow ? 5 : 10;
             let allTargets = rawSentenceData.map(s => s.target);
 
             if (lvl === 1) {
+                let totalCount = isSlow ? 5 : 10;
                 let halfCount = Math.floor(totalCount / 2);
                 let remCount = totalCount - halfCount;
                 let blanks = shuffleArray(rawSentenceData).slice(0, halfCount).map(item => ({
@@ -1114,37 +1142,38 @@
                 }));
                 activeQuizList = shuffleArray([...blanks, ...matches]);
             } else if (lvl === 2) {
-                // [활동1 - 2단계 세팅] 꾸며주는 말 고르기 3, 잘못된 말 고치기 5, 선긋기 매칭 2 (총 10문제, 천천히 시 비율 조정)
-                let countChoice = isSlow ? 1 : 3;
-                let countFix = isSlow ? 2 : 5;
-                let countLine = isSlow ? 2 : 2;
+                // [활동1 - 2단계 세팅] 꾸며주는 말 고르기 3, 잘못된 말 고치기 5, 선긋기 매칭 2 (총 10문제)
+                let cChoice = isSlow ? 1 : 3;
+                let cFix = isSlow ? 2 : 5;
+                let cLine = isSlow ? 2 : 2;
 
-                let list = [];
+                let groupChoice = [];
+                let groupFix = [];
+                let groupLine = [];
+
                 // 1) 꾸며주는 말 고르기 (객관식)
-                let subRaw1 = shuffleArray(rawSentenceData).slice(0, countChoice);
-                subRaw1.forEach(item => {
-                    list.push({
+                shuffleArray(rawSentenceData).slice(0, cChoice).forEach(item => {
+                    groupChoice.push({
                         type: "blank", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
                     });
                 });
 
-                // 2) 잘못된 말 고치기 (객관식)
-                let subRaw2 = shuffleArray(rawSentenceData).slice(0, countFix);
-                subRaw2.forEach(item => {
+                // 2) 잘못된 말 고치기 (객관식) - 오직 rawSentenceData 목록 내 단어만 사용
+                shuffleArray(rawSentenceData).slice(0, cFix).forEach(item => {
                     let otherTargets = allTargets.filter(t => t !== item.target);
                     let wrongTarget = otherTargets[Math.floor(Math.random() * otherTargets.length)];
                     let badSentenceFull = item.full.replace(item.target, wrongTarget);
                     let displayBadSentence = badSentenceFull.replace(wrongTarget, `<span style="color: #dc2626; text-decoration: underline;">${wrongTarget}</span>`);
                     let optionSet = shuffleArray([item.target, wrongTarget, otherTargets[0] || "예쁜", otherTargets[1] || "신나는"]);
-                    list.push({
+                    groupFix.push({
                         type: "blank", visual: item.visual, sentence: displayBadSentence, options: optionSet, answer: item.target, problemText: item.full
                     });
                 });
 
-                // 3) 선긋기 매칭 (3쌍 묶음)
-                for(let i=0; i<countLine; i++) {
+                // 3) 선긋기 매칭
+                for(let i=0; i<cLine; i++) {
                     let subArr = shuffleArray(rawSentenceData).slice(0, 3);
-                    list.push({
+                    groupLine.push({
                         type: "line-match",
                         prompt: "꾸며주는 말을 알맞은 문장 3개와 각각 연결해봐요!",
                         modifiers: shuffleArray(subArr.map(s => s.target)),
@@ -1153,53 +1182,54 @@
                     });
                 }
 
-                // 전체 문제를 골고루 섞어 배치 (몰림 현상 방지)
-                activeQuizList = shuffleArray(list);
+                // 연속 유형 방지 인터리빙 적용
+                activeQuizList = interleaveByType({ choice: groupChoice, fix: groupFix, line: groupLine });
             } else {
                 // [활동1 - 3단계 세팅] 빈칸 타이핑 3, 잘못된 부분 타이핑 고치기 2, 잘못된 말 고치기(객관식) 3, 선긋기 매칭 2 (총 10문제)
-                let countTyping = isSlow ? 1 : 3;
-                let countTypingFix = isSlow ? 1 : 2;
-                let countFixChoice = isSlow ? 2 : 3;
-                let countLine = isSlow ? 1 : 2;
+                let cTyping = isSlow ? 1 : 3;
+                let cTypingFix = isSlow ? 1 : 2;
+                let cFixChoice = isSlow ? 2 : 3;
+                let cLine = isSlow ? 1 : 2;
 
-                let list = [];
+                let groupTyping = [];
+                let groupTypingFix = [];
+                let groupFixChoice = [];
+                let groupLine = [];
+
                 // 1) 빈칸 타이핑 채우기
-                let sub1 = shuffleArray(rawSentenceData).slice(0, countTyping);
-                sub1.forEach(item => {
-                    list.push({
+                shuffleArray(rawSentenceData).slice(0, cTyping).forEach(item => {
+                    groupTyping.push({
                         type: "typing", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
                     });
                 });
 
-                // 2) 잘못된 부분 타이핑 고치기
-                let sub2 = shuffleArray(rawSentenceData).slice(0, countTypingFix);
-                sub2.forEach(item => {
+                // 2) 잘못된 부분 타이핑 고치기 - 오직 rawSentenceData 목록 내 단어만 사용
+                shuffleArray(rawSentenceData).slice(0, cTypingFix).forEach(item => {
                     let otherTargets = allTargets.filter(t => t !== item.target);
                     let wrongTarget = otherTargets[Math.floor(Math.random() * otherTargets.length)];
                     let badSentenceFull = item.full.replace(item.target, wrongTarget);
                     let displayBadSentence = badSentenceFull.replace(wrongTarget, `<span style="color: #dc2626; text-decoration: underline;">${wrongTarget}</span>`);
-                    list.push({
+                    groupTypingFix.push({
                         type: "typing", visual: item.visual, sentence: displayBadSentence, options: shuffleArray([item.target, wrongTarget, otherTargets[0] || "예쁜", otherTargets[1] || "신나는"]), answer: item.target, problemText: item.full
                     });
                 });
 
-                // 3) 잘못된 말 고치기 (객관식)
-                let sub3 = shuffleArray(rawSentenceData).slice(0, countFixChoice);
-                sub3.forEach(item => {
+                // 3) 잘못된 말 고치기 (객관식) - 오직 rawSentenceData 목록 내 단어만 사용
+                shuffleArray(rawSentenceData).slice(0, cFixChoice).forEach(item => {
                     let otherTargets = allTargets.filter(t => t !== item.target);
                     let wrongTarget = otherTargets[Math.floor(Math.random() * otherTargets.length)];
                     let badSentenceFull = item.full.replace(item.target, wrongTarget);
                     let displayBadSentence = badSentenceFull.replace(wrongTarget, `<span style="color: #dc2626; text-decoration: underline;">${wrongTarget}</span>`);
                     let optionSet = shuffleArray([item.target, wrongTarget, otherTargets[0] || "예쁜", otherTargets[1] || "신나는"]);
-                    list.push({
+                    groupFixChoice.push({
                         type: "blank", visual: item.visual, sentence: displayBadSentence, options: optionSet, answer: item.target, problemText: item.full
                     });
                 });
 
                 // 4) 선긋기 매칭
-                for(let i=0; i<countLine; i++) {
+                for(let i=0; i<cLine; i++) {
                     let subArr = shuffleArray(rawSentenceData).slice(0, 3);
-                    list.push({
+                    groupLine.push({
                         type: "line-match",
                         prompt: "꾸며주는 말을 알맞은 문장 3개와 각각 연결해봐요!",
                         modifiers: shuffleArray(subArr.map(s => s.target)),
@@ -1208,8 +1238,8 @@
                     });
                 }
 
-                // 전체 유형을 고르게 섞음
-                activeQuizList = shuffleArray(list);
+                // 연속 유형 방지 인터리빙 적용
+                activeQuizList = interleaveByType({ typing: groupTyping, typingFix: groupTypingFix, fixChoice: groupFixChoice, line: groupLine });
             }
 
             showCard('screen-quiz');
