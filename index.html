@@ -651,7 +651,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.26. 17:00:00 (v.2.0.80)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.26. 17:25:00 (v.2.0.81)</div>
         </footer>
     </div>
 
@@ -829,7 +829,6 @@
             { visual: "🦁", full: "사자가 고기를 먹어요.", blankFull: "사자( ① ) 고기( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "사자(이/가) 고기(을/를) 먹어요." }
         ];
 
-        // 활동 3: 오직 제공된 문장목록 내의 문장과 보기만 엄격하게 사용하도록 재검토 구성
         const stageData = {
             1: {
                 title: "별 1개 (기본 미션)",
@@ -1139,6 +1138,7 @@
         }
         function closeAct3CertModal() { document.getElementById('cert-act3-modal').style.display = 'none'; }
 
+        // 활동 1: 오직 원본 rawSentenceData 문장과 보기만 철저히 활용하며, 연속 중복 문장 방지 셔플 적용
         function startAct1Quiz(lvl) {
             currentLevel = lvl; currentQuizIndex = 0; score = 0; wrongList = [];
             let isSlow = isSlowModeAct1;
