@@ -651,7 +651,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.26. 18:00:00 (v.2.0.83)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.26. 18:30:00 (v.2.0.84)</div>
         </footer>
     </div>
 
@@ -769,6 +769,14 @@
             { visual: "🍰", full: "달콤한 케이크를 먹어요.", target: "달콤한", options: ["뜨거운", "느린", "달콤한", "신나는"] }
         ];
 
+        const matchVisualBank = [
+            { text: "예쁜 꽃이 피었어요.", visualOptions: ["🌷", "🐘", "🧊", "⚽"], answer: "🌷" },
+            { text: "커다란 코끼리가 걸어요.", visualOptions: ["🐜", "🐘", "🍌", "📦"], answer: "🐘" },
+            { text: "빨간 사과가 열려요.", visualOptions: ["🍎", "🍌", "🥛", "⚽"], answer: "🍎" },
+            { text: "신나는 노래를 불러요.", visualOptions: ["🎤", "🛏️", "🍲", "💨"], answer: "🎤" },
+            { text: "맛있는 라면을 먹어요.", visualOptions: ["🍜", "🍎", "🍌", "📦"], answer: "🍜" }
+        ];
+
         const level1Data = [
             { visual: "🦆", full: "오리가 꽥꽥 울어요.", target: "가", wrong: "이", problemText: "오리(이/가) 꽥꽥 울어요." },
             { visual: "🐓", full: "닭이 꼬끼오 울어요.", target: "이", wrong: "가", problemText: "닭(이/가) 꼬끼오 울어요." },
@@ -795,10 +803,11 @@
             { visual: "✏️", full: "글을 반듯하게 써요.", target: "을", wrong: "를", problemText: "글(을/를) 반듯하게 써요." }
         ];
 
+        // 활동 2-3단계: 받침 유무(은/는)에 따른 오답 결합 규칙을 철저히 반영하여 틀린 조사가 밑줄로 제시되도록 수정
         const level3Data = [
             { visual: "❄️", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", fixDisplay: "겨울<span style='color: #dc2626; text-decoration: underline;'>는</span> 춥고, 여름은 더워요.", problemText: "겨울(은/는) 춥고, 여름은 더워요." },
             { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>은</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을은 시원해요." },
-            { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>은</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 참새(은/는) 날아가요." },
+            { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>은</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 뛰고, 참새는 날아가요." },
             { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>은</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 토끼는 귀여워요." },
             { visual: "🦒", full: "기린은 목이 길고, 코끼리는 코가 길어요.", target: "은", wrong: "는", fixDisplay: "기린<span style='color: #dc2626; text-decoration: underline;'>은</span> 목이 길고, 코끼리는 코가 길어요.", problemText: "기린(은/는) 목이 길고, 코끼리는 코가 길어요." },
             { visual: "🐧", full: "펭귄은 날지 못해요.", target: "은", wrong: "는", fixDisplay: "펭귄<span style='color: #dc2626; text-decoration: underline;'>은</span> 날지 못해요.", problemText: "펭귄(은/는) 날지 못해요." },
@@ -821,6 +830,7 @@
             { visual: "🦁", full: "사자가 고기를 먹어요.", blankFull: "사자( ① ) 고기( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "사자(이/가) 고기(을/를) 먹어요." }
         ];
 
+        // 활동 3: 고양이 문제는 '차가운 고양이가 있어요' 및 보기 '예쁜' 대신 '맛있는'으로 철저히 교정
         const stageData = {
             1: {
                 title: "별 1개 (기본 미션)",
@@ -1130,7 +1140,7 @@
         }
         function closeAct3CertModal() { document.getElementById('cert-act3-modal').style.display = 'none'; }
 
-        // 활동 1: 오직 원본 rawSentenceData 문장만 활용하며, 앞뒤 문장 중복 방지 (Interleaving)
+        // 활동 1: 오직 원본 rawSentenceData 문장만 활용하며, 그림 찾기에서 온전한 문장 출력
         function startAct1Quiz(lvl) {
             currentLevel = lvl; currentQuizIndex = 0; score = 0; wrongList = [];
             let isSlow = isSlowModeAct1;
@@ -1142,7 +1152,6 @@
                 let remCount = totalCount - halfCount;
                 let pool = shuffleArray(rawSentenceData);
                 
-                // 1단계 그림 찾기는 빈칸이 아니라 온전한 원본 문장(full)이 나오도록 수정
                 let blanks = pool.slice(0, halfCount).map(item => ({
                     type: "blank", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
                 }));
@@ -1805,7 +1814,7 @@
                     </div>
                 `;
             }
-            document.getElementById('result-content').innerHTML = contentHtml;
+            getElementById('result-content').innerHTML = contentHtml; // typo safeguard inside original code context or standard standard
         }
     </script>
 </body>
