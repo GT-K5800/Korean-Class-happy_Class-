@@ -651,7 +651,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.27. 22:55:00 (v.2.0.85)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.27. 23:10:00 (v.2.0.86)</div>
         </footer>
     </div>
 
@@ -803,13 +803,12 @@
             { visual: "✏️", full: "글을 반듯하게 써요.", target: "을", wrong: "를", problemText: "글(을/를) 반듯하게 써요." }
         ];
 
-        // 활동 2-3단계: 받침 유무(은/는)에 따른 어색한 조사 결합 규칙(펭귄는, 곰는 등)이 틀린 문제로 제시되도록 수정
         const level3Data = [
             { visual: "❄️", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", fixDisplay: "겨울<span style='color: #dc2626; text-decoration: underline;'>는</span> 춥고, 여름은 더워요.", problemText: "겨울(은/는) 춥고, 여름은 더워요." },
             { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>은</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을은 시원해요." },
             { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>는</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 뛰고, 참새는 날아가요." },
             { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>은</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 토끼는 귀여워요." },
-            { visual: "🦒", full: "기린은 목이 길고, 코끼리는 코가 길어요.", target: "은", wrong: "는", fixDisplay: "기린<span style='color: #dc2626; text-decoration: underline;'>은</span> 목이 길고, 코끼리<span style='color: #dc2626; text-decoration: underline;'>은</span> 코가 길어요.", problemText: "기린(은/는) 목이 길고, 코끼리는 코가 길어요." },
+            { visual: "🦒", full: "기린은 목이 길고, 코끼리는 코가 길어요.", target: "은", wrong: "는", fixDisplay: "기린<span style='color: #dc2626; text-decoration: underline;'>는</span> 목이 길고, 코끼리<span style='color: #dc2626; text-decoration: underline;'>은</span> 코가 길어요.", problemText: "기린(은/는) 목이 길고, 코끼리는 코가 길어요." },
             { visual: "🐧", full: "펭귄은 날지 못해요.", target: "은", wrong: "는", fixDisplay: "펭귄<span style='color: #dc2626; text-decoration: underline;'>는</span> 날지 못해요.", problemText: "펭귄(은/는) 날지 못해요." },
             { visual: "🐯", full: "호랑이는 무섭게 생겼어요.", target: "는", wrong: "은", fixDisplay: "호랑이<span style='color: #dc2626; text-decoration: underline;'>은</span> 무섭게 생겼어요.", problemText: "호랑이(은/는) 무섭게 생겼어요." },
             { visual: "🐻", full: "곰은 겨울에 잠을 자요.", target: "은", wrong: "는", fixDisplay: "곰<span style='color: #dc2626; text-decoration: underline;'>는</span> 겨울에 잠을 자요.", problemText: "곰(은/는) 겨울에 잠을 자요." },
@@ -830,7 +829,6 @@
             { visual: "🦁", full: "사자가 고기를 먹어요.", blankFull: "사자( ① ) 고기( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "사자(이/가) 고기(을/를) 먹어요." }
         ];
 
-        // 활동 3: 고양이 문제 '차가운 고양이가 있어요' 및 보기에서 '예쁜' 대신 '맛있는' 적용
         const stageData = {
             1: {
                 title: "별 1개 (기본 미션)",
@@ -864,7 +862,7 @@
                 icon: "🧊",
                 animal: "🐧",
                 questions: [
-                    { type: "fix-word", full: "귀여운 고양이가 있어요.", wrongTarget: "차가운", target: "귀여운", options: ["귀여운", "맛있는", "동그란"], problemText: "잘못된 꾸며주는 말 부분을 알맞게 고치기", format: "<span style='color: #dc2626; text-decoration: underline;'>차가운</span> 고양이가 있어요." },
+                    { type: "fix-word", full: "귀여운 고양이가 있어요.", wrongTarget: "차가운", target: "귀여운", options: ["귀여운", "반짝이는", "뜨거운"], problemText: "잘못된 꾸며주는 말 부분을 알맞게 고치기", format: "<span style='color: #dc2626; text-decoration: underline;'>차가운</span> 고양이가 있어요." },
                     { type: "fix-word", full: "맛있는 라면을 먹어요.", wrongTarget: "푹신한", target: "맛있는", options: ["맛있는", "달콤한", "세모난"], problemText: "잘못된 꾸며주는 말 부분을 알맞게 고치기", format: "<span style='color: #dc2626; text-decoration: underline;'>푹신한</span> 라면을 먹어요." },
                     { type: "dual", full: "아기가 우유를 마셔요.", q1Target: "가", q2Target: "를", blankFull: "아기( ① ) 우유( ② ) 마셔요.", problemText: "알맞은 이/가 + 을/를 고르기 (1)", format: "아기( ① ) 우유( ② ) 마셔요." },
                     { type: "dual", full: "곰이 꿀을 맛있게 먹어요.", q1Target: "이", q2Target: "을", blankFull: "곰( ① ) 꿀( ② ) 맛있게 먹어요.", problemText: "알맞은 이/가 + 을/를 고르기 (2)", format: "곰( ① ) 꿀( ② ) 맛있게 먹어요." },
