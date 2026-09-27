@@ -372,7 +372,7 @@
             </div>
         </div>
 
-        <!-- 활동 3 동물 구조대 통합 상장 모달창 -->
+        <!-- 활동 3 동물 구조대 통합 상장 모달창 (팡파레 사운드 연동) -->
         <div id="cert-act3-modal" class="modal-overlay">
             <div class="modal-content" style="background: transparent; width: 92%; max-width: 540px; padding: 0; box-shadow: none;">
                 <div class="rescue-cert-box">
@@ -651,7 +651,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.26. 17:40:00 (v.2.0.82)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.26. 18:00:00 (v.2.0.83)</div>
         </footer>
     </div>
 
@@ -1138,16 +1138,18 @@
 
             if (lvl === 1) {
                 let totalCount = isSlow ? 5 : 10;
-                // rawSentenceData 10문장을 활용해 겹치지 않게 생성
+                let halfCount = Math.floor(totalCount / 2);
+                let remCount = totalCount - halfCount;
                 let pool = shuffleArray(rawSentenceData);
-                let blanks = pool.slice(0, Math.floor(totalCount / 2)).map(item => ({
+                
+                // 1단계 그림 찾기는 빈칸이 아니라 온전한 원본 문장(full)이 나오도록 수정
+                let blanks = pool.slice(0, halfCount).map(item => ({
                     type: "blank", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
                 }));
-                // 그림 찾기는 rawSentenceData의 내용을 100% 매칭하여 생성
-                let matches = pool.slice(Math.floor(totalCount / 2), totalCount).map(item => {
+                let matches = pool.slice(halfCount, totalCount).map(item => {
                     let wrongVisuals = shuffleArray(rawSentenceData.filter(s => s.visual !== item.visual)).slice(0, 3).map(s => s.visual);
                     return {
-                        type: "match-visual", text: item.full.replace(item.target, "______"), visualOptions: shuffleArray([item.visual, ...wrongVisuals]), answer: item.visual, problemText: item.full + " (그림 찾기)"
+                        type: "match-visual", text: item.full, visualOptions: shuffleArray([item.visual, ...wrongVisuals]), answer: item.visual, problemText: item.full + " (그림 찾기)"
                     };
                 });
                 activeQuizList = interleaveByType({ blank: blanks, match: matches });
@@ -1162,14 +1164,12 @@
 
                 let shuffledSentences = shuffleArray(rawSentenceData);
 
-                // 1) 꾸며주는 말 고르기
                 shuffledSentences.slice(0, cChoice).forEach(item => {
                     groupChoice.push({
                         type: "blank", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
                     });
                 });
 
-                // 2) 잘못된 말 고치기 (rawSentenceData 목록 내 타겟들만 오답으로 사용)
                 shuffledSentences.slice(cChoice, cChoice + cFix).forEach(item => {
                     let otherTargets = allTargets.filter(t => t !== item.target);
                     let wrongTarget = otherTargets[Math.floor(Math.random() * otherTargets.length)];
@@ -1183,7 +1183,6 @@
                     });
                 });
 
-                // 3) 선긋기 매칭
                 for(let i=0; i<cLine; i++) {
                     let subArr = shuffleArray(rawSentenceData).slice(0, 3);
                     groupLine.push({
@@ -1210,7 +1209,6 @@
                 let shuffledSentences = shuffleArray(rawSentenceData);
                 let idxCursor = 0;
 
-                // 1) 빈칸 타이핑
                 shuffledSentences.slice(idxCursor, idxCursor + cTyping).forEach(item => {
                     groupTyping.push({
                         type: "typing", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
@@ -1218,7 +1216,6 @@
                 });
                 idxCursor += cTyping;
 
-                // 2) 잘못된 부분 타이핑 고치기
                 shuffledSentences.slice(idxCursor, idxCursor + cTypingFix).forEach(item => {
                     let otherTargets = allTargets.filter(t => t !== item.target);
                     let wrongTarget = otherTargets[Math.floor(Math.random() * otherTargets.length)];
@@ -1233,7 +1230,6 @@
                 });
                 idxCursor += cTypingFix;
 
-                // 3) 잘못된 말 고치기 (객관식)
                 shuffledSentences.slice(idxCursor, idxCursor + cFixChoice).forEach(item => {
                     let otherTargets = allTargets.filter(t => t !== item.target);
                     let wrongTarget = otherTargets[Math.floor(Math.random() * otherTargets.length)];
@@ -1247,7 +1243,6 @@
                     });
                 });
 
-                // 4) 선긋기 매칭
                 for(let i=0; i<cLine; i++) {
                     let subArr = shuffleArray(rawSentenceData).slice(0, 3);
                     groupLine.push({
@@ -1444,7 +1439,6 @@
                     </div>
                 `;
             } else if (currentMode === 1 && qData.type === "line-match") {
-                // 선긋기 매칭 (클릭 오류 방지를 위해 this 및 data attribute 활용)
                 quizArea.innerHTML = `
                     <div class="quiz-box">
                         <div style="font-size: 1.1rem; color: #374151; font-weight: bold; margin-bottom: 15px;">${qData.prompt}</div>
