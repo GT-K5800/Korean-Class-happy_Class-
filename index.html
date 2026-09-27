@@ -372,7 +372,7 @@
             </div>
         </div>
 
-        <!-- 활동 3 동물 구조대 통합 상장 모달창 (팡파레 사운드 연동) -->
+        <!-- 활동 3 동물 구조대 통합 상장 모달창 -->
         <div id="cert-act3-modal" class="modal-overlay">
             <div class="modal-content" style="background: transparent; width: 92%; max-width: 540px; padding: 0; box-shadow: none;">
                 <div class="rescue-cert-box">
@@ -651,7 +651,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.26. 17:25:00 (v.2.0.81)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.26. 17:40:00 (v.2.0.82)</div>
         </footer>
     </div>
 
@@ -769,14 +769,6 @@
             { visual: "🍰", full: "달콤한 케이크를 먹어요.", target: "달콤한", options: ["뜨거운", "느린", "달콤한", "신나는"] }
         ];
 
-        const matchVisualBank = [
-            { text: "예쁜 꽃이 피었어요.", visualOptions: ["🌷", "🐘", "🧊", "⚽"], answer: "🌷" },
-            { text: "커다란 코끼리가 걸어요.", visualOptions: ["🐜", "🐘", "🍌", "📦"], answer: "🐘" },
-            { text: "빨간 사과가 열려요.", visualOptions: ["🍎", "🍌", "🥛", "⚽"], answer: "🍎" },
-            { text: "신나는 노래를 불러요.", visualOptions: ["🎤", "🛏️", "🍲", "💨"], answer: "🎤" },
-            { text: "맛있는 라면을 먹어요.", visualOptions: ["🍜", "🍎", "🍌", "📦"], answer: "🍜" }
-        ];
-
         const level1Data = [
             { visual: "🦆", full: "오리가 꽥꽥 울어요.", target: "가", wrong: "이", problemText: "오리(이/가) 꽥꽥 울어요." },
             { visual: "🐓", full: "닭이 꼬끼오 울어요.", target: "이", wrong: "가", problemText: "닭(이/가) 꼬끼오 울어요." },
@@ -807,7 +799,7 @@
             { visual: "❄️", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", fixDisplay: "겨울<span style='color: #dc2626; text-decoration: underline;'>는</span> 춥고, 여름은 더워요.", problemText: "겨울(은/는) 춥고, 여름은 더워요." },
             { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>은</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을은 시원해요." },
             { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>은</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 참새(은/는) 날아가요." },
-            { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>은</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 씩씩하고, 토끼는 귀여워요." },
+            { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>은</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 토끼는 귀여워요." },
             { visual: "🦒", full: "기린은 목이 길고, 코끼리는 코가 길어요.", target: "은", wrong: "는", fixDisplay: "기린<span style='color: #dc2626; text-decoration: underline;'>은</span> 목이 길고, 코끼리는 코가 길어요.", problemText: "기린(은/는) 목이 길고, 코끼리는 코가 길어요." },
             { visual: "🐧", full: "펭귄은 날지 못해요.", target: "은", wrong: "는", fixDisplay: "펭귄<span style='color: #dc2626; text-decoration: underline;'>은</span> 날지 못해요.", problemText: "펭귄(은/는) 날지 못해요." },
             { visual: "🐯", full: "호랑이는 무섭게 생겼어요.", target: "는", wrong: "은", fixDisplay: "호랑이<span style='color: #dc2626; text-decoration: underline;'>은</span> 무섭게 생겼어요.", problemText: "호랑이(은/는) 무섭게 생겼어요." },
@@ -1138,7 +1130,7 @@
         }
         function closeAct3CertModal() { document.getElementById('cert-act3-modal').style.display = 'none'; }
 
-        // 활동 1: 오직 원본 rawSentenceData 문장과 보기만 철저히 활용하며, 연속 중복 문장 방지 셔플 적용
+        // 활동 1: 오직 원본 rawSentenceData 문장만 활용하며, 앞뒤 문장 중복 방지 (Interleaving)
         function startAct1Quiz(lvl) {
             currentLevel = lvl; currentQuizIndex = 0; score = 0; wrongList = [];
             let isSlow = isSlowModeAct1;
@@ -1146,15 +1138,19 @@
 
             if (lvl === 1) {
                 let totalCount = isSlow ? 5 : 10;
-                let halfCount = Math.floor(totalCount / 2);
-                let remCount = totalCount - halfCount;
-                let blanks = shuffleArray(rawSentenceData).slice(0, halfCount).map(item => ({
+                // rawSentenceData 10문장을 활용해 겹치지 않게 생성
+                let pool = shuffleArray(rawSentenceData);
+                let blanks = pool.slice(0, Math.floor(totalCount / 2)).map(item => ({
                     type: "blank", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
                 }));
-                let matches = shuffleArray(matchVisualBank).slice(0, remCount).map(item => ({
-                    type: "match-visual", text: item.text.replace(item.answer, "______"), visualOptions: item.visualOptions, answer: item.answer, problemText: item.text + " (그림 찾기)"
-                }));
-                activeQuizList = shuffleArray([...blanks, ...matches]);
+                // 그림 찾기는 rawSentenceData의 내용을 100% 매칭하여 생성
+                let matches = pool.slice(Math.floor(totalCount / 2), totalCount).map(item => {
+                    let wrongVisuals = shuffleArray(rawSentenceData.filter(s => s.visual !== item.visual)).slice(0, 3).map(s => s.visual);
+                    return {
+                        type: "match-visual", text: item.full.replace(item.target, "______"), visualOptions: shuffleArray([item.visual, ...wrongVisuals]), answer: item.visual, problemText: item.full + " (그림 찾기)"
+                    };
+                });
+                activeQuizList = interleaveByType({ blank: blanks, match: matches });
             } else if (lvl === 2) {
                 let cChoice = isSlow ? 1 : 3;
                 let cFix = isSlow ? 2 : 5;
@@ -1164,13 +1160,17 @@
                 let groupFix = [];
                 let groupLine = [];
 
-                shuffleArray(rawSentenceData).slice(0, cChoice).forEach(item => {
+                let shuffledSentences = shuffleArray(rawSentenceData);
+
+                // 1) 꾸며주는 말 고르기
+                shuffledSentences.slice(0, cChoice).forEach(item => {
                     groupChoice.push({
                         type: "blank", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
                     });
                 });
 
-                shuffleArray(rawSentenceData).slice(0, cFix).forEach(item => {
+                // 2) 잘못된 말 고치기 (rawSentenceData 목록 내 타겟들만 오답으로 사용)
+                shuffledSentences.slice(cChoice, cChoice + cFix).forEach(item => {
                     let otherTargets = allTargets.filter(t => t !== item.target);
                     let wrongTarget = otherTargets[Math.floor(Math.random() * otherTargets.length)];
                     let badSentenceFull = item.full.replace(item.target, wrongTarget);
@@ -1183,6 +1183,7 @@
                     });
                 });
 
+                // 3) 선긋기 매칭
                 for(let i=0; i<cLine; i++) {
                     let subArr = shuffleArray(rawSentenceData).slice(0, 3);
                     groupLine.push({
@@ -1206,13 +1207,19 @@
                 let groupFixChoice = [];
                 let groupLine = [];
 
-                shuffleArray(rawSentenceData).slice(0, cTyping).forEach(item => {
+                let shuffledSentences = shuffleArray(rawSentenceData);
+                let idxCursor = 0;
+
+                // 1) 빈칸 타이핑
+                shuffledSentences.slice(idxCursor, idxCursor + cTyping).forEach(item => {
                     groupTyping.push({
                         type: "typing", visual: item.visual, sentence: item.full.replace(item.target, "______"), options: shuffleArray(item.options), answer: item.target, problemText: item.full
                     });
                 });
+                idxCursor += cTyping;
 
-                shuffleArray(rawSentenceData).slice(0, cTypingFix).forEach(item => {
+                // 2) 잘못된 부분 타이핑 고치기
+                shuffledSentences.slice(idxCursor, idxCursor + cTypingFix).forEach(item => {
                     let otherTargets = allTargets.filter(t => t !== item.target);
                     let wrongTarget = otherTargets[Math.floor(Math.random() * otherTargets.length)];
                     let badSentenceFull = item.full.replace(item.target, wrongTarget);
@@ -1224,8 +1231,10 @@
                         type: "typing", visual: item.visual, sentence: displayBadSentence, options: optionSet, answer: item.target, problemText: item.full
                     });
                 });
+                idxCursor += cTypingFix;
 
-                shuffleArray(rawSentenceData).slice(0, cFixChoice).forEach(item => {
+                // 3) 잘못된 말 고치기 (객관식)
+                shuffledSentences.slice(idxCursor, idxCursor + cFixChoice).forEach(item => {
                     let otherTargets = allTargets.filter(t => t !== item.target);
                     let wrongTarget = otherTargets[Math.floor(Math.random() * otherTargets.length)];
                     let badSentenceFull = item.full.replace(item.target, wrongTarget);
@@ -1238,6 +1247,7 @@
                     });
                 });
 
+                // 4) 선긋기 매칭
                 for(let i=0; i<cLine; i++) {
                     let subArr = shuffleArray(rawSentenceData).slice(0, 3);
                     groupLine.push({
@@ -1434,6 +1444,7 @@
                     </div>
                 `;
             } else if (currentMode === 1 && qData.type === "line-match") {
+                // 선긋기 매칭 (클릭 오류 방지를 위해 this 및 data attribute 활용)
                 quizArea.innerHTML = `
                     <div class="quiz-box">
                         <div style="font-size: 1.1rem; color: #374151; font-weight: bold; margin-bottom: 15px;">${qData.prompt}</div>
@@ -1441,11 +1452,11 @@
                             <svg class="line-svg" id="match-svg"></svg>
                             <div class="match-col">
                                 <div style="font-size: 0.9rem; color: #64748b; font-weight: bold;">꾸며주는 말</div>
-                                ${qData.modifiers.map(m => `<div class="match-item" id="mod-${m.replace(/[^가-힣a-zA-Z0-9]/g, '')}" onclick="selectMod('${m}')">${m}</div>`).join('')}
+                                ${qData.modifiers.map(m => `<div class="match-item" data-mod="${m}" onclick="selectMod(this, '${m}')">${m}</div>`).join('')}
                             </div>
                             <div class="match-col">
                                 <div style="font-size: 0.9rem; color: #64748b; font-weight: bold;">문장 뒷부분</div>
-                                ${qData.sentences.map(s => `<div class="match-item" id="sent-${s.replace(/[^가-힣a-zA-Z0-9]/g, '')}" onclick="selectSent('${s}')">${s}</div>`).join('')}
+                                ${qData.sentences.map(s => `<div class="match-item" data-sent="${s}" onclick="selectSent(this, '${s}')">${s}</div>`).join('')}
                             </div>
                         </div>
                         <div style="font-size: 1.0rem; color: #047857; font-weight: bold; margin-top:10px;" id="match-status">연결한 개수: 0 / 3</div>
@@ -1525,19 +1536,19 @@
         }
 
         let selectedModifier = null;
+        let selectedModElement = null;
         let matchedPairsCount = 0;
-        function selectMod(mod) {
-            let safeId = 'mod-' + mod.replace(/[^가-힣a-zA-Z0-9]/g, '');
-            const el = document.getElementById(safeId);
-            if (!el || el.classList.contains('matched')) return;
+
+        function selectMod(element, mod) {
+            if (element.classList.contains('matched')) return;
             document.querySelectorAll('.match-col .match-item').forEach(e => { if(!e.classList.contains('matched')) e.classList.remove('selected'); });
-            el.classList.add('selected'); selectedModifier = mod;
+            element.classList.add('selected'); 
+            selectedModifier = mod;
+            selectedModElement = element;
         }
 
-        function selectSent(sent) {
-            let safeSentId = 'sent-' + sent.replace(/[^가-힣a-zA-Z0-9]/g, '');
-            const sentEl = document.getElementById(safeSentId);
-            if (!sentEl || sentEl.classList.contains('matched')) return;
+        function selectSent(element, sent) {
+            if (element.classList.contains('matched')) return;
             if (!selectedModifier) {
                 alert("먼저 왼쪽에서 꾸며주는 말을 선택해 주세요!");
                 return;
@@ -1552,15 +1563,14 @@
 
             if (sent === correctSent) {
                 playSound('correct');
-                let safeModId = 'mod-' + selectedModifier.replace(/[^가-힣a-zA-Z0-9]/g, '');
-                const modEl = document.getElementById(safeModId);
-                if(modEl) { modEl.classList.remove('selected'); modEl.classList.add('matched'); }
-                sentEl.classList.add('matched');
+                if(selectedModElement) { selectedModElement.classList.remove('selected'); selectedModElement.classList.add('matched'); }
+                element.classList.add('matched');
                 
-                if(modEl) drawConnectingLine(modEl, sentEl);
+                if(selectedModElement) drawConnectingLine(selectedModElement, element);
                 matchedPairsCount++;
                 document.getElementById('match-status').innerText = `연결한 개수: ${matchedPairsCount} / 3`;
                 selectedModifier = null;
+                selectedModElement = null;
 
                 if (matchedPairsCount === 3) {
                     if (attemptCount === 0) score++;
@@ -1573,7 +1583,7 @@
             } else {
                 playSound('wrong');
                 attemptCount++;
-                sentEl.style.borderColor = '#ef4444';
+                element.style.borderColor = '#ef4444';
                 wrongList.push({ problem: "선긋기 매칭 문제", user: "선긋기 오답", correct: "올바른 짝 연결" });
                 
                 if (attemptCount >= 2) {
