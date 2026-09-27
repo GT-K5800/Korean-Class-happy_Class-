@@ -651,7 +651,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.26. 16:30:00 (v.2.0.79)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.26. 17:00:00 (v.2.0.80)</div>
         </footer>
     </div>
 
@@ -829,7 +829,7 @@
             { visual: "🦁", full: "사자가 고기를 먹어요.", blankFull: "사자( ① ) 고기( ② ) 먹어요.", q1Target: "가", q2Target: "를", problemText: "사자(이/가) 고기(을/를) 먹어요." }
         ];
 
-        // 활동 3: 오직 문장목록의 내용 및 예시만 사용하도록 엄격히 구성 (고양이 문제도 '차가운 고양이가 있어요' 반영)
+        // 활동 3: 오직 제공된 문장목록 내의 문장과 보기만 엄격하게 사용하도록 재검토 구성
         const stageData = {
             1: {
                 title: "별 1개 (기본 미션)",
@@ -838,7 +838,7 @@
                 animal: "🐘",
                 questions: [
                     { type: "choice", full: "예쁜 꽃이 피었어요.", target: "예쁜", wrong: "뚱뚱한", problemText: "알맞은 꾸며주는 말 고르기", format: "______ 꽃이 피었어요." },
-                    { type: "choice", full: "신나는 노래를 불러요.", target: "신나는", wrong: "딱딱한", problemText: "알맞은 꾸며주는 말 고르기", format: "______ 노래를 불러요." },
+                    { type: "choice", full: "신나는 노래를 불러요.", target: "신나는", wrong: "파란", problemText: "알맞은 꾸며주는 말 고르기", format: "______ 노래를 불러요." },
                     { type: "choice", full: "오리가 꽥꽥 울어요.", target: "가", wrong: "이", problemText: "알맞은 주인공 문장고리 고르기", format: "오리{blank} 꽥꽥 울어요." },
                     { type: "choice", full: "닭이 꼬끼오 울어요.", target: "이", wrong: "가", problemText: "알맞은 주인공 문장고리 고르기", format: "닭{blank} 꼬끼오 울어요." },
                     { type: "choice", full: "우유를 맛있게 마셔요.", target: "를", wrong: "을", problemText: "알맞은 목적 문장고리 고르기", format: "우유{blank} 맛있게 마셔요." }
@@ -850,7 +850,7 @@
                 icon: "🏜️",
                 animal: "🐪",
                 questions: [
-                    { type: "fix-word", full: "신나는 노래를 불러요.", wrongTarget: "파란", target: "신나는", options: ["신나는", "네모난", "동그란"], problemText: "잘못된 꾸며주는 말 부분을 알맞게 고치기", format: "<span style='color: #dc2626; text-decoration: underline;'>파란</span> 노래를 불러요." },
+                    { type: "fix-word", full: "신나는 노래를 불러요.", wrongTarget: "파란", target: "신나는", options: ["신나는", "파란", "동그란"], problemText: "잘못된 꾸며주는 말 부분을 알맞게 고치기", format: "<span style='color: #dc2626; text-decoration: underline;'>파란</span> 노래를 불러요." },
                     { type: "fix-word", full: "예쁜 꽃이 피었어요.", wrongTarget: "차가운", target: "예쁜", options: ["예쁜", "신나는", "달콤한"], problemText: "잘못된 꾸며주는 말 부분을 알맞게 고치기", format: "<span style='color: #dc2626; text-decoration: underline;'>차가운</span> 꽃이 피었어요." },
                     { type: "dual", full: "원숭이가 바나나를 먹어요.", q1Target: "가", q2Target: "를", blankFull: "원숭이( ① ) 바나나( ② ) 먹어요.", problemText: "알맞은 이/가 + 을/를 고르기 (1)", format: "원숭이( ① ) 바나나( ② ) 먹어요." },
                     { type: "dual", full: "강아지가 뼈다귀를 물어요.", q1Target: "가", q2Target: "를", blankFull: "강아지( ① ) 뼈다귀( ② ) 물어요.", problemText: "알맞은 이/가 + 을/를 고르기 (2)", format: "강아지( ① ) 뼈다귀( ② ) 물어요." },
@@ -1176,7 +1176,7 @@
                     let badSentenceFull = item.full.replace(item.target, wrongTarget);
                     let displayBadSentence = badSentenceFull.replace(wrongTarget, `<span style="color: #dc2626; text-decoration: underline;">${wrongTarget}</span>`);
                     let distinctOthers = shuffleArray(otherTargets.filter(t => t !== wrongTarget));
-                    let optionSet = shuffleArray([item.target, wrongTarget, distinctOthers[0] || "파란", distinctOthers[1] || "신나는"]);
+                    let optionSet = shuffleArray([item.target, wrongTarget, distinctOthers[0] || allTargets[0], distinctOthers[1] || allTargets[1]]);
                     
                     groupFix.push({
                         type: "blank", visual: item.visual, sentence: displayBadSentence, options: optionSet, answer: item.target, problemText: item.full
@@ -1218,7 +1218,7 @@
                     let badSentenceFull = item.full.replace(item.target, wrongTarget);
                     let displayBadSentence = badSentenceFull.replace(wrongTarget, `<span style="color: #dc2626; text-decoration: underline;">${wrongTarget}</span>`);
                     let distinctOthers = shuffleArray(otherTargets.filter(t => t !== wrongTarget));
-                    let optionSet = shuffleArray([item.target, wrongTarget, distinctOthers[0] || "파란", distinctOthers[1] || "신나는"]);
+                    let optionSet = shuffleArray([item.target, wrongTarget, distinctOthers[0] || allTargets[0], distinctOthers[1] || allTargets[1]]);
                     
                     groupTypingFix.push({
                         type: "typing", visual: item.visual, sentence: displayBadSentence, options: optionSet, answer: item.target, problemText: item.full
@@ -1231,7 +1231,7 @@
                     let badSentenceFull = item.full.replace(item.target, wrongTarget);
                     let displayBadSentence = badSentenceFull.replace(wrongTarget, `<span style="color: #dc2626; text-decoration: underline;">${wrongTarget}</span>`);
                     let distinctOthers = shuffleArray(otherTargets.filter(t => t !== wrongTarget));
-                    let optionSet = shuffleArray([item.target, wrongTarget, distinctOthers[0] || "파란", distinctOthers[1] || "신나는"]);
+                    let optionSet = shuffleArray([item.target, wrongTarget, distinctOthers[0] || allTargets[0], distinctOthers[1] || allTargets[1]]);
                     
                     groupFixChoice.push({
                         type: "blank", visual: item.visual, sentence: displayBadSentence, options: optionSet, answer: item.target, problemText: item.full
@@ -1370,7 +1370,8 @@
                 `;
             } else if (currentMode === 3 && qData.type === "fix-word") {
                 let formattedProblem = qData.format;
-                let options = shuffleArray([qData.target, "네모난", "동그란", "즐거운"]);
+                let allMod = rawSentenceData.map(s => s.target);
+                let options = shuffleArray([qData.target, allMod[0] || "네모난", allMod[1] || "동그란", allMod[2] || "즐거운"]);
                 quizArea.innerHTML = `
                     ${rescueSceneHtml}
                     <div class="quiz-box">
@@ -1386,7 +1387,8 @@
                 `;
             } else if (currentMode === 3 && qData.type === "typing-fix") {
                 let formattedProblem = qData.format;
-                let shuffledOpts = shuffleArray([qData.target, "까만", "파란", "노란"]);
+                let allMod = rawSentenceData.map(s => s.target);
+                let shuffledOpts = shuffleArray([qData.target, allMod[0] || "파란", allMod[1] || "하얀", allMod[2] || "노란"]);
                 quizArea.innerHTML = `
                     ${rescueSceneHtml}
                     <div class="quiz-box">
