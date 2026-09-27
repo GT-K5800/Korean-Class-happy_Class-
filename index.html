@@ -215,7 +215,7 @@
         }
         .stage-square-card:hover { transform: translateY(-3px); border-color: #10b981; background: #f0fdf4; }
 
-        /* 활동 3 현황판 (섬 + 다리 블록 로딩바 스타일) */
+        /* 활동 3 현황판 (섬 + 다리 블록 연동 스타일) */
         .rescue-scene-large {
             background: linear-gradient(180deg, #e0f2fe, #bae6fd);
             border: 4px solid #0284c7;
@@ -225,16 +225,17 @@
             text-align: center;
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
-        .rescue-track-layout {
+        .rescue-track-large {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             margin-top: 15px;
+            position: relative;
             padding: 0 10px;
         }
         .island-circle {
-            width: 70px;
-            height: 70px;
+            width: 65px;
+            height: 65px;
             background: #fef08a;
             border: 3px solid #ca8a04;
             border-radius: 50%;
@@ -242,35 +243,26 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 2.0rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-            flex-shrink: 0;
+            font-size: 1.8rem;
             position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+            z-index: 2;
         }
-        .bridge-progress-wrapper {
+        .bridge-bar {
             flex: 1;
             height: 24px;
             background: #cbd5e1;
-            margin: 0 12px;
+            margin: 0 3px;
             border-radius: 12px;
             position: relative;
             overflow: hidden;
             border: 2px solid #94a3b8;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
         }
-        .bridge-progress-fill {
-            background: linear-gradient(90deg, #ca8a04, #eab308);
-            height: 100%;
-            width: 0%;
-            transition: width 0.4s ease;
-            border-radius: 10px 0 0 10px;
-        }
-        .walker-avatar {
-            position: absolute;
-            top: -18px;
-            font-size: 1.6rem;
-            transform: translateX(-50%);
-            transition: left 0.4s ease;
+        .bridge-bar.connected {
+            background: #a16207;
+            border: 2px solid #78350f;
+            background-image: radial-gradient(circle, #ca8a04 10%, transparent 11%), repeating-linear-gradient(0deg, transparent, transparent 4px, #78350f 4px, #78350f 6px);
         }
 
         .record-wrapper { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
@@ -380,7 +372,7 @@
             </div>
         </div>
 
-        <!-- 활동 3 동물 구조대 통합 상장 모달창 -->
+        <!-- 활동 3 동물 구조대 통합 상장 모달창 (팡파레 사운드 연동) -->
         <div id="cert-act3-modal" class="modal-overlay">
             <div class="modal-content" style="background: transparent; width: 92%; max-width: 540px; padding: 0; box-shadow: none;">
                 <div class="rescue-cert-box">
@@ -659,7 +651,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.26. 15:10:00 (v.2.0.76)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.26. 15:40:00 (v.2.0.77)</div>
         </footer>
     </div>
 
@@ -692,16 +684,17 @@
                     noteOsc.start(now + idx * 0.1); noteOsc.stop(now + idx * 0.1 + 0.3);
                 });
             } else if (type === 'cert') {
-                const notes = [440, 554.37, 659.25, 880, 1046.5, 1318.5];
+                // 상장 팡파레 효과음 및 박수 치는 듯한 화음 리듬
+                const notes = [440, 554.37, 659.25, 880, 1046.5, 1318.5, 1567.98, 2093.0];
                 notes.forEach((freq, idx) => {
                     const noteOsc = audioCtx.createOscillator();
                     const noteGain = audioCtx.createGain();
                     noteOsc.connect(noteGain); noteGain.connect(audioCtx.destination);
-                    noteOsc.type = 'triangle';
-                    noteOsc.frequency.setValueAtTime(freq, now + idx * 0.25);
-                    noteGain.gain.setValueAtTime(0.3, now + idx * 0.25);
-                    noteGain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.25 + 0.8);
-                    noteOsc.start(now + idx * 0.25); noteOsc.stop(now + idx * 0.25 + 0.8);
+                    noteOsc.type = (idx % 2 === 0) ? 'triangle' : 'sine';
+                    noteOsc.frequency.setValueAtTime(freq, now + idx * 0.15);
+                    noteGain.gain.setValueAtTime(0.35, now + idx * 0.15);
+                    noteGain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.15 + 0.6);
+                    noteOsc.start(now + idx * 0.15); noteOsc.stop(now + idx * 0.15 + 0.6);
                 });
             } else if (type === 'wrong') {
                 osc.type = 'sine';
@@ -1079,7 +1072,7 @@
             const stageNames = { 1: "밀림지역", 2: "사막지역", 3: "남극지역" };
             const stageIcons = { 1: "🌴", 2: "🏜️", 3: "🧊" };
 
-            // 이미 구조 완료된 지역 진입 시 안내 팝업 (해당 지역 아이콘 + 수정된 문구 출력)
+            // 이미 구조 완료된 지역 진입 시 안내 팝업 (요청하신 문구 및 해당 지역 아이콘 적용)
             if (act3ClearedStages[stageNum] && !isTeacherMode) {
                 let clearer = act3ClearedStudent[stageNum] || "다른 친구";
                 document.getElementById('modal-icon').innerText = stageIcons[stageNum];
@@ -1136,6 +1129,7 @@
             let names = Object.values(act3ClearedStudent).filter(n => n).join(', ');
             if (!names) names = isTeacherMode ? "선생님" : (studentName || "구조대원");
             document.getElementById('cert-act3-names').innerText = `${names} 대원들`;
+            playSound('cert'); // 팡파레 효과음 재생
             document.getElementById('cert-act3-modal').style.display = 'flex';
         }
         function closeAct3CertModal() { document.getElementById('cert-act3-modal').style.display = 'none'; }
@@ -1326,19 +1320,36 @@
 
             let rescueSceneHtml = "";
             if (currentMode === 3) {
-                let totalQ = activeQuizList.length;
-                let progressPercent = Math.round((currentQuizIndex / totalQ) * 100);
+                let totalQ = activeQuizList.length; // 문제 수
+                // 요청사항: 출발섬과 도착섬 사이에 (문제 수 - 1)개의 중간 섬이 나타나도록 구현
+                let numSteps = totalQ; // 총 구간 수 = 문제 수 (따라서 중간 섬 개수 = 문제 수 - 1)
+                let trackHtml = "";
                 
+                // 출발섬 (캠핑카/텐트 또는 기본 아이콘)
+                trackHtml += `<div class="island-circle">🏕️</div>`;
+
+                // 중간 섬 및 다리 블록 생성
+                for (let i = 1; i < numSteps; i++) {
+                    let isConn = (i <= currentQuizIndex) ? "connected" : "";
+                    trackHtml += `<div class="bridge-bar ${isConn}"></div>`;
+                    
+                    // 각 중간 섬에 캐릭터(👦)가 현재 위치에 따라 표시되도록 함
+                    let islandIcon = (i === currentQuizIndex) ? "👦" : "🏝️";
+                    trackHtml += `<div class="island-circle" style="font-size:1.4rem;">${islandIcon}</div>`;
+                }
+
+                // 마지막 다리 및 도착섬 (동물 친구)
+                let lastConn = (currentQuizIndex >= totalQ) ? "connected" : "";
+                trackHtml += `<div class="bridge-bar ${lastConn}"></div>`;
+                
+                let finalIcon = (currentQuizIndex === totalQ) ? "👦" : stageData[currentLevel].animal;
+                trackHtml += `<div class="island-circle">${finalIcon}</div>`;
+
                 rescueSceneHtml = `
                     <div class="rescue-scene-large">
-                        <div style="font-size:0.95rem; font-weight:bold; color:#0369a1; margin-bottom:5px;">🚁 [${act3PlayerName}] 구조대원의 동물 구출 작전 진행 중!</div>
-                        <div class="rescue-track-layout">
-                            <div class="island-circle">🏕️</div>
-                            <div class="bridge-progress-wrapper">
-                                <div class="bridge-progress-fill" style="width: ${progressPercent}%;"></div>
-                                <div class="walker-avatar" style="left: ${progressPercent}%;">👦</div>
-                            </div>
-                            <div class="island-circle">${stageData[currentLevel].animal}</div>
+                        <div style="font-size:0.95rem; font-weight:bold; color:#0369a1; margin-bottom:10px;">🚁 [${act3PlayerName}] 구조대원의 동물 구출 작전 진행 중!</div>
+                        <div class="rescue-track-large">
+                            ${trackHtml}
                         </div>
                     </div>
                 `;
