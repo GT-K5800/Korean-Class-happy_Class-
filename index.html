@@ -651,7 +651,7 @@
 
         <footer>
             <div>제작자: 묘량중앙초 교사 김경탁</div>
-            <div style="color: #059669;">최근 업데이트: 2026.09.27. 23:45:00 (v.2.0.88)</div>
+            <div style="color: #059669;">최근 업데이트: 2026.09.28. 21:40:00 (v.2.0.89)</div>
         </footer>
     </div>
 
@@ -803,11 +803,10 @@
             { visual: "✏️", full: "글을 반듯하게 써요.", target: "을", wrong: "를", problemText: "글(을/를) 반듯하게 써요." }
         ];
 
-        // 활동 2-3단계: 받침 규칙에 맞춘 정확한 오답 결합 ('기린는', '봄는', '곰는' 등 틀린 조사가 밑줄로 제시되도록 정비)
         const level3Data = [
             { visual: "❄️", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", fixDisplay: "겨울<span style='color: #dc2626; text-decoration: underline;'>는</span> 춥고, 여름은 더워요.", problemText: "겨울(은/는) 춥고, 여름은 더워요." },
-            { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>는</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을은 시원해요." },
-            { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>는</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 뛰고, 참새는 날아가요." },
+            { visual: "🌸", full: "봄은 따뜻하고, 가을은 시원해요.", target: "은", wrong: "는", fixDisplay: "봄<span style='color: #dc2626; text-decoration: underline;'>은</span> 따뜻하고, 가을은 시원해요.", problemText: "봄(은/는) 따뜻하고, 가을은 시원해요." },
+            { visual: "🦌", full: "사슴은 뛰고, 참새는 날아가요.", target: "은", wrong: "는", fixDisplay: "사슴<span style='color: #dc2626; text-decoration: underline;'>은</span> 뛰고, 참새는 날아가요.", problemText: "사슴(은/는) 뛰고, 참새는 날아가요." },
             { visual: "🦁", full: "사자는 씩씩하고, 토끼는 귀여워요.", target: "는", wrong: "은", fixDisplay: "사자<span style='color: #dc2626; text-decoration: underline;'>은</span> 씩씩하고, 토끼는 귀여워요.", problemText: "사자(은/는) 토끼는 귀여워요." },
             { visual: "🦒", full: "기린은 목이 길고, 코끼리는 코가 길어요.", target: "은", wrong: "는", fixDisplay: "기린<span style='color: #dc2626; text-decoration: underline;'>는</span> 목이 길고, 코끼리는 코가 길어요.", problemText: "기린(은/는) 목이 길고, 코끼리는 코가 길어요." },
             { visual: "🐧", full: "펭귄은 날지 못해요.", target: "은", wrong: "는", fixDisplay: "펭귄<span style='color: #dc2626; text-decoration: underline;'>는</span> 날지 못해요.", problemText: "펭귄(은/는) 날지 못해요." },
@@ -868,7 +867,7 @@
                     { type: "dual", full: "아기가 우유를 마셔요.", q1Target: "가", q2Target: "를", blankFull: "아기( ① ) 우유( ② ) 마셔요.", problemText: "알맞은 이/가 + 을/를 고르기 (1)", format: "아기( ① ) 우유( ② ) 마셔요." },
                     { type: "dual", full: "곰이 꿀을 맛있게 먹어요.", q1Target: "이", q2Target: "을", blankFull: "곰( ① ) 꿀( ② ) 맛있게 먹어요.", problemText: "알맞은 이/가 + 을/를 고르기 (2)", format: "곰( ① ) 꿀( ② ) 맛있게 먹어요." },
                     { type: "choice", full: "겨울은 춥고, 여름은 더워요.", target: "은", wrong: "는", problemText: "알맞은 은/는 고르기 (1)", format: "겨울{blank} 춥고, 여름은 더워요." },
-                    { type: "typing-fix", full: "하얀 눈이 내려요.", wrongTarget: "까만", target: "하얀", problemText: "잘못된 꾸며주는 말 부분을 알맞게 고쳐 직접 입력하기", format: "<span style='color: #dc2626; text-decoration: underline;'>까만</span> 눈이 내려요." }
+                    { type: "typing-fix", full: "하얀 눈이 내려요.", wrongTarget: "까만", target: "하얀", options: ["하얀", "까만", "파란", "노란"], problemText: "잘못된 꾸며주는 말 부분을 알맞게 고쳐 직접 입력하기", format: "<span style='color: #dc2626; text-decoration: underline;'>까만</span> 눈이 내려요." }
                 ]
             }
         };
@@ -1394,7 +1393,7 @@
             } else if (currentMode === 3 && qData.type === "typing-fix") {
                 let formattedProblem = qData.format;
                 let foundOriginal = rawSentenceData.find(s => s.full === qData.full);
-                let shuffledOpts = foundOriginal ? shuffleArray(foundOriginal.options) : [qData.target];
+                let shuffledOpts = (qData.options && qData.options.length > 0) ? shuffleArray(qData.options) : (foundOriginal ? shuffleArray(foundOriginal.options) : [qData.target]);
                 quizArea.innerHTML = `
                     ${rescueSceneHtml}
                     <div class="quiz-box">
